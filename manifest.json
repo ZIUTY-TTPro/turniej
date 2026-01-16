@@ -1,0 +1,19 @@
+{
+  "name": "Turniej Tenisa Stołowego",
+  "short_name": "Turniej TT",
+  "description": "System zarządzania turniejami tenisa stołowego",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#1e5799",
+  "theme_color": "#1e5799",
+  "orientation": "any",
+  "lang": "pl",
+  "icons": [
+    {
+      "src": "icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
