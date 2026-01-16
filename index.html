@@ -5060,7 +5060,7 @@ translations.en.generateConsolation = "Generate Consolation Bracket 🏓";
 // ================= PWA - SERVICE WORKER =================
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
-    navigator.serviceWorker.register('service-worker.js')
+    navigator.serviceWorker.register('./service-worker.js')
       .then(function(registration) {
         console.log('Service Worker zarejestrowany pomyślnie:', registration.scope);
         
