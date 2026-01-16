@@ -1,8 +1,9 @@
 const CACHE_NAME = 'turniej-v2';
 const urlsToCache = [
-  'index.html',
-  'manifest.json',
-  'icons/icon-512x512.png'
+  './',
+  './index.html',
+  './manifest.json',
+  './icons/icon-512x512.png'
 ];
 
 self.addEventListener('install', event => {
@@ -19,4 +20,5 @@ self.addEventListener('fetch', event => {
       return response || fetch(event.request);
     })
   );
+
 });
