@@ -1489,100 +1489,99 @@ h1::after {
     <h1 data-i18n="tournamentName">Turniej Tenisa Stołowego</h1>
  
     <div class="control-panel" id="controlPanel">
-        <h2 class="knockout-header" id="settingsHeader" data-i18n="settings">Ustawienia turnieju</h2>
-        <div class="header-buttons-container">
-            <div class="language-switcher">
-                <button class="lang-btn active" data-lang="pl" onclick="setLanguage('pl')">
-                    <span class="flag">🇵🇱</span> PL
-                </button>
-                <button class="lang-btn" data-lang="en" onclick="setLanguage('en')">
-                    <span class="flag">🇬🇧</span> EN
-                </button>
+    <h2 class="knockout-header" id="settingsHeader" data-i18n="settings">Ustawienia turnieju</h2>
+    
+    <div class="header-buttons-container">
+        <div class="language-switcher">
+            <button class="lang-btn active" data-lang="pl" onclick="setLanguage('pl')">
+                <span class="flag">🇵🇱</span> PL
+            </button>
+            <button class="lang-btn" data-lang="en" onclick="setLanguage('en')">
+                <span class="flag">🇬🇧</span> EN
+            </button>
+        </div>
+        <button class="collapse-button" onclick="toggleCollapse('controlPanel')" data-i18n="collapse">Zwiń</button>
+    </div>
+
+    <div class="collapsible-content">
+        <div class="form-row vertical-form">
+            <div class="form-col-grow"> 
+                <label class="styled-label" for="tournamentNameInput" data-i18n="tournamentName">Nazwa turnieju</label>
+                <input type="text" id="tournamentNameInput" class="styled-input" data-i18n-placeholder="enterTournamentName" placeholder="Np. Turniej Tenisa Stołowego" oninput="updateTournamentTitle(); saveState();">
+            </div>
+            <div class="form-col-grow"> 
+                <label class="styled-label" for="subTitleInput" data-i18n="category">Kategoria</label>
+                <input type="text" id="subTitleInput" class="styled-input category-input" data-i18n-placeholder="enterCategory" placeholder="Np. Amatorzy" oninput="handleCategoryInput(); saveState();">
+            </div>
+        </div>
+
+        <div class="toggle-switch-row">
+            <div class="toggle-switch-container">
+                <div class="toggle-switch-label" data-i18n="groupMode">Tryb podziału na grupy</div>
+                <div class="toggle-switch">
+                    <button class="toggle-switch-btn active" id="btn-mode-auto" onclick="setMode('auto')" data-i18n="autoMode">Automatyczny</button>
+                    <button class="toggle-switch-btn" id="btn-mode-manual" onclick="setMode('manual')" data-i18n="manualMode">Ręczny</button>
+                </div>
             </div>
             
-            <button class="collapse-button" onclick="toggleCollapse('controlPanel')" data-i18n="collapse">Zwiń</button>
-        </div>
-             
-       <div class="collapsible-content">
-    
-    <div class="form-row vertical-form">
-    <div class="form-col-grow"> 
-        <label class="styled-label" for="tournamentNameInput" data-i18n="tournamentName">Nazwa turnieju</label>
-        <input type="text" id="tournamentNameInput" class="styled-input" data-i18n-placeholder="enterTournamentName" placeholder="Np. Turniej Tenisa Stołowego" oninput="updateTournamentTitle(); saveState();">
-    </div>
-    <div class="form-col-grow"> 
-        <label class="styled-label" for="subTitleInput" data-i18n="category">Kategoria</label>
-        <input type="text" id="subTitleInput" class="styled-input category-input" data-i18n-placeholder="enterCategory" placeholder="Np. Amatorzy" oninput="handleCategoryInput(); saveState();">
-    </div>
-</div>
-    </div>
-
-    <div class="toggle-switch-row">
-        <div class="toggle-switch-container">
-            <div class="toggle-switch-label" data-i18n="groupMode">Tryb podziału na grupy</div>
-            <div class="toggle-switch">
-                <button class="toggle-switch-btn active" id="btn-mode-auto" onclick="setMode('auto')" data-i18n="autoMode">Automatyczny</button>
-                <button class="toggle-switch-btn" id="btn-mode-manual" onclick="setMode('manual')" data-i18n="manualMode">Ręczny</button>
+            <div class="toggle-switch-container">
+                <div class="toggle-switch-label" data-i18n="consolationTournament">Turniej Pocieszenia</div>
+                <div class="toggle-switch">
+                    <button class="toggle-switch-btn active" id="btn-consolation-no" onclick="setConsolationMode('no')" data-i18n="no">Nie</button>
+                    <button class="toggle-switch-btn" id="btn-consolation-yes" onclick="setConsolationMode('yes')" data-i18n="yes">Tak</button>
+                </div>
             </div>
         </div>
         
-        <div class="toggle-switch-container">
-            <div class="toggle-switch-label" data-i18n="consolationTournament">Turniej Pocieszenia</div>
-            <div class="toggle-switch">
-                <button class="toggle-switch-btn active" id="btn-consolation-no" onclick="setConsolationMode('no')" data-i18n="no">Nie</button>
-                <button class="toggle-switch-btn" id="btn-consolation-yes" onclick="setConsolationMode('yes')" data-i18n="yes">Tak</button>
-            </div>
-        </div>
-    </div>
-    
-    <input type="hidden" id="mode" value="auto">
-    <input type="hidden" id="consolationMode" value="no">
+        <input type="hidden" id="mode" value="auto">
+        <input type="hidden" id="consolationMode" value="no">
 
-    <div id="auto-panel">
-        <div class="form-row">
-            <div class="form-col-grow">
-                <label class="styled-label" for="playersAuto" data-i18n="players">Lista zawodników</label>
-                <textarea id="playersAuto" class="styled-input styled-textarea" data-i18n-placeholder="enterPlayersAuto" placeholder="Wpisz zawodników (jeden na linijkę)" oninput="saveState()"></textarea>
+        <div id="auto-panel">
+            <div class="form-row">
+                <div class="form-col-grow">
+                    <label class="styled-label" for="playersAuto" data-i18n="players">Lista zawodników</label>
+                    <textarea id="playersAuto" class="styled-input styled-textarea" data-i18n-placeholder="enterPlayersAuto" placeholder="Wpisz zawodników (jeden na linijkę)" oninput="saveState()"></textarea>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-col-shrink">
+                    <label class="styled-label" for="numGroupsAuto" data-i18n="numberOfGroups">Liczba grup</label>
+                    <input type="number" id="numGroupsAuto" class="styled-input" style="width: 100px; text-align: center;" min="1" max="12" value="4" oninput="saveState()">
+                </div>
+                <div class="form-col-shrink">
+                    <label class="styled-label" for="numQualifiedPlayers" data-i18n="qualifiedPerGroup">Awansują z grupy</label>
+                    <input type="number" id="numQualifiedPlayers" class="styled-input" style="width: 100px; text-align: center;" min="1" max="8" value="2" oninput="saveState()">
+                </div>
             </div>
         </div>
-        
-        <div class="form-row">
-            <div class="form-col-shrink">
-                <label class="styled-label" for="numGroupsAuto" data-i18n="numberOfGroups">Liczba grup</label>
-                <input type="number" id="numGroupsAuto" class="styled-input" style="width: 100px; text-align: center;" min="1" max="12" value="4" oninput="saveState()">
-            </div>
-            <div class="form-col-shrink">
-                <label class="styled-label" for="numQualifiedPlayers" data-i18n="qualifiedPerGroup">Awansują z grupy</label>
-                <input type="number" id="numQualifiedPlayers" class="styled-input" style="width: 100px; text-align: center;" min="1" max="8" value="2" oninput="saveState()">
-            </div>
-        </div>
-    </div>
 
-    <div id="manual-panel" style="display:none;">
-        <div class="form-row">
-            <div class="form-col-grow">
-                <label class="styled-label" for="playersManual" data-i18n="players">Lista zawodników (Ręcznie)</label>
-                <textarea id="playersManual" class="styled-input styled-textarea" data-i18n-placeholder="enterPlayersManual" placeholder="Wpisz zawodników (jeden na linijkę)" oninput="saveState()"></textarea>
+        <div id="manual-panel" style="display:none;">
+            <div class="form-row">
+                <div class="form-col-grow">
+                    <label class="styled-label" for="playersManual" data-i18n="players">Lista zawodników (Ręcznie)</label>
+                    <textarea id="playersManual" class="styled-input styled-textarea" data-i18n-placeholder="enterPlayersManual" placeholder="Wpisz zawodników (jeden na linijkę)" oninput="saveState()"></textarea>
+                </div>
             </div>
+            <div class="form-row">
+                <div class="form-col-shrink">
+                    <label class="styled-label" for="numGroupsManual" data-i18n="numberOfGroups">Liczba grup</label>
+                    <input type="number" id="numGroupsManual" class="styled-input" style="width: 100px; text-align: center;" min="1" max="12" value="4" onchange="renderManualGroups(); saveState()">
+                </div>
+                <div class="form-col-shrink">
+                    <label class="styled-label" for="numQualifiedPlayersManual" data-i18n="qualifiedPerGroup">Awansują z grupy</label>
+                    <input type="number" id="numQualifiedPlayersManual" class="styled-input" style="width: 100px; text-align: center;" min="1" max="8" value="2" oninput="saveState()">
+                </div>
+            </div>
+            <div id="manual-groups"></div>
         </div>
-        <div class="form-row">
-            <div class="form-col-shrink">
-                <label class="styled-label" for="numGroupsManual" data-i18n="numberOfGroups">Liczba grup</label>
-                <input type="number" id="numGroupsManual" class="styled-input" style="width: 100px; text-align: center;" min="1" max="12" value="4" onchange="renderManualGroups(); saveState()">
-            </div>
-            <div class="form-col-shrink">
-                <label class="styled-label" for="numQualifiedPlayersManual" data-i18n="qualifiedPerGroup">Awansują z grupy</label>
-                                <input type="number" id="numQualifiedPlayersManual" class="styled-input" style="width: 100px; text-align: center;" min="1" max="8" value="2" oninput="saveState()">
-            </div>
-        </div>
-        <div id="manual-groups"></div>
-    </div>
 
-    <div class="control-buttons-row">
-        <button onclick="exportResultsToText()" data-i18n="exportResults">Eksportuj wyniki</button>
-        <button onclick="saveTournamentToFile()" data-i18n="saveTournament">Zapisz turniej</button>
-        <button onclick="loadTournamentFromFile()" data-i18n="loadTournament">Wczytaj turniej</button>
-        <button onclick="clearTournamentData()" class="clear-data-button" data-i18n="clearData">Wyczyść dane</button>
+        <div class="control-buttons-row">
+            <button onclick="exportResultsToText()" data-i18n="exportResults">Eksportuj wyniki</button>
+            <button onclick="saveTournamentToFile()" data-i18n="saveTournament">Zapisz turniej</button>
+            <button onclick="loadTournamentFromFile()" data-i18n="loadTournament">Wczytaj turniej</button>
+            <button onclick="clearTournamentData()" class="clear-data-button" data-i18n="clearData">Wyczyść dane</button>
+        </div>
     </div>
 </div>
     <div class="main-group-section" id="groupSection">
@@ -5060,7 +5059,7 @@ translations.en.generateConsolation = "Generate Consolation Bracket 🏓";
 // ================= PWA - SERVICE WORKER =================
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
-    navigator.serviceWorker.register('./service-worker.js')
+    navigator.serviceWorker.register('service-worker.js')
       .then(function(registration) {
         console.log('Service Worker zarejestrowany pomyślnie:', registration.scope);
         
