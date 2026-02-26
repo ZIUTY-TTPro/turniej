@@ -17,6 +17,9 @@
 <meta name="theme-color" content="#1e5799">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <link rel="apple-touch-icon" href="icons/icon-512x512.png">
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6465078565984941"
+     crossorigin="anonymous"></script>
 
     <style>
         body {
@@ -1482,6 +1485,71 @@ h1::after {
         width: 100%;
     }
 }
+/* Przyciski "Postaw kawę" */
+.coffee-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    color: white;
+}
+
+.coffee-btn.buycoffee {
+    background: #FFDD00;
+    color: #000000;
+    border: 1px solid #FFDD00;
+}
+
+.coffee-btn.buycoffee:hover {
+    background: #FFE633;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(255, 221, 0, 0.3);
+}
+
+.coffee-btn.kofi {
+    background: #29ABE0;
+    color: white;
+    border: 1px solid #29ABE0;
+}
+
+.coffee-btn.kofi:hover {
+    background: #46BCF0;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(41, 171, 224, 0.3);
+}
+
+.coffee-btn span {
+    font-size: 18px;
+}
+
+/* Dostosowanie dla mobile */
+@media (max-width: 767px) {
+    .coffee-btn {
+        padding: 6px 8px;
+        font-size: 12px;
+    }
+    
+    .coffee-btn span {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .coffee-btn {
+        padding: 4px 6px;
+        font-size: 11px;
+    }
+    
+    .coffee-btn span {
+        font-size: 12px;
+    }
+}
     </style>
 </head>
 <body>
@@ -1491,17 +1559,26 @@ h1::after {
     <div class="control-panel" id="controlPanel">
     <h2 class="knockout-header" id="settingsHeader" data-i18n="settings">Ustawienia turnieju</h2>
     
-    <div class="header-buttons-container">
-        <div class="language-switcher">
-            <button class="lang-btn active" data-lang="pl" onclick="setLanguage('pl')">
-                <span class="flag">🇵🇱</span> PL
-            </button>
-            <button class="lang-btn" data-lang="en" onclick="setLanguage('en')">
-                <span class="flag">🇬🇧</span> EN
-            </button>
-        </div>
-        <button class="collapse-button" onclick="toggleCollapse('controlPanel')" data-i18n="collapse">Zwiń</button>
+   <div class="header-buttons-container">
+    <div class="language-switcher">
+        <button class="lang-btn active" data-lang="pl" onclick="setLanguage('pl')">
+            <span class="flag">🇵🇱</span> PL
+        </button>
+        <button class="lang-btn" data-lang="en" onclick="setLanguage('en')">
+            <span class="flag">🇬🇧</span> EN
+        </button>
     </div>
+    
+    <!-- Przyciski "Postaw kawę" -->
+    <a href="https://buycoffee.to/ziuty_tt_tournament" target="_blank" class="coffee-btn buycoffee" title="Postaw kawę na buycoffee.to">
+        <span>☕</span> BuyCoffee
+    </a>
+    <a href="https://ko-fi.com/ziuty" target="_blank" class="coffee-btn kofi" title="Postaw kawę na Ko-fi">
+        <span>☕</span> Ko-fi
+    </a>
+    
+    <button class="collapse-button" onclick="toggleCollapse('controlPanel')" data-i18n="collapse">Zwiń</button>
+</div>
 
     <div class="collapsible-content">
         <div class="form-row vertical-form">
@@ -5227,6 +5304,18 @@ window.addEventListener('beforeunload', () => {
     saveState();
   }
 });
-</script>
+<!-- Reklama Adsense na dole strony -->
+<div style="margin-top: 40px; text-align: center; padding: 20px; background: rgba(255,255,255,0.95); border-radius: 10px;">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-6465078565984941"
+         data-ad-slot="6919711460"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+</div>
 </body>
 </html>
