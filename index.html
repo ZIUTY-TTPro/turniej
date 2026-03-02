@@ -17,10 +17,6 @@
 <meta name="theme-color" content="#1e5799">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <link rel="apple-touch-icon" href="icons/icon-512x512.png">
-<!-- Google AdSense -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6465078565984941"
-     crossorigin="anonymous"></script>
-
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -2645,6 +2641,55 @@ function renderGroups() {
         groupTitle.className = 'group-title';
         groupTitle.textContent = `${t('group')} ${groupIndex + 1}`;
         groupDiv.appendChild(groupTitle);
+// ===== NOWY KOD - PRZYCISK =====
+if (mode === 'auto') {
+   const addButton = document.createElement('button');
+addButton.textContent = '➕ ' + t('addPlayer');
+addButton.style.fontSize = '0.7rem';
+addButton.style.padding = '0px 6px';
+addButton.style.minHeight = '26px';
+addButton.style.height = '26px';
+addButton.style.marginLeft = '12px';
+addButton.style.marginTop = '0';               // ZERUJEMY
+addButton.style.marginBottom = '0';            // ZERUJEMY
+addButton.style.verticalAlign = 'middle';      // WYRÓWNANIE
+addButton.style.transform = 'translateY(-1px)'; // DOSTOSUJ
+addButton.style.display = 'inline-flex';
+addButton.style.alignItems = 'center';
+addButton.style.justifyContent = 'center';
+addButton.style.gap = '3px';
+addButton.style.background = '#27ae60';
+addButton.onclick = (function(idx) {
+    return function() { showAddPlayerDialog(idx); };
+})(groupIndex);
+
+groupTitle.appendChild(addButton);
+}
+// ===== PRZYCISK DLA TRYBU RĘCZNEGO =====
+if (mode === 'manual') {
+    const addButton = document.createElement('button');
+addButton.textContent = '➕ ' + t('addPlayer');
+addButton.style.fontSize = '0.7rem';
+addButton.style.padding = '0px 6px';
+addButton.style.minHeight = '26px';
+addButton.style.height = '26px';
+addButton.style.marginLeft = '12px';
+addButton.style.marginTop = '0';               // ZERUJEMY
+addButton.style.marginBottom = '0';            // ZERUJEMY
+addButton.style.verticalAlign = 'middle';      // WYRÓWNANIE
+addButton.style.transform = 'translateY(-1px)'; // DOSTOSUJ
+addButton.style.display = 'inline-flex';
+addButton.style.alignItems = 'center';
+addButton.style.justifyContent = 'center';
+addButton.style.gap = '3px';
+addButton.style.background = '#27ae60';
+addButton.onclick = (function(idx) {
+    return function() { showAddPlayerManualDialog(idx); };
+})(groupIndex);
+
+groupTitle.appendChild(addButton);
+}
+// ===== KONIEC NOWEGO KODU =====
 
         const viewContainer = document.createElement('div');
         
@@ -5050,6 +5095,9 @@ translations.pl.selectMode = "Nie wybrano tryb do eksportu.";
 translations.pl.generateGroups = "Generuj tabele grupowe 🏓";
 translations.pl.generateBracket = "Generuj drabinkę pucharową 🏓";
 translations.pl.generateConsolation = "Generuj drabinkę pocieszenia 🏓";
+translations.pl.knockoutStarted = "Faza pucharowa już się rozpoczęła! Nie można dodać zawodnika.";
+translations.pl.addPlayer = "Dodaj zawodnika";
+translations.pl.playerAdded = "Dodano {name} do grupy {group}. Nowy zawodnik musi rozegrać wszystkie mecze.";
 
 
 translations.en.enterPlayersFirst = "Enter players before generating groups!";
@@ -5133,6 +5181,9 @@ translations.en.selectMode = "No mode selected for export.";
 translations.en.generateGroups = "Generate Group Tables 🏓";
 translations.en.generateBracket = "Generate Knockout Bracket 🏓";
 translations.en.generateConsolation = "Generate Consolation Bracket 🏓";
+translations.en.knockoutStarted = "Knockout stage has already started! Cannot add player.";
+translations.en.addPlayer = "Add player";
+translations.en.playerAdded = "Added {name} to group {group}. New player must play all matches.";
 // ================= PWA - SERVICE WORKER =================
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
@@ -5304,6 +5355,145 @@ window.addEventListener('beforeunload', () => {
     saveState();
   }
 });
+// ================= DOPISYWANIE ZAWODNIKÓW =================
+function showAddPlayerDialog(groupIndex) {
+    const mode = document.getElementById('mode').value;
+    if (mode !== 'auto') {
+        alert('Ta funkcja działa tylko w trybie automatycznym!');
+        return;
+    }
+
+    // Sprawdź czy faza pucharowa się nie rozpoczęła
+    const currentKnockoutMatches = autoKnockoutMatches;
+    const knockoutStarted = currentKnockoutMatches.quarterfinals && 
+                           currentKnockoutMatches.quarterfinals.some(m => m.player1 && m.player1 !== "WOLNY LOS" && m.player1 !== null);
+    
+    if (knockoutStarted) {
+        alert(t('knockoutStarted'));
+        return;
+    }
+
+    const playerName = prompt('Podaj imię i nazwisko nowego zawodnika:');
+    if (!playerName || playerName.trim() === '') return;
+
+    addPlayerToGroup(groupIndex, playerName.trim());
+}
+
+function addPlayerToGroup(groupIndex, playerName) {
+    // 1. Dodaj zawodnika do grupy
+    groupPlayers[groupIndex].push(playerName);
+
+    // 2. Rozszerz macierz wyników
+    const newSize = groupPlayers[groupIndex].length;
+    const oldResults = groupResults[groupIndex];
+
+    // Stwórz nową macierz
+    const newResults = Array(newSize).fill().map(() => Array(newSize).fill(''));
+
+    // Kopiuj stare wyniki
+    for (let i = 0; i < oldResults.length; i++) {
+        for (let j = 0; j < oldResults[i].length; j++) {
+            if (i < newSize && j < newSize) {
+                newResults[i][j] = oldResults[i][j] || '';
+            }
+        }
+    }
+
+    groupResults[groupIndex] = newResults;
+
+    // 3. Jeśli są już kolory, nadaj nowemu zawodnikowi kolor
+    if (Object.keys(autoPlayerColors).length > 0) {
+        const colorClasses = [
+            'player-color-1', 'player-color-2', 'player-color-3', 'player-color-4',
+            'player-color-5', 'player-color-6', 'player-color-7', 'player-color-8'
+        ];
+        const usedColors = Object.values(autoPlayerColors);
+        const availableColor = colorClasses.find(c => !usedColors.includes(c)) || 'player-color-1';
+        autoPlayerColors[playerName] = availableColor;
+    }
+
+    // 4. Przelicz tabele
+    calculateAllStandings();
+    renderGroups();
+
+    saveState();
+    
+    // Pokaż komunikat
+    const msg = t('playerAdded').replace('{name}', playerName).replace('{group}', groupIndex + 1);
+    alert(msg);
+}
+function showAddPlayerManualDialog(groupIndex) {
+    const mode = document.getElementById('mode').value;
+    if (mode !== 'manual') return;
+
+    // Sprawdź czy faza pucharowa się nie rozpoczęła
+    const currentKnockoutMatches = manualKnockoutMatches;
+    const knockoutStarted = currentKnockoutMatches.quarterfinals && 
+                           currentKnockoutMatches.quarterfinals.some(m => m.player1 && m.player1 !== "WOLNY LOS" && m.player1 !== null);
+    
+    if (knockoutStarted) {
+        alert(t('knockoutStarted'));
+        return;
+    }
+
+    const playerName = prompt('Podaj imię i nazwisko nowego zawodnika:');
+    if (!playerName || playerName.trim() === '') return;
+
+    addPlayerToManualGroup(groupIndex, playerName.trim());
+}
+
+function addPlayerToManualGroup(groupIndex, playerName) {
+    // 1. Dodaj zawodnika do grupy
+    manualGroupPlayers[groupIndex].push(playerName);
+
+    // 2. Rozszerz macierz wyników
+    const newSize = manualGroupPlayers[groupIndex].length;
+    const oldResults = manualGroupResults[groupIndex] || [];
+
+    // Stwórz nową macierz
+    const newResults = Array(newSize).fill().map(() => Array(newSize).fill(''));
+
+    // Kopiuj stare wyniki
+    for (let i = 0; i < oldResults.length; i++) {
+        for (let j = 0; j < oldResults[i].length; j++) {
+            if (i < newSize && j < newSize) {
+                newResults[i][j] = oldResults[i][j] || '';
+            }
+        }
+    }
+
+    manualGroupResults[groupIndex] = newResults;
+
+    // 3. Jeśli są już kolory, nadaj nowemu zawodnikowi kolor
+    if (Object.keys(manualPlayerColors).length > 0) {
+        const colorClasses = [
+            'player-color-1', 'player-color-2', 'player-color-3', 'player-color-4',
+            'player-color-5', 'player-color-6', 'player-color-7', 'player-color-8'
+        ];
+        const usedColors = Object.values(manualPlayerColors);
+        const availableColor = colorClasses.find(c => !usedColors.includes(c)) || 'player-color-1';
+        manualPlayerColors[playerName] = availableColor;
+    }
+
+    // 4. Aktualizuj pole tekstowe grupy (żeby było widać nowego zawodnika)
+    const textarea = document.getElementById(`manual-group-${groupIndex}`);
+    if (textarea) {
+        const currentValue = textarea.value;
+        textarea.value = currentValue + (currentValue ? '\n' : '') + playerName;
+    }
+
+    // 5. Przelicz tabele
+    calculateAllStandings();
+    renderGroups();
+
+    saveState();
+    
+    // Pokaż komunikat
+    const msg = t('playerAdded').replace('{name}', playerName).replace('{group}', groupIndex + 1);
+    alert(msg);
+}
 </script>
+</div>
+</div>
 </body>
 </html>
