@@ -1193,11 +1193,9 @@ h1::after {
     right: 10px;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     z-index: 1000;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    max-width: calc(100% - 20px);
+    flex-wrap: nowrap;
 }
 
 /* PRZEŁĄCZNIK JĘZYKA */
@@ -1595,47 +1593,6 @@ h1::after {
         min-width: 100px !important;
     }
 }
-/* TYLKO dla telefonów w pozycji pionowej */
-@media (max-width: 767px) and (orientation: portrait) {
-    #league-settings-panel > div:last-child {
-        flex-wrap: wrap !important;
-        justify-content: center !important;
-    }
-    
-    #league-settings-panel button {
-        padding: 6px 10px !important;
-        font-size: 0.75rem !important;
-        min-width: auto !important;
-    }
-}
-@media (max-width: 767px) {
-    .header-buttons-container {
-        position: relative;
-        top: auto;
-        right: auto;
-        justify-content: center;
-        margin-bottom: 10px;
-        gap: 6px;
-    }
-    
-    .header-buttons-container .coffee-btn,
-    .header-buttons-container .lang-btn,
-    .header-buttons-container .collapse-button {
-        padding: 4px 8px;
-        font-size: 0.7rem;
-        min-height: 30px;
-    }
-    
-    /* Przesuń nagłówek niżej żeby nie nachodził */
-    h1 {
-        margin-top: 10px !important;
-    }
-    
-    .knockout-header {
-        margin-top: 5px !important;
-        padding-top: 5px !important;
-    }
-}
     </style>
 </head>
 <body>
@@ -1643,7 +1600,8 @@ h1::after {
     <h1 data-i18n="tournamentName">Turniej Tenisa Stołowego</h1>
  
     <div class="control-panel" id="controlPanel">
-       
+    <h2 class="knockout-header" id="settingsHeader" data-i18n="settings">Ustawienia turnieju</h2>
+    
    <div class="header-buttons-container">
     <div class="language-switcher">
         <button class="lang-btn active" data-lang="pl" onclick="setLanguage('pl')">
@@ -1653,7 +1611,7 @@ h1::after {
             <span class="flag">🇬🇧</span> EN
         </button>
     </div>
-    <h2 class="knockout-header" id="settingsHeader" data-i18n="settings">Ustawienia turnieju</h2>
+    
     <!-- Przyciski "Postaw kawę" -->
     <a href="https://buycoffee.to/ziuty_tt_tournament" target="_blank" class="coffee-btn buycoffee" title="Postaw kawę na buycoffee.to">
         <span>☕</span> BuyCoffee
@@ -1776,7 +1734,7 @@ h1::after {
     </div>
 
     <!-- PRZYCISKI -->
-    <div style="display:flex; flex-wrap: wrap; justify-content:flex-end; gap:10px; margin-top:25px;">
+    <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:25px;">
         <button onclick="showLeagueRanking()" id="leagueRankingBtn" style="display: none; background: #27ae60;" data-i18n="leagueRanking">Ranking ligowy</button>
         <button onclick="addTournamentResultsToRanking()" id="addToRankingBtn" style="display: none; background: #27ae60;" data-i18n="addPointsToRanking">Dodaj punkty do rankingu</button>                
         <button onclick="exportLeagueRanking()" style="background:#3498db; padding:10px 20px;" data-i18n="exportRanking">Eksportuj ranking</button>
