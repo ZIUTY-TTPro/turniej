@@ -1233,9 +1233,17 @@ h1::after {
 /* DLA MOBILE - OPTYMALIZACJA */
 @media (max-width: 767px) {
     .header-buttons-container {
-        top: 8px;
-        right: 8px;
+        position: relative !important;
+        top: auto !important;
+        right: auto !important;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-bottom: 15px;
         gap: 8px;
+    }
+    
+    .knockout-header {
+        margin-top: 10px !important;
     }
     
     .header-buttons-container .language-switcher {
@@ -1558,6 +1566,31 @@ h1::after {
     #gentle-pulse {
         padding: 4px 8px;
         font-size: 0.7rem;
+    }
+}
+
+/* Dostosowanie dla mobile - przyciski ligowe */
+@media (max-width: 767px) {
+    #leagueRankingBtn, #addToRankingBtn {
+        display: inline-block !important;
+        width: auto !important;
+        min-width: 120px !important;
+        margin: 5px !important;
+    }
+}
+@media (max-width: 767px) {
+    #league-settings-panel .form-row .form-col-grow > div[style*="display: flex"] {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 15px !important;
+    }
+    
+    #qfField {
+        width: 100% !important;
+    }
+    
+    #qfField label {
+        min-width: 100px !important;
     }
 }
     </style>
@@ -5666,8 +5699,8 @@ function setTournamentMode(mode) {
     
     if (mode === 'league') {
         leaguePanel.style.display = 'block';
-        leagueBtn.style.display = 'inline-flex';
-        addBtn.style.display = 'inline-flex';
+        leagueBtn.style.display = 'inline-block';
+        addBtn.style.display = 'inline-block';
         if (roundsFields) roundsFields.style.display = 'flex';
     } else {
         leaguePanel.style.display = 'none';
