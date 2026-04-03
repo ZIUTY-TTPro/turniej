@@ -1593,6 +1593,19 @@ h1::after {
         min-width: 100px !important;
     }
 }
+/* TYLKO dla telefonów w pozycji pionowej */
+@media (max-width: 767px) and (orientation: portrait) {
+    #league-settings-panel > div:last-child {
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+    }
+    
+    #league-settings-panel button {
+        padding: 6px 10px !important;
+        font-size: 0.75rem !important;
+        min-width: auto !important;
+    }
+}
     </style>
 </head>
 <body>
