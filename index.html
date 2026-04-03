@@ -1546,6 +1546,20 @@ h1::after {
         font-size: 12px;
     }
 }
+/* Delikatne, spokojne pulsowanie */
+@keyframes gentlePulse {
+    0% { transform: scale(1); box-shadow: 0 2px 8px rgba(255,221,0,0.3); }
+    50% { transform: scale(1.02); box-shadow: 0 4px 12px rgba(255,221,0,0.5); }
+    100% { transform: scale(1); box-shadow: 0 2px 8px rgba(255,221,0,0.3); }
+}
+
+/* Dostosowanie dla mobile */
+@media (max-width: 767px) {
+    #gentle-pulse {
+        padding: 4px 8px;
+        font-size: 0.7rem;
+    }
+}
     </style>
 </head>
 <body>
@@ -1572,8 +1586,7 @@ h1::after {
     <a href="https://ko-fi.com/ziuty" target="_blank" class="coffee-btn kofi" title="Postaw kawę na Ko-fi">
         <span>☕</span> Ko-fi
     </a>
-    
-    <button class="collapse-button" onclick="toggleCollapse('controlPanel')" data-i18n="collapse">Zwiń</button>
+       <button class="collapse-button" onclick="toggleCollapse('controlPanel')" data-i18n="collapse">Zwiń</button>
 </div>
 
     <div class="collapsible-content">
@@ -1587,7 +1600,17 @@ h1::after {
                 <input type="text" id="subTitleInput" class="styled-input category-input" data-i18n-placeholder="enterCategory" placeholder="Np. Amatorzy" oninput="handleCategoryInput(); saveState();">
             </div>
         </div>
-
+   <!-- NOWE POLA DLA LIGI (widoczne tylko w trybie ligowym) -->
+        <div class="form-row" id="leagueRoundsFields" style="display: none;">
+            <div class="form-col-shrink">
+                <label class="styled-label" for="currentRound">Aktualna runda</label>
+                <input type="number" id="currentRound" class="styled-input" style="width: 100px; text-align: center;" min="1" max="99" value="1" oninput="saveState()">
+            </div>
+            <div class="form-col-shrink">
+                <label class="styled-label" for="totalRounds">Liczba rund</label>
+                <input type="number" id="totalRounds" class="styled-input" style="width: 100px; text-align: center;" min="1" max="99" value="4" oninput="saveState()">
+            </div>
+        </div>
         <div class="toggle-switch-row">
             <div class="toggle-switch-container">
                 <div class="toggle-switch-label" data-i18n="groupMode">Tryb podziału na grupy</div>
@@ -1604,7 +1627,89 @@ h1::after {
                     <button class="toggle-switch-btn" id="btn-consolation-yes" onclick="setConsolationMode('yes')" data-i18n="yes">Tak</button>
                 </div>
             </div>
+     
+  <!-- NOWY WIERSZ - TRYB TURNIEJU (POJEDYNCZY / LIGOWY) -->
+<div class="toggle-switch-row">
+    <div class="toggle-switch-container">
+        <div class="toggle-switch-label" data-i18n="tournamentMode">Tryb turnieju</div>
+        <div class="toggle-switch">
+            <button class="toggle-switch-btn active" id="btn-mode-single" onclick="setTournamentMode('single')" data-i18n="singleTournament">Pojedynczy</button>
+            <button class="toggle-switch-btn" id="btn-mode-league" onclick="setTournamentMode('league')" data-i18n="leagueTournament">Ligowy</button>
         </div>
+    </div>
+</div>
+<input type="hidden" id="tournamentMode" value="single">
+<!-- PANEL USTAWIEŃ LIGOWYCH (widoczny tylko w trybie ligowym) -->
+<div id="league-settings-panel" style="display: none; margin-top: 0px; padding: 20px; background: rgba(52, 152, 219, 0.1); border-radius: 10px; border: 1px solid #3498db; width: 100%; min-width: 100%;">
+    <h3 style="color: #2c3e50; margin-top: 0; margin-bottom: 20px;" data-i18n="leaguePointsSettings">⚙️ Ustawienia punktacji ligowej</h3>
+
+    <!-- PUNKTUJ MIEJSCA -->
+    <div class="form-row">
+        <div class="form-col-grow">
+            <label class="styled-label" data-i18n="pointScope">Punktuj miejsca:</label>
+            <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+                <label style="display: flex; align-items: center; gap: 5px;">
+                    <input type="radio" name="pointScope" value="all" checked> 
+                    <span data-i18n="allPlaces">Wszystkie miejsca</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 5px;">
+                    <input type="radio" name="pointScope" value="top"> 
+                    <span data-i18n="topOnly">Tylko TOP</span> 
+                    <input type="number" id="topPlaces" value="8" min="1" max="50" style="width: 70px; margin-left: 5px; padding: 5px;">
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <!-- PUNKTY ZA MIEJSCA 1-8 -->
+    <div class="form-row">
+        <div class="form-col-grow">
+            <label class="styled-label" data-i18n="pointsForPlaces">Punkty za miejsca (wpisz ręcznie):</label>
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; background: white; padding: 15px; border-radius: 8px; margin-top: 5px;">
+                <div style="display: flex; align-items: center;"><label style="min-width: 25px;">1:</label> <input type="number" id="points-1" class="points-input" value="50" min="0" style="width: 70px; padding: 5px;"></div>
+                <div style="display: flex; align-items: center;"><label style="min-width: 25px;">2:</label> <input type="number" id="points-2" class="points-input" value="45" min="0" style="width: 70px; padding: 5px;"></div>
+                <div style="display: flex; align-items: center;"><label style="min-width: 25px;">3:</label> <input type="number" id="points-3" class="points-input" value="40" min="0" style="width: 70px; padding: 5px;"></div>
+                <div style="display: flex; align-items: center;"><label style="min-width: 25px;">4:</label> <input type="number" id="points-4" class="points-input" value="35" min="0" style="width: 70px; padding: 5px;"></div>
+                <div style="display: flex; align-items: center;"><label style="min-width: 25px;">5:</label> <input type="number" id="points-5" class="points-input" value="30" min="0" style="width: 70px; padding: 5px;"></div>
+                <div style="display: flex; align-items: center;"><label style="min-width: 25px;">6:</label> <input type="number" id="points-6" class="points-input" value="27" min="0" style="width: 70px; padding: 5px;"></div>
+                <div style="display: flex; align-items: center;"><label style="min-width: 25px;">7:</label> <input type="number" id="points-7" class="points-input" value="24" min="0" style="width: 70px; padding: 5px;"></div>
+                <div style="display: flex; align-items: center;"><label style="min-width: 25px;">8:</label> <input type="number" id="points-8" class="points-input" value="21" min="0" style="width: 70px; padding: 5px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PUNKTY ZA FAZY -->
+    <div class="form-row">
+        <div class="form-col-grow">
+            <label class="styled-label" data-i18n="pointsForPhases">Punkty za fazy (opcjonalnie):</label>
+            <div style="display: flex; gap: 40px; background: white; padding: 15px; border-radius: 8px; margin-top: 5px;">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <label style="min-width: 40px;" data-i18n="participation">Udział:</label> 
+                    <input type="number" id="points-participation" value="5" min="0" style="width: 50px; padding: 5px;">
+                </div>
+                <div style="display: flex; align-items: center; gap: 15px;" id="qfField">
+                    <label style="min-width: 90px;" data-i18n="quarterfinals">Ćwierćfinały:</label> 
+                    <input type="number" id="points-qf" value="15" min="0" style="width: 50px; padding: 5px;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ŻÓŁTA RAMKA Z INFORMACJĄ -->
+    <div style="margin-top: 20px; padding: 15px; background: #fff3cd; border-radius: 8px; border-left: 5px solid #ffc107;">
+        <strong>ℹ️ <span data-i18n="infoAfterTournament">Po zakończeniu turnieju kliknij "Dodaj punkty do rankingu", aby zaktualizować tabelę główną.</span></strong>
+    </div>
+
+    <!-- PRZYCISKI -->
+    <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:25px;">
+        <button onclick="showLeagueRanking()" id="leagueRankingBtn" style="display: none; background: #27ae60;" data-i18n="leagueRanking">Ranking ligowy</button>
+        <button onclick="addTournamentResultsToRanking()" id="addToRankingBtn" style="display: none; background: #27ae60;" data-i18n="addPointsToRanking">Dodaj punkty do rankingu</button>                
+        <button onclick="exportLeagueRanking()" style="background:#3498db; padding:10px 20px;" data-i18n="exportRanking">Eksportuj ranking</button>
+        <button onclick="loadLeagueRankingFromFile()" style="background:#3498db; padding:10px 20px;" data-i18n="loadRanking">Wczytaj ranking</button>
+        <button onclick="clearCurrentRanking()" style="background:#e74c3c; padding:10px 20px;" data-i18n="clearRanking">Wyczyść ranking</button>
+    </div>
+</div>
+</div>
         
         <input type="hidden" id="mode" value="auto">
         <input type="hidden" id="consolationMode" value="no">
@@ -1616,7 +1721,7 @@ h1::after {
                     <textarea id="playersAuto" class="styled-input styled-textarea" data-i18n-placeholder="enterPlayersAuto" placeholder="Wpisz zawodników (jeden na linijkę)" oninput="saveState()"></textarea>
                 </div>
             </div>
-            
+           
             <div class="form-row">
                 <div class="form-col-shrink">
                     <label class="styled-label" for="numGroupsAuto" data-i18n="numberOfGroups">Liczba grup</label>
@@ -1654,9 +1759,10 @@ h1::after {
             <button onclick="saveTournamentToFile()" data-i18n="saveTournament">Zapisz turniej</button>
             <button onclick="loadTournamentFromFile()" data-i18n="loadTournament">Wczytaj turniej</button>
             <button onclick="clearTournamentData()" class="clear-data-button" data-i18n="clearData">Wyczyść dane</button>
+    </div>
         </div>
     </div>
-</div>
+
     <div class="main-group-section" id="groupSection">
         <h2 class="knockout-header" id="groupsHeader" data-i18n="groupStage">Faza Grupowa</h2>
         <button class="collapse-button" onclick="toggleCollapse('groupSection')" data-i18n="collapse">Zwiń</button>
@@ -1718,15 +1824,18 @@ function setConsolationMode(value) {
     
     const btnYes = document.getElementById('btn-consolation-yes');
     const btnNo = document.getElementById('btn-consolation-no');
+    const qfField = document.getElementById('qfField');
     
     if (value === 'yes') {
         btnYes.classList.add('active');
         btnNo.classList.remove('active');
         document.getElementById('consolationSection').style.display = 'block';
+        if (qfField) qfField.style.display = 'none'; // UKRYJ ćwierćfinały
     } else {
         btnYes.classList.remove('active');
         btnNo.classList.add('active');
         document.getElementById('consolationSection').style.display = 'none';
+        if (qfField) qfField.style.display = 'flex'; // POKAŻ ćwierćfinały
     }
     
     updateClassification();
@@ -2451,6 +2560,7 @@ function generateGroups() {
     });
 
     renderGroups();
+checkForDuplicatePlayers();
 }
 
 function generateManualGroups() {
@@ -2478,6 +2588,7 @@ function generateManualGroups() {
     });
 
     renderGroups();
+checkForDuplicatePlayers();
 }
 
 function calculateAllStandings() {
@@ -3723,7 +3834,12 @@ function saveState() {
         knockoutSectionCollapsed: document.getElementById('knockoutSection').classList.contains('collapsed'),
         consolationSectionCollapsed: document.getElementById('consolationSection').classList.contains('collapsed'),
         activeGroupView: activeGroupView,
-        currentLanguage: currentLanguage
+        currentLanguage: currentLanguage,
+leagueRankings: leagueRankings,
+leagueSettings: leagueSettings,
+currentRound: document.getElementById('currentRound')?.value || '1',
+totalRounds: document.getElementById('totalRounds')?.value || '10',
+tournamentMode: document.getElementById('tournamentMode').value
     };
 
     const manualGroupCount = parseInt(document.getElementById('numGroupsManual').value);
@@ -3797,6 +3913,15 @@ function loadState() {
             if (loadedData.currentLanguage) {
                 currentLanguage = loadedData.currentLanguage;
             }
+  // W loadState(), po wczytaniu loadedData:
+            if (loadedData.leagueRankings) leagueRankings = loadedData.leagueRankings;
+            if (loadedData.leagueSettings) leagueSettings = loadedData.leagueSettings;
+            if (loadedData.tournamentMode) {
+                document.getElementById('tournamentMode').value = loadedData.tournamentMode;
+                setTournamentMode(loadedData.tournamentMode);
+            }
+            if (loadedData.currentRound) document.getElementById('currentRound').value = loadedData.currentRound;
+            if (loadedData.totalRounds) document.getElementById('totalRounds').value = loadedData.totalRounds;
 
             const modeSelect = document.getElementById('mode');
             document.getElementById('auto-panel').style.display = modeSelect.value === 'auto' ? 'block' : 'none';
@@ -4217,7 +4342,29 @@ function resetTournamentUI() {
     updateTournamentTitle();
     updateSubTitleDisplay();
 }
-
+function getTournamentHeader() {
+    const tournamentName = document.getElementById('tournamentNameInput').value.trim() || t('tournamentName');
+    const category = document.getElementById('subTitleInput').value.trim() || '';
+    const groupMode = document.getElementById('mode').value === 'auto' ? 'Automatyczny' : 'Ręczny';
+    const tournamentMode = document.getElementById('tournamentMode').value;
+    const tournamentModeText = tournamentMode === 'league' ? 'Ligowy' : 'Pojedynczy';
+    
+    let header = `--- ${t('tournamentResults')}: ${tournamentName} ---\n`;
+    if (category) header += `Kategoria: ${category}\n`;
+    header += `Tryb podziału na grupy: ${groupMode}\n`;
+    header += `Tryb turnieju: ${tournamentModeText}\n`;
+    
+    if (tournamentMode === 'league') {
+        const currentRound = document.getElementById('currentRound')?.value || '1';
+        const totalRounds = document.getElementById('totalRounds')?.value || '?';
+        header += `Runda: ${currentRound} z ${totalRounds}\n`;
+    }
+    
+    header += `Data eksportu: ${new Date().toLocaleString()}\n`;
+    header += `\n`;
+    
+    return header;
+}
 function exportResultsToText() {
     console.log("Exporting results to text...");
 
@@ -4282,6 +4429,10 @@ function exportResultsToText() {
 
 function performExport(exportMode) {
     let textOutput = [];
+    
+    // === NOWY NAGŁÓWEK ===
+    textOutput.push(getTournamentHeader());
+    
     const tournamentName = document.getElementById('tournamentNameInput').value.trim() || t('tournamentName');
     const category = document.getElementById('subTitleInput').value.trim() || '';
     const consolationMode = document.getElementById('consolationMode').value;
@@ -4312,22 +4463,13 @@ function performExport(exportMode) {
         }
         return null;
     };
-
-    // NAGŁÓWEK Z NAZWĄ TURNIEJU I KATEGORIĄ
-    textOutput.push(`--- ${t('tournamentResults')}: ${tournamentName} ---`);
-    if (category) {
-        textOutput.push(`${t('category')}: ${category}`);
-    }
-    textOutput.push(`${t('exportDate')}: ${new Date().toLocaleString()}`);
-    textOutput.push('');
     
-    // ========== POPRAWIONA LOGIKA DLA TRYBU "BOTH" ==========
+    // ========== LOGIKA EKSPORTU ==========
     if (exportMode === 'both') {
-        // Eksportuj oba tryby w jednym pliku
         textOutput.push(`=== ${t('bothModes')} ===`);
         textOutput.push('');
         
-        // EKSPORT TRYBU AUTOMATYCZNEGO
+        // AUTO MODE
         const autoData = getExportData('auto');
         const hasAutoData = autoData.currentGroupPlayers && 
                            autoData.currentGroupPlayers.length > 0 && 
@@ -4335,14 +4477,11 @@ function performExport(exportMode) {
         
         if (hasAutoData) {
             textOutput.push(`==== ${t('autoMode')} ====`);
-            
-            // DODAJ KATEGORIĘ WEWNĄTRZ EKSPORTU
             if (autoData.currentSubTitle) {
                 textOutput.push(`${t('category')}: ${autoData.currentSubTitle}`);
                 textOutput.push('');
             }
             
-            // Faza grupowa - tryb automatyczny
             textOutput.push(`=== ${t('groupStage')} ===`);
             autoData.currentGroupStandings.forEach((standings, groupIndex) => {
                 if (standings && standings.length > 0) {
@@ -4359,10 +4498,8 @@ function performExport(exportMode) {
             });
             textOutput.push('');
             
-            // Faza pucharowa - tryb automatyczny
             if (autoData.currentKnockoutMatches && autoData.currentKnockoutMatches.quarterfinals.some(m => m.player1)) {
                 textOutput.push(`=== ${t('knockoutStage')} ===`);
-                
                 textOutput.push(`\n${t('quarterfinals')}:`);
                 autoData.currentKnockoutMatches.quarterfinals.forEach(m => {
                     const formatted = formatMatch(m, "  ");
@@ -4382,15 +4519,12 @@ function performExport(exportMode) {
                 
                 const finalMatch = formatMatch(autoData.currentKnockoutMatches.final, `${t('final')}: `);
                 if (finalMatch) textOutput.push("\n" + finalMatch);
-                
                 textOutput.push('');
             }
             
-            // Turniej pocieszenia - tryb automatyczny
             if (consolationMode === 'yes' && autoData.currentConsolationMatches && 
                 autoData.currentConsolationMatches.semifinals.some(m => m.player1)) {
                 textOutput.push(`=== ${t('consolationTournament')} (${t('places')} 5-8) ===`);
-                
                 textOutput.push(`\n${t('consolationSemifinals')}:`);
                 autoData.currentConsolationMatches.semifinals.forEach(m => {
                     const formatted = formatMatch(m, "  ");
@@ -4402,11 +4536,9 @@ function performExport(exportMode) {
                 
                 const fifthPlaceMatch = formatMatch(autoData.currentConsolationMatches.fifthPlace, `${t('fifthPlace')}: `);
                 if (fifthPlaceMatch) textOutput.push("\n" + fifthPlaceMatch);
-                
                 textOutput.push('');
             }
             
-            // Klasyfikacja końcowa - tryb automatyczny
             textOutput.push(`=== ${t('finalClassification')} (${t('autoMode')}) ===`);
             const autoClassification = getFinalClassification(autoData.currentKnockoutMatches, 
                                                              autoData.currentConsolationMatches, 
@@ -4422,11 +4554,10 @@ function performExport(exportMode) {
             } else {
                 textOutput.push(t('noClassificationData'));
             }
-            
             textOutput.push('\n' + '='.repeat(40) + '\n');
         }
         
-        // EKSPORT TRYBU RĘCZNEGO
+        // MANUAL MODE
         const manualData = getExportData('manual');
         const hasManualData = manualData.currentGroupPlayers && 
                              manualData.currentGroupPlayers.length > 0 && 
@@ -4434,14 +4565,11 @@ function performExport(exportMode) {
         
         if (hasManualData) {
             textOutput.push(`==== ${t('manualMode')} ====`);
-            
-            // DODAJ KATEGORIĘ WEWNĄTRZ EKSPORTU
             if (manualData.currentSubTitle) {
                 textOutput.push(`${t('category')}: ${manualData.currentSubTitle}`);
                 textOutput.push('');
             }
             
-            // Faza grupowa - tryb ręczny
             textOutput.push(`=== ${t('groupStage')} ===`);
             manualData.currentGroupStandings.forEach((standings, groupIndex) => {
                 if (standings && standings.length > 0) {
@@ -4458,10 +4586,8 @@ function performExport(exportMode) {
             });
             textOutput.push('');
             
-            // Faza pucharowa - tryb ręczny
             if (manualData.currentKnockoutMatches && manualData.currentKnockoutMatches.quarterfinals.some(m => m.player1)) {
                 textOutput.push(`=== ${t('knockoutStage')} ===`);
-                
                 textOutput.push(`\n${t('quarterfinals')}:`);
                 manualData.currentKnockoutMatches.quarterfinals.forEach(m => {
                     const formatted = formatMatch(m, "  ");
@@ -4481,15 +4607,12 @@ function performExport(exportMode) {
                 
                 const finalMatch = formatMatch(manualData.currentKnockoutMatches.final, `${t('final')}: `);
                 if (finalMatch) textOutput.push("\n" + finalMatch);
-                
                 textOutput.push('');
             }
             
-            // Turniej pocieszenia - tryb ręczny
             if (consolationMode === 'yes' && manualData.currentConsolationMatches && 
                 manualData.currentConsolationMatches.semifinals.some(m => m.player1)) {
                 textOutput.push(`=== ${t('consolationTournament')} (${t('places')} 5-8) ===`);
-                
                 textOutput.push(`\n${t('consolationSemifinals')}:`);
                 manualData.currentConsolationMatches.semifinals.forEach(m => {
                     const formatted = formatMatch(m, "  ");
@@ -4501,11 +4624,9 @@ function performExport(exportMode) {
                 
                 const fifthPlaceMatch = formatMatch(manualData.currentConsolationMatches.fifthPlace, `${t('fifthPlace')}: `);
                 if (fifthPlaceMatch) textOutput.push("\n" + fifthPlaceMatch);
-                
                 textOutput.push('');
             }
             
-            // Klasyfikacja końcowa - tryb ręczny
             textOutput.push(`=== ${t('finalClassification')} (${t('manualMode')}) ===`);
             const manualClassification = getFinalClassification(manualData.currentKnockoutMatches, 
                                                                manualData.currentConsolationMatches, 
@@ -4524,16 +4645,9 @@ function performExport(exportMode) {
         }
         
     } else {
-        // ========== ORYGINALNA LOGIKA DLA POJEDYNCZYCH TRYBÓW ==========
+        // POJEDYNCZY TRYB
         const targetMode = exportMode === 'current' ? document.getElementById('mode').value : exportMode;
         const data = getExportData(targetMode);
-
-        // DODAJ KATEGORIĘ DLA POJEDYNCZYCH TRYBÓW
-        if (data.currentSubTitle) {
-            textOutput.push(`${t('category')}: ${data.currentSubTitle}`);
-        }
-        textOutput.push(`${t('mode')}: ${data.modeName}`);
-        textOutput.push('');
 
         if (data.currentGroupPlayers && data.currentGroupPlayers.length > 0 && data.currentGroupPlayers.some(g => g && g.length > 0)) {
             textOutput.push(`=== ${t('groupStage')} ===`);
@@ -4555,7 +4669,6 @@ function performExport(exportMode) {
 
         if (data.currentKnockoutMatches && data.currentKnockoutMatches.quarterfinals.some(m => m.player1)) {
             textOutput.push(`=== ${t('knockoutStage')} ===`);
-
             textOutput.push(`\n${t('quarterfinals')}:`);
             data.currentKnockoutMatches.quarterfinals.forEach(m => {
                 const formatted = formatMatch(m, "  ");
@@ -4580,7 +4693,6 @@ function performExport(exportMode) {
 
         if (consolationMode === 'yes' && data.currentConsolationMatches && data.currentConsolationMatches.semifinals.some(m => m.player1)) {
             textOutput.push(`=== ${t('consolationTournament')} (${t('places')} 5-8) ===`);
-
             textOutput.push(`\n${t('consolationSemifinals')}:`);
             data.currentConsolationMatches.semifinals.forEach(m => {
                 const formatted = formatMatch(m, "  ");
@@ -4613,7 +4725,6 @@ function performExport(exportMode) {
     const finalString = textOutput.join('\n');
     const date = new Date().toISOString().slice(0, 10).replace(/-/g, '');
     
-    // DODAJ KATEGORIĘ DO NAZWY PLIKU
     let baseName = tournamentName.replace(/[^a-zA-Z0-9]/g, '_');
     if (category) {
         baseName += '_' + category.replace(/[^a-zA-Z0-9]/g, '_');
@@ -4662,7 +4773,11 @@ function saveTournamentToFile() {
 
     const tournamentData = {
         tournamentName: tournamentName,
-        category: category, // DODANE
+        category: category,
+        groupMode: document.getElementById('mode').value,
+        tournamentMode: document.getElementById('tournamentMode').value,
+        currentRound: document.getElementById('currentRound')?.value || '1',
+        totalRounds: document.getElementById('totalRounds')?.value || '10',
         autoSubTitle: autoSubTitle,
         manualSubTitle: manualSubTitle,
         playersAuto: document.getElementById('playersAuto').value,
@@ -4697,7 +4812,6 @@ function saveTournamentToFile() {
 
     const dataStr = JSON.stringify(tournamentData, null, 2);
     
-    // DODAJ KATEGORIĘ DO NAZWY PLIKU
     let baseName = tournamentName.replace(/[^a-zA-Z0-9]/g, '_');
     if (category) {
         baseName += '_' + category.replace(/[^a-zA-Z0-9]/g, '_');
@@ -5098,6 +5212,24 @@ translations.pl.generateConsolation = "Generuj drabinkę pocieszenia 🏓";
 translations.pl.knockoutStarted = "Faza pucharowa już się rozpoczęła! Nie można dodać zawodnika.";
 translations.pl.addPlayer = "Dodaj zawodnika";
 translations.pl.playerAdded = "Dodano {name} do grupy {group}. Nowy zawodnik musi rozegrać wszystkie mecze.";
+translations.pl.tournamentMode = "Tryb turnieju";
+translations.pl.singleTournament = "Pojedynczy";
+translations.pl.leagueTournament = "Ligowy";
+translations.pl.pointScope = "Punktuj miejsca";
+translations.pl.allPlaces = "Wszystkie miejsca";
+translations.pl.topOnly = "Tylko TOP";
+translations.pl.pointsForPlaces = "Punkty za miejsca (wpisz ręcznie)";
+translations.pl.pointsForPhases = "Punkty za fazy (opcjonalnie)";
+translations.pl.participation = "Udział";
+translations.pl.quarterfinals = "Ćwierćfinały";
+translations.pl.infoAfterTournament = "Po zakończeniu turnieju kliknij \"Dodaj punkty do rankingu\", aby zaktualizować tabelę główną.";
+translations.pl.leaguePointsSettings = "⚙️ Ustawienia punktacji ligowej";
+translations.pl.leagueRanking = "Ranking ligowy";
+translations.pl.addPointsToRanking = "Dodaj punkty do rankingu";
+translations.pl.exportRanking = "Eksportuj ranking";
+translations.pl.loadRanking = "Wczytaj ranking";
+translations.pl.clearRanking = "Wyczyść ranking";
+translations.pl.footerText = "© 2026 Turniej Tenisa Stołowego - aplikacja stworzona przez ZIUTY. Wesprzyj rozwój na";
 
 
 translations.en.enterPlayersFirst = "Enter players before generating groups!";
@@ -5184,6 +5316,24 @@ translations.en.generateConsolation = "Generate Consolation Bracket 🏓";
 translations.en.knockoutStarted = "Knockout stage has already started! Cannot add player.";
 translations.en.addPlayer = "Add player";
 translations.en.playerAdded = "Added {name} to group {group}. New player must play all matches.";
+translations.en.tournamentMode = "Tournament mode";
+translations.en.singleTournament = "Single";
+translations.en.leagueTournament = "League";
+translations.en.pointScope = "Score places";
+translations.en.allPlaces = "All places";
+translations.en.topOnly = "TOP only";
+translations.en.pointsForPlaces = "Points for places (enter manually)";
+translations.en.pointsForPhases = "Points for phases (optional)";
+translations.en.participation = "Participation";
+translations.en.quarterfinals = "Quarterfinals";
+translations.en.infoAfterTournament = "After the tournament, click \"Add points to ranking\" to update the main table.";
+translations.en.leaguePointsSettings = "⚙️ League points settings";
+translations.en.leagueRanking = "League ranking";
+translations.en.addPointsToRanking = "Add points to ranking";
+translations.en.exportRanking = "Export ranking";
+translations.en.loadRanking = "Load ranking";
+translations.en.clearRanking = "Clear ranking";
+translations.en.footerText = "© 2026 Table Tennis Tournament - app created by ZIUTY. Support development on";
 // ================= PWA - SERVICE WORKER =================
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
@@ -5492,8 +5642,442 @@ function addPlayerToManualGroup(groupIndex, playerName) {
     const msg = t('playerAdded').replace('{name}', playerName).replace('{group}', groupIndex + 1);
     alert(msg);
 }
-</script>
+// ================= TRYB LIGOWY =================
+let leagueRankings = {};  // klucz: "nazwa_kategoria", wartość: { ranking: {}, processedRounds: {} }
+let currentRankingKey = ''; // przechowuje aktualny klucz
+let leagueSettings = {    // Domyślne ustawienia
+    pointScope: 'all',
+    topPlaces: 8,
+    points: {1:50, 2:45, 3:40, 4:35, 5:30, 6:27, 7:24, 8:21},
+    pointsQF: 15,
+    pointsR16: 10,
+    pointsParticipation: 5
+};
+function getCurrentRankingKey() {
+    const tournamentName = document.getElementById('tournamentNameInput').value.trim() || 'Turniej';
+    const category = document.getElementById('subTitleInput').value.trim() || '';
+    return `${tournamentName}_${category}`.replace(/\s+/g, '_');
+}
+
+function setTournamentMode(mode) {
+    document.getElementById('tournamentMode').value = mode;
+    
+    // Przełączanie klas aktywnych
+    document.getElementById('btn-mode-single').classList.toggle('active', mode === 'single');
+    document.getElementById('btn-mode-league').classList.toggle('active', mode === 'league');
+    
+    // Pokazuj/ukryj panel ustawień ligowych i przyciski
+    const leaguePanel = document.getElementById('league-settings-panel');
+    const leagueBtn = document.getElementById('leagueRankingBtn');
+    const addBtn = document.getElementById('addToRankingBtn');
+    const roundsFields = document.getElementById('leagueRoundsFields');
+    
+    if (mode === 'league') {
+        leaguePanel.style.display = 'block';
+        leagueBtn.style.display = 'inline-flex';
+        addBtn.style.display = 'inline-flex';
+        if (roundsFields) roundsFields.style.display = 'flex';
+    } else {
+        leaguePanel.style.display = 'none';
+        leagueBtn.style.display = 'none';
+        addBtn.style.display = 'none';
+        if (roundsFields) roundsFields.style.display = 'none';
+    }
+    
+    saveState();
+}
+function addTournamentResultsToRanking() {
+    // Sprawdź duplikaty
+    if (checkForDuplicatePlayers()) {
+        alert('Nie można dodać punktów – popraw duplikaty zawodników.');
+        return;
+    }
+    
+    const mode = document.getElementById('mode').value;
+    const currentKnockoutMatches = mode === 'manual' ? manualKnockoutMatches : autoKnockoutMatches;
+    const currentConsolationMatches = mode === 'manual' ? manualConsolationMatches : autoConsolationMatches;
+    const consolationMode = document.getElementById('consolationMode').value;
+    
+    // Pobierz dane identyfikujące turniej
+    const tournamentName = document.getElementById('tournamentNameInput').value.trim() || 'Turniej';
+    const category = document.getElementById('subTitleInput').value.trim() || '';
+    const currentRound = document.getElementById('currentRound')?.value || '1';
+    
+    const rankingKey = getCurrentRankingKey();
+    const roundKey = `${rankingKey}_runda${currentRound}`;
+    
+    // Inicjalizuj jeśli potrzeba
+    if (!leagueRankings[rankingKey]) {
+        leagueRankings[rankingKey] = {
+            ranking: {},
+            processedRounds: {},
+            tournamentName: tournamentName,
+            category: category,
+            totalRounds: parseInt(document.getElementById('totalRounds')?.value) || 10
+        };
+    }
+    
+    const currentRanking = leagueRankings[rankingKey].ranking;
+    const processedRounds = leagueRankings[rankingKey].processedRounds;
+    
+    // Sprawdź czy ta runda była już dodana
+    if (processedRounds[roundKey]) {
+        alert(`Runda ${currentRound} dla turnieju "${tournamentName}" została już dodana do rankingu!`);
+        return;
+    }
+    
+    // Pobierz końcową klasyfikację (miejsca 1-8)
+    const classification = getFinalClassification(
+        currentKnockoutMatches, 
+        currentConsolationMatches, 
+        consolationMode === 'yes'
+    );
+    
+    // Pobierz ustawienia punktacji
+    const pointsScope = document.querySelector('input[name="pointScope"]:checked')?.value || 'all';
+    const topPlaces = parseInt(document.getElementById('topPlaces')?.value) || 8;
+    const participationPoints = parseInt(document.getElementById('points-participation')?.value) || 0;
+    
+    // Pobierz wszystkich zawodników (bez duplikatów)
+    const currentGroupPlayers = mode === 'manual' ? manualGroupPlayers : groupPlayers;
+    const allPlayers = [...new Set(currentGroupPlayers.flat().filter(p => p && p !== "WOLNY LOS"))];
+    
+    let addedCount = 0;
+    
+    allPlayers.forEach(player => {
+        let playerPlace = null;
+        let isQFPlayer = false;
+        
+        // Szukamy miejsca w klasyfikacji (1-8)
+        for (let place = 1; place <= 8; place++) {
+            if (classification[place] === player) {
+                playerPlace = place;
+                break;
+            }
+        }
+        
+        // Sprawdź czy grał w ćwierćfinale (tylko gdy NIE ma turnieju pocieszenia)
+        if (!playerPlace && consolationMode === 'no') {
+            isQFPlayer = currentKnockoutMatches.quarterfinals?.some(qf => 
+                qf.player1 === player || qf.player2 === player
+            ) || false;
+        }
+        
+        let points = 0;
+        
+        if (playerPlace) {
+            // Miejsca 1-8 – punkty z pól
+            const pointsInput = document.getElementById(`points-${playerPlace}`);
+            points = parseInt(pointsInput?.value) || 0;
+            
+            // Jeśli tryb "Tylko TOP" i miejsce > topPlaces - zerujemy punkty
+            if (pointsScope === 'top' && playerPlace > topPlaces) {
+                points = 0;
+            }
+        } else if (isQFPlayer) {
+            // Zawodnik grał w ćwierćfinale (tylko gdy NIE ma turnieju pocieszenia)
+            points = parseInt(document.getElementById('points-qf')?.value) || 0;
+        } else {
+            // Udział (reszta)
+            points = participationPoints;
+        }
+        
+        // DODAJEMY ZAWSZE do rankingu
+        if (!currentRanking[player]) {
+            currentRanking[player] = {
+                punkty: 0,
+                turnieje: 0,
+                najlepsze_miejsce: playerPlace || 999
+            };
+        }
+        
+        currentRanking[player].turnieje++;
+        currentRanking[player].punkty += points;
+        
+        if (playerPlace && playerPlace < currentRanking[player].najlepsze_miejsce) {
+            currentRanking[player].najlepsze_miejsce = playerPlace;
+        }
+        
+        addedCount++;
+    });
+    
+    // Oznacz rundę jako przetworzoną
+    processedRounds[roundKey] = true;
+    
+    alert(`Dodano punkty do rankingu ligowego dla ${addedCount} zawodników!`);
+    saveState();
+}
+function checkForDuplicatePlayers() {
+    const mode = document.getElementById('mode').value;
+    const currentGroupPlayers = mode === 'manual' ? manualGroupPlayers : groupPlayers;
+    const allPlayers = currentGroupPlayers.flat().filter(p => p && p !== "WOLNY LOS");
+    
+    // Tworzymy obiekt zliczający wystąpienia
+    const playerCount = {};
+    allPlayers.forEach(player => {
+        playerCount[player] = (playerCount[player] || 0) + 1;
+    });
+    
+    // Znajdujemy tych, którzy mają > 1 wystąpień
+    const duplicates = Object.keys(playerCount).filter(player => playerCount[player] > 1);
+    
+    if (duplicates.length > 0) {
+        alert(`UWAGA! Znaleziono duplikaty zawodników: ${duplicates.join(', ')}\n\nZawodnik nie może grać w dwóch grupach jednocześnie. Proszę poprawić listę zawodników.`);
+        console.warn('Duplikaty:', duplicates);
+        return true; // zwraca true jeśli są duplikaty
+    }
+    return false; // brak duplikatów
+}
+function showLeagueRanking() {
+    const rankingKey = getCurrentRankingKey();
+    const data = leagueRankings[rankingKey];
+    
+    if (!data || Object.keys(data.ranking).length === 0) {
+        alert('Brak danych rankingu dla tego turnieju.');
+        return;
+    }
+    
+    const tournamentName = data.tournamentName;
+    const category = data.category || '';
+    const currentRound = document.getElementById('currentRound')?.value || '1';
+    const totalRounds = data.totalRounds || '?';
+    
+    // Posortuj ranking
+    const sorted = Object.entries(data.ranking)
+        .sort((a, b) => b[1].punkty - a[1].punkty);
+    
+    // Zbuduj tytuł
+    let title = `🏆 ${tournamentName}`;
+    if (category) title += ` - ${category}`;
+    title += ` (runda ${currentRound} z ${totalRounds})`;
+    
+    // Zbuduj tabelę HTML
+    let html = `
+        <div id="leagueRankingModal" style="position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:white; padding:0; border-radius:15px; max-width:800px; width:95%; max-height:80vh; overflow:hidden; z-index:10000; box-shadow:0 10px 30px rgba(0,0,0,0.3);">
+           <div id="rankingModalHeader" style="padding:5px 10px; background:#3498db; color:white; cursor:move; border-radius:15px 15px 0 0; display:flex; justify-content:space-between; align-items:center; user-select:none;">
+    <h2 style="margin:0; font-size:1rem; display:flex; align-items:center; gap:10px;">${title}</h2>
+    <button onclick="document.getElementById('leagueRankingModal').remove()" style="background:transparent; color:white; border:none; font-size:1.5rem; cursor:pointer; padding:0 8px;">×</button>
 </div>
+            <div style="padding:20px; overflow-y:auto; max-height:calc(80vh - 70px);">
+                <table style="width:100%; border-collapse:collapse;">
+                    <thead>
+                        <tr style="background:#f0f0f0;">
+                            <th style="padding:12px; text-align:center;">#</th>
+                            <th style="padding:12px; text-align:left;">Zawodnik</th>
+                            <th style="padding:12px; text-align:center;">Punkty</th>
+                            <th style="padding:12px; text-align:center;">Turnieje</th>
+                            <th style="padding:12px; text-align:center;">Najlepsze miejsce</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+    `;
+    
+    sorted.forEach(([player, stats], index) => {
+        html += `
+            <tr style="border-bottom:1px solid #eee;">
+                <td style="padding:10px; text-align:center; font-weight:bold;">${index+1}</td>
+                <td style="padding:10px; text-align:left;">${player}</td>
+                <td style="padding:10px; text-align:center; font-weight:bold; color:#27ae60;">${stats.punkty}</td>
+                <td style="padding:10px; text-align:center;">${stats.turnieje}</td>
+                <td style="padding:10px; text-align:center;">${stats.najlepsze_miejsce === 999 ? '—' : stats.najlepsze_miejsce}</td>
+            </tr>
+        `;
+    });
+    
+    html += `
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    `;
+    
+    document.body.insertAdjacentHTML('beforeend', html);
+    
+    // Dodaj możliwość przeciągania
+    const modal = document.getElementById('leagueRankingModal');
+    const header = document.getElementById('rankingModalHeader');
+    
+    let isDragging = false;
+    let offsetX, offsetY;
+    let startX, startY;
+    let initialLeft, initialTop;
+    
+    header.addEventListener('mousedown', (e) => {
+        e.preventDefault(); // Zapobiega zaznaczaniu tekstu
+        
+        // Pobierz aktualną pozycję okna
+        const rect = modal.getBoundingClientRect();
+        initialLeft = rect.left;
+        initialTop = rect.top;
+        
+        // Oblicz offset względem aktualnej pozycji
+        offsetX = e.clientX - initialLeft;
+        offsetY = e.clientY - initialTop;
+        
+        // Usuń transformację i ustaw pozycję bezwzględną
+        modal.style.transform = 'none';
+        modal.style.left = initialLeft + 'px';
+        modal.style.top = initialTop + 'px';
+        
+        isDragging = true;
+        modal.style.cursor = 'grabbing';
+    });
+    
+    document.addEventListener('mousemove', (e) => {
+        if (isDragging) {
+            e.preventDefault();
+            modal.style.left = (e.clientX - offsetX) + 'px';
+            modal.style.top = (e.clientY - offsetY) + 'px';
+        }
+    });
+    
+    document.addEventListener('mouseup', () => {
+        if (isDragging) {
+            isDragging = false;
+            modal.style.cursor = 'default';
+        }
+    });
+}
+function clearCurrentRanking() {
+    const rankingKey = getCurrentRankingKey();
+    
+    if (!leagueRankings[rankingKey]) {
+        alert('Brak rankingu do wyczyszczenia.');
+        return;
+    }
+    
+    const tournamentName = leagueRankings[rankingKey].tournamentName;
+    const category = leagueRankings[rankingKey].category || '';
+    
+    if (confirm(`Czy na pewno wyczyścić ranking dla turnieju "${tournamentName}" ${category ? 'kategoria: ' + category : ''}?`)) {
+        delete leagueRankings[rankingKey];
+        saveState();
+        document.getElementById('leagueRankingModal')?.remove();
+        alert('Ranking wyczyszczony.');
+    }
+}
+function exportLeagueRanking() {
+    const rankingKey = getCurrentRankingKey();
+    const data = leagueRankings[rankingKey];
+    
+    if (!data || Object.keys(data.ranking).length === 0) {
+        alert('Brak danych do eksportu.');
+        return;
+    }
+    
+    const tournamentName = data.tournamentName;
+    const category = data.category || '';
+    const currentRound = document.getElementById('currentRound')?.value || '1';
+    const totalRounds = data.totalRounds || '?';
+    const date = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+    
+    // Zapytaj użytkownika w jakim formacie chce zapisać
+    const format = confirm('Kliknij OK aby zapisać jako JSON (do ponownego wczytania), Anuluj aby zapisać jako TXT (do odczytu).');
+    
+    // Generuj nazwę pliku
+    let filename = `ranking_${tournamentName}`;
+    if (category) filename += `_${category}`;
+    filename += `_runda${currentRound}`;
+    filename += `_${date}`;
+    
+    // Dodaj rozszerzenie
+    if (format) {
+        filename += `.json`;
+    } else {
+        filename += `.txt`;
+    }
+    
+    // Oczyść nazwę pliku
+    filename = filename.replace(/[^a-zA-Z0-9_\.]/g, '_');
+    filename = filename.replace(/__+/g, '_');
+    
+    if (format) {
+        // Zapisz jako JSON
+        const exportData = {
+            tournamentName: tournamentName,
+            category: category,
+            totalRounds: totalRounds,
+            currentRound: currentRound,
+            ranking: data.ranking,
+            processedRounds: data.processedRounds,
+            exportDate: new Date().toISOString()
+        };
+        
+        saveToAndroidFile(JSON.stringify(exportData, null, 2), filename, 'application/json');
+        
+        if (!androidInterface) {
+            alert(`Ranking wyeksportowany jako JSON: ${filename}`);
+        }
+    } else {
+        // Zapisz jako TXT
+        let output = getTournamentHeader();
+        output += `=== RANKING LIGOWY ===\n\n`;
+        
+        const sorted = Object.entries(data.ranking).sort((a, b) => b[1].punkty - a[1].punkty);
+        
+        sorted.forEach(([player, stats], index) => {
+            const najlepsze = stats.najlepsze_miejsce === 999 ? 'brak' : stats.najlepsze_miejsce;
+            output += `${index+1}. ${player} - ${stats.punkty} pkt (turnieje: ${stats.turnieje}, najlepsze miejsce: ${najlepsze})\n`;
+        });
+        
+        saveToAndroidFile(output, filename, 'text/plain');
+        
+        if (!androidInterface) {
+            alert(`Ranking wyeksportowany jako TXT: ${filename}`);
+        }
+    }
+}
+function loadLeagueRankingFromFile() {
+    // Tworzymy ukryty input type="file"
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.txt,.json'; // akceptujemy pliki tekstowe i json
+    input.style.display = 'none';
+    
+    input.onchange = function(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                const content = e.target.result;
+                const rankingKey = getCurrentRankingKey();
+                
+                // Próba parsowania jako JSON (jeśli to nasz format)
+                try {
+                    const importedData = JSON.parse(content);
+                    if (importedData.ranking && importedData.tournamentName) {
+                        // To jest plik w formacie JSON
+                        leagueRankings[rankingKey] = importedData;
+                        saveState();
+                        alert(`Ranking dla "${importedData.tournamentName}" został wczytany.`);
+                        return;
+                    }
+                } catch (jsonError) {
+                    // To nie jest JSON, może to plik tekstowy z exportu
+                    alert('Wybrany plik nie jest prawidłowym plikiem rankingu.');
+                }
+                
+            } catch (error) {
+                alert('Błąd podczas wczytywania pliku.');
+                console.error(error);
+            }
+        };
+        reader.readAsText(file);
+    };
+    
+    document.body.appendChild(input);
+    input.click();
+    document.body.removeChild(input);
+}
+</script>
+<!-- Stopka na dole strony -->
+<div style="margin-top: 40px; text-align: center; padding: 15px; background: rgba(255,255,255,0.9); border-radius: 8px; font-size: 0.85rem; color: #2c3e50; border: 1px solid rgba(0,0,0,0.1);">
+    <span data-i18n="footerText">© 2026 Turniej Tenisa Stołowego - aplikacja stworzona przez ZIUTY. Wesprzyj rozwój na</span>
+    <a href="https://buycoffee.to/ziuty_tt_tournament" target="_blank" style="color: #FFDD00; font-weight: bold; text-decoration: none; text-shadow: 1px 1px 0 #000; margin-left: 5px;">☕ BuyCoffee.to</a>
+    <span> | </span>
+    <a href="https://ko-fi.com/ziuty" target="_blank" style="color: #29ABE0; font-weight: bold; text-decoration: none;">☕ Ko-fi</a>
 </div>
 </body>
 </html>
