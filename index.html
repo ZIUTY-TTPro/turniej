@@ -5336,25 +5336,17 @@ translations.en.clearRanking = "Clear ranking";
 translations.en.footerText = "© 2026 Table Tennis Tournament - app created by ZIUTY. Support development on";
 // ================= PWA - SERVICE WORKER =================
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function() {
-    navigator.serviceWorker.register('service-worker.js')
-      .then(function(registration) {
-        console.log('Service Worker zarejestrowany pomyślnie:', registration.scope);
-        
-        // Sprawdź czy jest już zainstalowany jako PWA
-        if (window.matchMedia('(display-mode: standalone)').matches) {
-          console.log('Aplikacja działa w trybie standalone (zainstalowana jako PWA)');
-          document.body.classList.add('pwa-mode');
+  navigator.serviceWorker.register('service-worker.js').then(reg => {
+    reg.addEventListener('updatefound', () => {
+      const newWorker = reg.installing;
+      newWorker.addEventListener('statechange', () => {
+        // Jeśli nowa wersja się zainstalowała i jest już gotowa
+        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+          // Tutaj dzieje się magia – strona sama się odświeży z nowym kodem
+          window.location.reload();
         }
-        
-        // Sprawdź aktualizacje co godzinę
-        setInterval(() => {
-          registration.update();
-        }, 60 * 60 * 1000);
-      })
-      .catch(function(error) {
-        console.log('Błąd rejestracji Service Worker:', error);
       });
+    });
   });
 }
 
