@@ -1231,19 +1231,27 @@ h1::after {
 }
 
 /* DLA MOBILE - OPTYMALIZACJA */
+/* DLA MOBILE - OPTYMALIZACJA */
 @media (max-width: 767px) {
+    .control-panel {
+        display: flex;
+        flex-direction: column;
+    }
+    
     .header-buttons-container {
         position: relative !important;
         top: auto !important;
         right: auto !important;
         justify-content: center;
         flex-wrap: wrap;
-        margin-bottom: 15px;
+        margin-bottom: 10px;
         gap: 8px;
+        order: -1;
     }
     
     .knockout-header {
-        margin-top: 10px !important;
+        margin-top: 0 !important;
+        order: 0;
     }
     
     .header-buttons-container .language-switcher {
@@ -1613,8 +1621,8 @@ h1::after {
     <h1 data-i18n="tournamentName">Turniej Tenisa Stołowego</h1>
  
     <div class="control-panel" id="controlPanel">
-    <h2 class="knockout-header" id="settingsHeader" data-i18n="settings">Ustawienia turnieju</h2>
     
+    <h2 class="knockout-header" id="settingsHeader" data-i18n="settings">Ustawienia turnieju</h2>
    <div class="header-buttons-container">
     <div class="language-switcher">
         <button class="lang-btn active" data-lang="pl" onclick="setLanguage('pl')">
@@ -6112,7 +6120,7 @@ function loadLeagueRankingFromFile() {
     <a href="https://ko-fi.com/ziuty" target="_blank" style="color: #29ABE0; font-weight: bold; text-decoration: none;">☕ Ko-fi</a>
     <br>
     <span style="display: inline-block; margin-top: 8px; color: #7f8c8d; font-size: 0.75rem;">
-        Kontakt: <a href="mailto:tomasz.zietkowski@gmail.com" style="color: #FFDD00; text-decoration: none;">tomasz.zietkowski@gmail.com</a>
+        Kontakt: <a href="mailto:tomasz.zietkowski@gmail.com">tomasz.zietkowski@gmail.com</a>
     </span>
 </div>
 </body>
