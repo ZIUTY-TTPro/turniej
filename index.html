@@ -1231,19 +1231,27 @@ h1::after {
 }
 
 /* DLA MOBILE - OPTYMALIZACJA */
+/* DLA MOBILE - OPTYMALIZACJA */
 @media (max-width: 767px) {
+    .control-panel {
+        display: flex;
+        flex-direction: column;
+    }
+    
     .header-buttons-container {
         position: relative !important;
         top: auto !important;
         right: auto !important;
         justify-content: center;
         flex-wrap: wrap;
-        margin-bottom: 15px;
+        margin-bottom: 10px;
         gap: 8px;
+        order: -1;
     }
     
     .knockout-header {
-        margin-top: 10px !important;
+        margin-top: 0 !important;
+        order: 0;
     }
     
     .header-buttons-container .language-switcher {
@@ -1614,7 +1622,7 @@ h1::after {
  
     <div class="control-panel" id="controlPanel">
     
-    
+    <h2 class="knockout-header" id="settingsHeader" data-i18n="settings">Ustawienia turnieju</h2>
    <div class="header-buttons-container">
     <div class="language-switcher">
         <button class="lang-btn active" data-lang="pl" onclick="setLanguage('pl')">
@@ -1624,7 +1632,7 @@ h1::after {
             <span class="flag">🇬🇧</span> EN
         </button>
     </div>
-      <h2 class="knockout-header" id="settingsHeader" data-i18n="settings">Ustawienia turnieju</h2>
+      
        <button class="collapse-button" onclick="toggleCollapse('controlPanel')" data-i18n="collapse">Zwiń</button>
 </div>
 
