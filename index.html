@@ -388,7 +388,7 @@ h1::after {
             font-size: 1.1rem;
         }
 
-        .bracket-match {
+                .bracket-match {
             background: #f8f9fa;
             border-radius: 6px;
             padding: 10px;
@@ -397,7 +397,7 @@ h1::after {
             box-shadow: 0 2px 6px rgba(0,0,0,0.05);
         }
 
-        .bracket-player {
+                .bracket-player {
             display: flex;
             align-items: center;
             gap: 8px;
@@ -407,7 +407,7 @@ h1::after {
             font-size: 0.9rem;
         }
 
-        .player-name {
+                .player-name {
             background: #e9ecef;
             border-radius: 3px;
             padding: 6px 10px;
@@ -417,7 +417,7 @@ h1::after {
             white-space: normal;
         }
 
-        .score-input {
+                .score-input {
             width: 40px;
             padding: 5px;
             border: 1px solid #bbb;
@@ -426,14 +426,24 @@ h1::after {
             font-size: 16px;
         }
 
-        .player-color-1 { background-color: #e3f2fd; border-left: 5px solid #1e88e5; }
+                       .player-color-1 { background-color: #e3f2fd; border-left: 5px solid #1e88e5; }
         .player-color-2 { background-color: #ffebee; border-left: 5px solid #e53935; }
         .player-color-3 { background-color: #e8f5e9; border-left: 5px solid #43a047; }
-        .player-color-4 { background-color: #fff8e1; border-left: 5px solid #ffb300; }
+        .player-color-4 { background-color: #fff8e1; border-left: 5px solid #f9a825; }
         .player-color-5 { background-color: #f3e5f5; border-left: 5px solid #8e24aa; }
         .player-color-6 { background-color: #e0f7fa; border-left: 5px solid #00bcd4; }
         .player-color-7 { background-color: #fff3e0; border-left: 5px solid #fb8c00; }
         .player-color-8 { background-color: #e8eaf6; border-left: 5px solid #3f51b5; }
+        .player-color-9 { background-color: #fce4ec; border-left: 5px solid #d81b60; }
+        .player-color-10 { background-color: #d1c4e9; border-left: 5px solid #7b1fa2; }
+        .player-color-11 { background-color: #c8e6c9; border-left: 5px solid #2e7d32; }
+        .player-color-12 { background-color: #b2dfdb; border-left: 5px solid #00695c; }
+        .player-color-13 { background-color: #ffccbc; border-left: 5px solid #d84315; }
+        .player-color-14 { background-color: #b3e5fc; border-left: 5px solid #0277bd; }
+        .player-color-15 { background-color: #f0f4c3; border-left: 5px solid #827717; }
+        .player-color-16 { background-color: #d7ccc8; border-left: 5px solid #5d4037; }
+        
+     
 
         .third-place-match {
             border: 2px solid #e74c3c;
@@ -1614,6 +1624,23 @@ h1::after {
         min-width: auto !important;
     }
 }
+        /* Dla klasyfikacji końcowej - kolory miejsc 4-16 */
+        .classification-gold { background: linear-gradient(135deg, #FFD700, #FFEC8B) !important; border: 2px solid #D4AF37 !important; font-weight: bold; }
+        .classification-silver { background: linear-gradient(135deg, #C0C0C0, #E8E8E8) !important; border: 2px solid #A8A8A8 !important; font-weight: bold; }
+        .classification-bronze { background: linear-gradient(135deg, #CD7F32, #E9B384) !important; border: 2px solid #8B4513 !important; font-weight: bold; }
+		.classification-place-4 { background-color: #e3f2fd; border-left: 5px solid #1e88e5; }
+        .classification-place-5 { background-color: #ffebee; border-left: 5px solid #e53935; }
+        .classification-place-6 { background-color: #e8f5e9; border-left: 5px solid #43a047; }
+        .classification-place-7 { background-color: #fff8e1; border-left: 5px solid #ffb300; }
+        .classification-place-8 { background-color: #f3e5f5; border-left: 5px solid #8e24aa; }
+        .classification-place-9 { background-color: #e0f7fa; border-left: 5px solid #00bcd4; }
+        .classification-place-10 { background-color: #fff3e0; border-left: 5px solid #fb8c00; }
+        .classification-place-11 { background-color: #e8eaf6; border-left: 5px solid #3f51b5; }
+        .classification-place-12 { background-color: #fce4ec; border-left: 5px solid #e91e63; }
+        .classification-place-13 { background-color: #e0f2f1; border-left: 5px solid #009688; }
+        .classification-place-14 { background-color: #f3e5f5; border-left: 5px solid #9c27b0; }
+        .classification-place-15 { background-color: #ffebee; border-left: 5px solid #f44336; }
+        .classification-place-16 { background-color: #e8f5e9; border-left: 5px solid #4caf50; }
     </style>
 </head>
 <body>
@@ -1695,16 +1722,16 @@ h1::after {
         <div class="form-col-grow">
             <label class="styled-label" data-i18n="pointScope">Punktuj miejsca:</label>
             <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
-                <label style="display: flex; align-items: center; gap: 5px;">
-                    <input type="radio" name="pointScope" value="all" checked> 
-                    <span data-i18n="allPlaces">Wszystkie miejsca</span>
-                </label>
-                <label style="display: flex; align-items: center; gap: 5px;">
-                    <input type="radio" name="pointScope" value="top"> 
-                    <span data-i18n="topOnly">Tylko TOP</span> 
-                    <input type="number" id="topPlaces" value="8" min="1" max="50" style="width: 70px; margin-left: 5px; padding: 5px;">
-                </label>
-            </div>
+    <label style="display: flex; align-items: center; gap: 5px;">
+        <input type="radio" name="pointScope" value="all" checked onchange="togglePhasePoints()"> 
+        <span data-i18n="allPlaces">Wszystkie miejsca</span>
+    </label>
+    <label style="display: flex; align-items: center; gap: 5px;">
+        <input type="radio" name="pointScope" value="top" onchange="togglePhasePoints()"> 
+        <span data-i18n="topOnly">Tylko TOP</span> 
+        <input type="number" id="topPlaces" value="8" min="1" max="50" style="width: 70px; margin-left: 5px; padding: 5px;">
+    </label>
+</div>
         </div>
     </div>
 
@@ -1726,21 +1753,21 @@ h1::after {
     </div>
 
     <!-- PUNKTY ZA FAZY -->
-    <div class="form-row">
-        <div class="form-col-grow">
-            <label class="styled-label" data-i18n="pointsForPhases">Punkty za fazy (opcjonalnie):</label>
-            <div style="display: flex; gap: 40px; background: white; padding: 15px; border-radius: 8px; margin-top: 5px;">
-                <div style="display: flex; align-items: center; gap: 15px;">
-                    <label style="min-width: 40px;" data-i18n="participation">Udział:</label> 
-                    <input type="number" id="points-participation" value="5" min="0" style="width: 50px; padding: 5px;">
-                </div>
-                <div style="display: flex; align-items: center; gap: 15px;" id="qfField">
-                    <label style="min-width: 90px;" data-i18n="quarterfinals">Ćwierćfinały:</label> 
-                    <input type="number" id="points-qf" value="15" min="0" style="width: 50px; padding: 5px;">
-                </div>
+<div class="form-row">
+    <div class="form-col-grow">
+        <label class="styled-label" data-i18n="pointsForPhases">Punkty za fazy (opcjonalnie):</label>
+        <div id="phasePointsDiv" style="display: flex; gap: 20px; background: white; padding: 15px; border-radius: 8px; margin-top: 5px; flex-wrap: wrap;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <label style="min-width: 40px;" data-i18n="participation">Udział:</label> 
+                <input type="number" id="points-participation" value="5" min="0" style="width: 60px; padding: 5px;">
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <label style="min-width: 70px;">1/16 finału:</label> 
+                <input type="number" id="points-r16" value="10" min="0" style="width: 60px; padding: 5px;">
             </div>
         </div>
     </div>
+</div>
 
     <!-- ŻÓŁTA RAMKA Z INFORMACJĄ -->
     <div style="margin-top: 20px; padding: 15px; background: #fff3cd; border-radius: 8px; border-left: 5px solid #ffc107;">
@@ -1778,6 +1805,13 @@ h1::after {
                     <label class="styled-label" for="numQualifiedPlayers" data-i18n="qualifiedPerGroup">Awansują z grupy</label>
                     <input type="number" id="numQualifiedPlayers" class="styled-input" style="width: 100px; text-align: center;" min="1" max="8" value="2" oninput="saveState()">
                 </div>
+				<div class="form-col-shrink">
+    <label class="styled-label" for="knockoutSize">Faza pucharowa</label>
+    <select id="knockoutSize" class="styled-input" style="width: 160px;" oninput="saveState()">
+        <option value="8">Ćwierćfinały (8)</option>
+        <option value="16">1/16 finału (16)</option>
+    </select>
+</div>
             </div>
         </div>
 
@@ -1834,6 +1868,9 @@ h1::after {
         <div class="collapsible-content">
             <button onclick="generateBracket(); saveState()" data-i18n="generateBracket">Generuj drabinkę pucharową 🏓</button>
             <div class="bracket" id="knockout-bracket"></div>
+			<div style="text-align: center; margin-top: 20px;">
+    <button onclick="showFinalClassificationModal()" style="background: #27ae60;" data-i18n="showClassification">🏆 Pokaż klasyfikację końcową</button>
+</div>
         </div>
     </div>
 
@@ -2172,7 +2209,16 @@ if (typeof Android !== 'undefined') {
 }
 
 const nextMatchMap = {
-    qf1: { nextRound: 'semifinals', nextMatchIndex: 0, nextPlayer: 1, loserToConsolation: true, loserConsolationMatch: 'csf1', loserConsolationPlayer: 1 },
+    // Mapowanie dla 1/16 finału -> ćwierćfinały
+r16_1: { nextRound: 'quarterfinals', nextMatchIndex: 0, nextPlayer: 1, loserToConsolation: true, loserConsolationMatch: 'csf1', loserConsolationPlayer: 1 },
+r16_2: { nextRound: 'quarterfinals', nextMatchIndex: 0, nextPlayer: 2, loserToConsolation: true, loserConsolationMatch: 'csf1', loserConsolationPlayer: 2 },
+r16_3: { nextRound: 'quarterfinals', nextMatchIndex: 1, nextPlayer: 1, loserToConsolation: true, loserConsolationMatch: 'csf2', loserConsolationPlayer: 1 },
+r16_4: { nextRound: 'quarterfinals', nextMatchIndex: 1, nextPlayer: 2, loserToConsolation: true, loserConsolationMatch: 'csf2', loserConsolationPlayer: 2 },
+r16_5: { nextRound: 'quarterfinals', nextMatchIndex: 2, nextPlayer: 1, loserToConsolation: true, loserConsolationMatch: 'csf3', loserConsolationPlayer: 1 },
+r16_6: { nextRound: 'quarterfinals', nextMatchIndex: 2, nextPlayer: 2, loserToConsolation: true, loserConsolationMatch: 'csf3', loserConsolationPlayer: 2 },
+r16_7: { nextRound: 'quarterfinals', nextMatchIndex: 3, nextPlayer: 1, loserToConsolation: true, loserConsolationMatch: 'csf4', loserConsolationPlayer: 1 },
+r16_8: { nextRound: 'quarterfinals', nextMatchIndex: 3, nextPlayer: 2, loserToConsolation: true, loserConsolationMatch: 'csf4', loserConsolationPlayer: 2 },
+	qf1: { nextRound: 'semifinals', nextMatchIndex: 0, nextPlayer: 1, loserToConsolation: true, loserConsolationMatch: 'csf1', loserConsolationPlayer: 1 },
     qf2: { nextRound: 'semifinals', nextMatchIndex: 0, nextPlayer: 2, loserToConsolation: true, loserConsolationMatch: 'csf1', loserConsolationPlayer: 2 },
     qf3: { nextRound: 'semifinals', nextMatchIndex: 1, nextPlayer: 1, loserToConsolation: true, loserConsolationMatch: 'csf2', loserConsolationPlayer: 1 },
     qf4: { nextRound: 'semifinals', nextMatchIndex: 1, nextPlayer: 2, loserToConsolation: true, loserConsolationMatch: 'csf2', loserConsolationPlayer: 2 },
@@ -2183,10 +2229,16 @@ const nextMatchMap = {
 };
 
 const nextConsolationMatchMap = {
-    csf1: { nextRoundWinner: 'fifth', winnerPlayerPos: 1, nextRoundLoser: 'seventh', loserPlayerPos: 1 },
-    csf2: { nextRoundWinner: 'fifth', winnerPlayerPos: 2, nextRoundLoser: 'seventh', loserPlayerPos: 2 },
-    fifth: null,
-    seventh: null
+    // Ćwierćfinały pocieszenia -> Półfinały pocieszenia
+    cqf1: { nextRound: 'semifinals', nextMatchIndex: 0, nextPlayer: 1 },
+    cqf2: { nextRound: 'semifinals', nextMatchIndex: 0, nextPlayer: 2 },
+    cqf3: { nextRound: 'semifinals', nextMatchIndex: 1, nextPlayer: 1 },
+    cqf4: { nextRound: 'semifinals', nextMatchIndex: 1, nextPlayer: 2 },
+    // Półfinały pocieszenia -> Finał pocieszenia (mecz o 9.) + mecz o 11.
+    csf1: { nextRound: 'final', nextPlayer: 1, loserMatch: 'eleventh', loserPlayer: 1 },
+    csf2: { nextRound: 'final', nextPlayer: 2, loserMatch: 'eleventh', loserPlayer: 2 },
+    final: null,
+    eleventh: null
 };
 
 function saveToAndroidFile(content, filename, fileType) {
@@ -2784,7 +2836,7 @@ function renderGroups() {
     ).value);
     console.log(`Number of qualified players per group: ${numQualified}`);
 
-    if (currentGroupPlayers.length === 0) {
+    if (!currentGroupPlayers || currentGroupPlayers.length === 0 || currentGroupPlayers.every(g => g.length === 0)) {
         console.warn("No groups to render. currentGroupPlayers is empty.");
         return;
     }
@@ -2884,14 +2936,88 @@ groupTitle.appendChild(addButton);
                             cell.innerHTML = '<span class="bold-x">X</span>';
                         } else if (playerIndex < opponentIndex) {
                             const input = document.createElement('input');
-                            input.type = 'text';
-                            input.className = 'score-input';
-                            input.value = currentGroupResults[groupIndex][playerIndex][opponentIndex] || '';
-                            input.placeholder = '0:0';
-                            input.addEventListener('change', (e) => {
-                                saveResult(groupIndex, playerIndex, opponentIndex, e.target.value, mode);
-                                saveState();
-                            });
+input.type = 'text';
+input.className = 'score-input';
+input.value = currentGroupResults[groupIndex][playerIndex][opponentIndex] || '';
+input.placeholder = '0:0';
+
+let skipEvent = false;
+
+input.addEventListener('input', function(e) {
+    if (skipEvent) return;
+    
+    let val = this.value;
+    
+    // Sprawdź czy użytkownik WPISAŁ ręcznie dwukropek
+    const oldLength = (this.oldValue || '').length;
+    const newLength = val.length;
+    const addedChar = newLength > oldLength ? val[newLength - 1] : '';
+    
+    // Jeśli użytkownik wpisał ręcznie dwukropek - ZABLOKUJ i cofnij
+    if (addedChar === ':') {
+        skipEvent = true;
+        this.value = this.oldValue || '';
+        skipEvent = false;
+        return;
+    }
+    
+    // Jeśli jest już dwukropek lub jest puste - nie formatuj
+    if (val.includes(':') || val === '') {
+        this.oldValue = val;
+        return;
+    }
+    
+    // Usuń wszystko poza cyframi
+    let numbers = val.replace(/[^0-9]/g, '');
+    if (numbers.length === 0) {
+        this.oldValue = '';
+        return;
+    }
+    
+    // Formatuj
+    let newValue = '';
+    if (numbers.length === 1) {
+        newValue = numbers + ':';
+    } else if (numbers.length === 2) {
+        newValue = numbers[0] + ':' + numbers[1];
+    } else if (numbers.length === 3) {
+        newValue = numbers[0] + numbers[1] + ':' + numbers[2];
+    } else if (numbers.length >= 4) {
+        newValue = numbers.slice(0, 2) + ':' + numbers.slice(2, 4);
+    }
+    
+    if (newValue !== this.value) {
+        skipEvent = true;
+        this.value = newValue;
+        skipEvent = false;
+        this.setSelectionRange(this.value.length, this.value.length);
+    }
+    
+    this.oldValue = this.value;
+});
+
+input.addEventListener('change', (e) => {
+    let val = e.target.value;
+    
+    // Walidacja
+    const colonCount = (val.match(/:/g) || []).length;
+    if (colonCount > 1) {
+        alert('Nieprawidłowy format! Użyj formatu "3:2"');
+        e.target.value = '';
+        saveResult(groupIndex, playerIndex, opponentIndex, '', mode);
+        saveState();
+        return;
+    }
+    
+    // Jeśli kończy się dwukropkiem, usuń go
+    if (val && val.endsWith(':')) {
+        val = val.slice(0, -1);
+        e.target.value = val;
+    }
+    
+    saveResult(groupIndex, playerIndex, opponentIndex, val, mode);
+    saveState();
+});
                             cell.appendChild(input);
                         } else {
                             const result = currentGroupResults[groupIndex][playerIndex][opponentIndex];
@@ -2944,15 +3070,33 @@ function createCell(text, className = '') {
 }
 
 function saveResult(groupIndex, playerIndex, opponentIndex, value, mode) {
-    if (value && !/^\d+:\d+$/.test(value)) {
+    // ===== NOWY KOD - automatyczna konwersja =====
+    let correctedValue = value;
+    if (value && !value.includes(':')) {
+        // Sprawdź czy to 2 cyfry (np. "32" -> "3:2")
+        if (/^\d{2}$/.test(value)) {
+            correctedValue = value[0] + ':' + value[1];
+        }
+        // Sprawdź czy to 3 cyfry (np. "113" -> "11:3")
+        else if (/^\d{3}$/.test(value)) {
+            correctedValue = value[0] + value[1] + ':' + value[2];
+        }
+        // Sprawdź czy to 4 cyfry (np. "1132" -> "11:32")
+        else if (/^\d{4}$/.test(value)) {
+            correctedValue = value[0] + value[1] + ':' + value[2] + value[3];
+        }
+    }
+    // ===== KONIEC NOWEGO KODU =====
+    
+    if (correctedValue && !/^\d+:\d+$/.test(correctedValue)) {
         alert(t('invalidScoreFormat'));
         return;
     }
 
     const currentGroupResults = mode === 'manual' ? manualGroupResults : groupResults;
-    currentGroupResults[groupIndex][playerIndex][opponentIndex] = value;
-    if (value) {
-        const [a, b] = value.split(':').map(Number);
+    currentGroupResults[groupIndex][playerIndex][opponentIndex] = correctedValue;
+    if (correctedValue) {
+        const [a, b] = correctedValue.split(':').map(Number);
         currentGroupResults[groupIndex][opponentIndex][playerIndex] = `${b}:${a}`;
     } else {
         currentGroupResults[groupIndex][opponentIndex][playerIndex] = '';
@@ -2966,6 +3110,7 @@ function generateBracket() {
     
     bracketContainer.innerHTML = '';
     const mode = document.getElementById('mode').value;
+    const knockoutSize = parseInt(document.getElementById('knockoutSize')?.value || 8);
 
     if (mode === 'manual') {
         manualPlayerColors = {};
@@ -3018,39 +3163,39 @@ function generateBracket() {
         return;
     }
 
-    while (allQualifiedPlayers.length < 8) {
+    const targetSize = knockoutSize;
+    
+    while (allQualifiedPlayers.length < targetSize) {
         allQualifiedPlayers.push("WOLNY LOS");
     }
-    if (allQualifiedPlayers.length > 8) {
-        allQualifiedPlayers = allQualifiedPlayers.slice(0, 8);
+    if (allQualifiedPlayers.length > targetSize) {
+        allQualifiedPlayers = allQualifiedPlayers.slice(0, targetSize);
         alert(t('tooManyPlayers'));
     }
 
-    const seededPlayers = new Array(8);
-    seededPlayers[0] = allQualifiedPlayers[0];
-    seededPlayers[1] = allQualifiedPlayers[7];
-    seededPlayers[2] = allQualifiedPlayers[4];
-    seededPlayers[3] = allQualifiedPlayers[3];
-    seededPlayers[4] = allQualifiedPlayers[5];
-    seededPlayers[5] = allQualifiedPlayers[2];
-    seededPlayers[6] = allQualifiedPlayers[6];
-    seededPlayers[7] = allQualifiedPlayers[1];
+    // Rozstawienie zawodników (system 1-16, 2-15, 3-14, itd.)
+    const seededPlayers = new Array(targetSize);
+    for (let i = 0; i < targetSize / 2; i++) {
+        seededPlayers[i * 2] = allQualifiedPlayers[i];
+        seededPlayers[i * 2 + 1] = allQualifiedPlayers[targetSize - 1 - i];
+    }
 
-    const bracketParticipants = [
-        seededPlayers[0], seededPlayers[1],
-        seededPlayers[2], seededPlayers[3],
-        seededPlayers[4], seededPlayers[5],
-        seededPlayers[6], seededPlayers[7]
-    ];
-
-    const actualParticipants = bracketParticipants.filter(p => p !== "WOLNY LOS");
+    // ===== 16 KOLORÓW DLA 16 ZAWODNIKÓW =====
     const colorClasses = [
         'player-color-1', 'player-color-2', 'player-color-3', 'player-color-4',
-        'player-color-5', 'player-color-6', 'player-color-7', 'player-color-8'
+        'player-color-5', 'player-color-6', 'player-color-7', 'player-color-8',
+        'player-color-9', 'player-color-10', 'player-color-11', 'player-color-12',
+        'player-color-13', 'player-color-14', 'player-color-15', 'player-color-16'
     ];
-
-    actualParticipants.forEach((player, index) => {
-        currentPlayerColors[player] = colorClasses[index % colorClasses.length];
+    
+    // Pobierz wszystkich unikalnych zawodników (bez "WOLNY LOS")
+    const allUniquePlayers = [...new Set(seededPlayers.filter(p => p !== "WOLNY LOS"))];
+    
+    // Przypisz kolory
+    allUniquePlayers.forEach((player, index) => {
+        if (!currentPlayerColors[player]) {
+            currentPlayerColors[player] = colorClasses[index % colorClasses.length];
+        }
     });
 
     const currentKnockoutMatches = mode === 'manual' ? manualKnockoutMatches : autoKnockoutMatches;
@@ -3060,12 +3205,35 @@ function generateBracket() {
     currentConsolationMatches.fifthPlace = null;
     currentConsolationMatches.seventhPlace = null;
 
-    currentKnockoutMatches.quarterfinals = [
-        { id: 'qf1', player1: bracketParticipants[0], player2: bracketParticipants[1], score1: '', score2: '', winner: null, loser: null },
-        { id: 'qf2', player1: bracketParticipants[2], player2: bracketParticipants[3], score1: '', score2: '', winner: null, loser: null },
-        { id: 'qf3', player1: bracketParticipants[4], player2: bracketParticipants[5], score1: '', score2: '', winner: null, loser: null },
-        { id: 'qf4', player1: bracketParticipants[6], player2: bracketParticipants[7], score1: '', score2: '', winner: null, loser: null }
-    ];
+    if (targetSize === 16) {
+        // Tworzenie meczów 1/16 finału
+        currentKnockoutMatches.round16 = [];
+        for (let i = 0; i < 8; i++) {
+            currentKnockoutMatches.round16.push({
+                id: `r16_${i+1}`,
+                player1: seededPlayers[i*2],
+                player2: seededPlayers[i*2+1],
+                score1: '', score2: '', winner: null, loser: null
+            });
+        }
+        // Ćwierćfinały jako puste (będą wypełniane po 1/16)
+        currentKnockoutMatches.quarterfinals = [
+            { id: 'qf1', player1: null, player2: null, score1: '', score2: '', winner: null, loser: null },
+            { id: 'qf2', player1: null, player2: null, score1: '', score2: '', winner: null, loser: null },
+            { id: 'qf3', player1: null, player2: null, score1: '', score2: '', winner: null, loser: null },
+            { id: 'qf4', player1: null, player2: null, score1: '', score2: '', winner: null, loser: null }
+        ];
+    } else {
+        // Standardowe ćwierćfinały (8 zawodników)
+        currentKnockoutMatches.quarterfinals = [
+            { id: 'qf1', player1: seededPlayers[0], player2: seededPlayers[1], score1: '', score2: '', winner: null, loser: null },
+            { id: 'qf2', player1: seededPlayers[2], player2: seededPlayers[3], score1: '', score2: '', winner: null, loser: null },
+            { id: 'qf3', player1: seededPlayers[4], player2: seededPlayers[5], score1: '', score2: '', winner: null, loser: null },
+            { id: 'qf4', player1: seededPlayers[6], player2: seededPlayers[7], score1: '', score2: '', winner: null, loser: null }
+        ];
+        currentKnockoutMatches.round16 = [];
+    }
+    
     currentKnockoutMatches.semifinals = [
         { id: 'sf1', player1: null, player2: null, score1: '', score2: '', winner: null, loser: null },
         { id: 'sf2', player1: null, player2: null, score1: '', score2: '', winner: null, loser: null }
@@ -3085,9 +3253,24 @@ function displayBracket() {
 
     const mode = document.getElementById('mode').value;
     const currentKnockoutMatches = mode === 'manual' ? manualKnockoutMatches : autoKnockoutMatches;
+    const knockoutSize = parseInt(document.getElementById('knockoutSize')?.value || 8);
 
-    if (!currentKnockoutMatches.quarterfinals || currentKnockoutMatches.quarterfinals.length === 0 ||
-        !currentKnockoutMatches.quarterfinals.some(m => m.player1)) {
+    // Sprawdź czy są mecze do wyświetlenia
+    const hasRound16 = currentKnockoutMatches.round16 && currentKnockoutMatches.round16.length > 0 && 
+                       currentKnockoutMatches.round16.some(m => m.player1);
+    
+    // DLA 1/16: ćwierćfinały wyświetlamy ZAWSZE (nawet puste)
+    // DLA 8: ćwierćfinały wyświetlamy tylko jeśli mają player1
+    let hasQuarterfinals = false;
+    if (knockoutSize === 16) {
+        hasQuarterfinals = currentKnockoutMatches.quarterfinals && currentKnockoutMatches.quarterfinals.length > 0;
+    } else {
+        hasQuarterfinals = currentKnockoutMatches.quarterfinals && 
+                           currentKnockoutMatches.quarterfinals.length > 0 && 
+                           currentKnockoutMatches.quarterfinals.some(m => m.player1);
+    }
+    
+    if (!hasRound16 && !hasQuarterfinals) {
         bracketContainer.innerHTML = '';
         return;
     }
@@ -3096,59 +3279,120 @@ function displayBracket() {
     const bracketWrapper = document.createElement('div');
     bracketWrapper.className = 'bracket';
 
-    const quartersColumn = document.createElement('div');
-    quartersColumn.className = 'bracket-column';
-    const quartersTitle = document.createElement('h3');
-    quartersTitle.className = 'round-title';
-    quartersTitle.textContent = t('quarterfinals');
-    quartersColumn.appendChild(quartersTitle);
-    currentKnockoutMatches.quarterfinals.forEach(match => {
-        quartersColumn.appendChild(createMatchElement(match, 'main'));
-    });
-    bracketWrapper.appendChild(quartersColumn);
-
-    const semisColumn = document.createElement('div');
-    semisColumn.className = 'bracket-column';
-    const semisTitle = document.createElement('h3');
-    semisTitle.className = 'round-title';
-    semisTitle.textContent = t('semifinals');
-    semisColumn.appendChild(semisTitle);
-    currentKnockoutMatches.semifinals.forEach(match => {
-        semisColumn.appendChild(createMatchElement(match, 'main'));
-    });
-    
-    const thirdPlaceTitle = document.createElement('h3');
-    thirdPlaceTitle.className = 'round-title';
-    thirdPlaceTitle.textContent = t('thirdPlace');
-    semisColumn.appendChild(thirdPlaceTitle);
-    if (currentKnockoutMatches.thirdPlace) {
-        semisColumn.appendChild(createMatchElement(currentKnockoutMatches.thirdPlace, 'main'));
+    if (hasRound16) {
+        // ===== TRYB 1/16 (16) =====
+        // Kolumna 1: 1/16 finału
+        const round16Column = document.createElement('div');
+        round16Column.className = 'bracket-column';
+        const round16Title = document.createElement('h3');
+        round16Title.className = 'round-title';
+        round16Title.textContent = '1/16 finału';
+        round16Column.appendChild(round16Title);
+        currentKnockoutMatches.round16.forEach(match => {
+            round16Column.appendChild(createMatchElement(match, 'main'));
+        });
+        bracketWrapper.appendChild(round16Column);
+        
+        // Kolumna 2: Ćwierćfinały (ZAWSZE wyświetlamy, nawet puste)
+        const quartersColumn = document.createElement('div');
+        quartersColumn.className = 'bracket-column';
+        const quartersTitle = document.createElement('h3');
+        quartersTitle.className = 'round-title';
+        quartersTitle.textContent = t('quarterfinals');
+        quartersColumn.appendChild(quartersTitle);
+        
+        // Jeśli są ćwierćfinały (nawet puste) – wyświetlamy je
+        if (currentKnockoutMatches.quarterfinals && currentKnockoutMatches.quarterfinals.length > 0) {
+            currentKnockoutMatches.quarterfinals.forEach(match => {
+                quartersColumn.appendChild(createMatchElement(match, 'main'));
+            });
+        } else {
+            // Puste miejsca (4 mecze)
+            for (let i = 0; i < 4; i++) {
+                const emptyMatch = { id: `empty_qf_${i}`, player1: null, player2: null, score1: '', score2: '' };
+                quartersColumn.appendChild(createMatchElement(emptyMatch, 'main'));
+            }
+        }
+        bracketWrapper.appendChild(quartersColumn);
+        
+        // Kolumna 3: Półfinały + 3. miejsce + Finał
+        const finalColumn = document.createElement('div');
+        finalColumn.className = 'bracket-column';
+        
+        const semisTitle = document.createElement('h3');
+        semisTitle.className = 'round-title';
+        semisTitle.textContent = t('semifinals');
+        finalColumn.appendChild(semisTitle);
+        currentKnockoutMatches.semifinals.forEach(match => {
+            finalColumn.appendChild(createMatchElement(match, 'main'));
+        });
+        
+        const thirdPlaceTitle = document.createElement('h3');
+        thirdPlaceTitle.className = 'round-title';
+        thirdPlaceTitle.textContent = t('thirdPlace');
+        finalColumn.appendChild(thirdPlaceTitle);
+        if (currentKnockoutMatches.thirdPlace) {
+            finalColumn.appendChild(createMatchElement(currentKnockoutMatches.thirdPlace, 'main'));
+        }
+        
+        const finalTitle = document.createElement('h3');
+        finalTitle.className = 'round-title';
+        finalTitle.textContent = t('final');
+        finalColumn.appendChild(finalTitle);
+        if (currentKnockoutMatches.final) {
+            finalColumn.appendChild(createMatchElement(currentKnockoutMatches.final, 'main'));
+        }
+        
+        bracketWrapper.appendChild(finalColumn);
+        
+    } else {
+        // ===== TRYB ĆWIERĆFINAŁY (8) ===== (bez zmian)
+        const quartersColumn = document.createElement('div');
+        quartersColumn.className = 'bracket-column';
+        const quartersTitle = document.createElement('h3');
+        quartersTitle.className = 'round-title';
+        quartersTitle.textContent = t('quarterfinals');
+        quartersColumn.appendChild(quartersTitle);
+        if (hasQuarterfinals) {
+            currentKnockoutMatches.quarterfinals.forEach(match => {
+                quartersColumn.appendChild(createMatchElement(match, 'main'));
+            });
+        }
+        bracketWrapper.appendChild(quartersColumn);
+        
+        const semisColumn = document.createElement('div');
+        semisColumn.className = 'bracket-column';
+        const semisTitle = document.createElement('h3');
+        semisTitle.className = 'round-title';
+        semisTitle.textContent = t('semifinals');
+        semisColumn.appendChild(semisTitle);
+        currentKnockoutMatches.semifinals.forEach(match => {
+            semisColumn.appendChild(createMatchElement(match, 'main'));
+        });
+        bracketWrapper.appendChild(semisColumn);
+        
+        const finalColumn = document.createElement('div');
+        finalColumn.className = 'bracket-column';
+        
+        const thirdPlaceTitle = document.createElement('h3');
+        thirdPlaceTitle.className = 'round-title';
+        thirdPlaceTitle.textContent = t('thirdPlace');
+        finalColumn.appendChild(thirdPlaceTitle);
+        if (currentKnockoutMatches.thirdPlace) {
+            finalColumn.appendChild(createMatchElement(currentKnockoutMatches.thirdPlace, 'main'));
+        }
+        
+        const finalTitle = document.createElement('h3');
+        finalTitle.className = 'round-title';
+        finalTitle.textContent = t('final');
+        finalColumn.appendChild(finalTitle);
+        if (currentKnockoutMatches.final) {
+            finalColumn.appendChild(createMatchElement(currentKnockoutMatches.final, 'main'));
+        }
+        
+        bracketWrapper.appendChild(finalColumn);
     }
-    bracketWrapper.appendChild(semisColumn);
 
-    const finalColumn = document.createElement('div');
-    finalColumn.className = 'bracket-column';
-    const finalTitle = document.createElement('h3');
-    finalTitle.className = 'round-title';
-    finalTitle.textContent = t('final');
-    finalColumn.appendChild(finalTitle);
-    if (currentKnockoutMatches.final) {
-        finalColumn.appendChild(createMatchElement(currentKnockoutMatches.final, 'main'));
-    }
-
-    const classificationTitle = document.createElement('h3');
-    classificationTitle.className = 'round-title';
-    classificationTitle.textContent = t('finalClassification');
-    finalColumn.appendChild(classificationTitle);
-
-    for (let i = 1; i <= 8; i++) {
-        const box = document.createElement('div');
-        box.className = 'classification-box';
-        box.id = `classification-place-${i}`;
-        box.innerHTML = `<span class="classification-place">${i}.</span><span class="player-name">?</span>`;
-        finalColumn.appendChild(box);
-    }
-    bracketWrapper.appendChild(finalColumn);
     bracketContainer.appendChild(bracketWrapper);
 }
 
@@ -3169,6 +3413,22 @@ function createMatchElement(match, type = 'main') {
     matchDiv.dataset.id = match.id;
     matchDiv.dataset.type = type;
 
+    // Funkcja do zapisywania wyniku (sprawdza czy oba pola są wypełnione)
+    function trySaveResult() {
+        const score1 = scoreInput1.value.trim();
+        const score2 = scoreInput2.value.trim();
+        
+        // Zapisz tylko jeśli oba pola mają wartości
+        if (score1 !== '' && score2 !== '') {
+            if (type === 'main') {
+                updateMatchResult(match, null);
+            } else {
+                updateConsolationMatchResult(match, null);
+            }
+            saveState();
+        }
+    }
+
     const player1Row = document.createElement('div');
     player1Row.className = 'bracket-player';
     if (match.player1 && currentPlayerColors[match.player1]) {
@@ -3185,13 +3445,25 @@ function createMatchElement(match, type = 'main') {
     scoreInput1.placeholder = '0';
     scoreInput1.dataset.player = '1';
     scoreInput1.value = match.score1;
-    scoreInput1.addEventListener('blur', function() {
-        if (type === 'main') {
-            updateMatchResult(match, this);
-        } else {
-            updateConsolationMatchResult(match, this);
+    
+    // Ograniczenie do 2 cyfr
+    scoreInput1.addEventListener('input', function(e) {
+        let val = this.value.replace(/[^0-9]/g, '');
+        if (val.length === 1) {
+            this.value = val;
+        } else if (val.length >= 2) {
+            this.value = val.slice(0, 2);
         }
-        saveState();
+        // Po każdej zmianie sprawdź czy można zapisać
+        trySaveResult();
+    });
+    
+    // Enter też zatwierdza (dla wygody)
+    scoreInput1.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            this.blur();
+        }
     });
 
     player1Row.appendChild(player1Name);
@@ -3213,13 +3485,25 @@ function createMatchElement(match, type = 'main') {
     scoreInput2.placeholder = '0';
     scoreInput2.dataset.player = '2';
     scoreInput2.value = match.score2;
-    scoreInput2.addEventListener('blur', function() {
-        if (type === 'main') {
-            updateMatchResult(match, this);
-        } else {
-            updateConsolationMatchResult(match, this);
+    
+    // Ograniczenie do 2 cyfr
+    scoreInput2.addEventListener('input', function(e) {
+        let val = this.value.replace(/[^0-9]/g, '');
+        if (val.length === 1) {
+            this.value = val;
+        } else if (val.length >= 2) {
+            this.value = val.slice(0, 2);
         }
-        saveState();
+        // Po każdej zmianie sprawdź czy można zapisać
+        trySaveResult();
+    });
+    
+    // Enter też zatwierdza
+    scoreInput2.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            this.blur();
+        }
     });
 
     player2Row.appendChild(player2Name);
@@ -3245,6 +3529,9 @@ function updateMatchResult(match, inputElement) {
     const score1 = scoreInput1.value.trim();
     const score2 = scoreInput2.value.trim();
 
+    // Jeśli wyniki się nie zmieniły, nie rób nic
+    if (match.score1 === score1 && match.score2 === score2) return;
+    
     match.score1 = score1;
     match.score2 = score2;
     console.log(`Match ${match.id} scores: ${score1}:${score2}`);
@@ -3271,13 +3558,16 @@ function updateNextRounds(match) {
 
     const mode = document.getElementById('mode').value;
     const currentKnockoutMatches = mode === 'manual' ? manualKnockoutMatches : autoKnockoutMatches;
-    const currentConsolationMatches = mode === 'manual' ? manualConsolationMatches : autoConsolationMatches;
     const currentPlayerColors = mode === 'manual' ? manualPlayerColors : autoPlayerColors;
 
     let nextMatchForWinner;
     let nextMatchForLoser;
 
-    if (match.id.startsWith('qf')) {
+    // ===== OBSŁUGA DLA 1/16 (r16_) =====
+    if (match.id.startsWith('r16')) {
+        // Zwycięzca idzie do ćwierćfinału
+        nextMatchForWinner = currentKnockoutMatches[nextMatchInfo.nextRound][nextMatchInfo.nextMatchIndex];
+    } else if (match.id.startsWith('qf')) {
         nextMatchForWinner = currentKnockoutMatches[nextMatchInfo.nextRound][nextMatchInfo.nextMatchIndex];
     } else if (match.id.startsWith('sf')) {
         nextMatchForWinner = currentKnockoutMatches.final;
@@ -3302,6 +3592,8 @@ function updateNextRounds(match) {
                 playerRow.className = 'bracket-player ' + (currentPlayerColors[match.winner] || '');
             }
         }
+        
+        // Automatyczne rozstrzygnięcie jeśli trafił na WOLNY LOS
         if (nextMatchForWinner.player1 && nextMatchForWinner.player2 && (nextMatchForWinner.player1 === "WOLNY LOS" || nextMatchForWinner.player2 === "WOLNY LOS")) {
             const isWinnerPlayer1Bye = nextMatchForWinner.player1 === "WOLNY LOS";
             const winnerResult = isWinnerPlayer1Bye ? nextMatchForWinner.player2 : nextMatchForWinner.player1;
@@ -3324,6 +3616,7 @@ function updateNextRounds(match) {
         }
     }
 
+    // Obsługa przegranych (mecz o 3. miejsce)
     if (nextMatchForLoser && match.loser) {
         if (nextMatchInfo.loserPlayerPos === 1) {
             nextMatchForLoser.player1 = match.loser;
@@ -3361,50 +3654,7 @@ function updateNextRounds(match) {
         }
     }
 
-    if (nextMatchInfo.loserToConsolation && match.loser) {
-        const consolationMatchInfo = nextMatchMap[match.id];
-        if (consolationMatchInfo.loserConsolationMatch) {
-            const targetConsolationMatch = currentConsolationMatches.semifinals.find(m => m.id === consolationMatchInfo.loserConsolationMatch);
-            if (targetConsolationMatch) {
-                if (consolationMatchInfo.loserConsolationPlayer === 1) {
-                    targetConsolationMatch.player1 = match.loser;
-                } else {
-                    targetConsolationMatch.player2 = match.loser;
-                }
-                const consMatchDiv = document.querySelector(`.bracket-match[data-id="${targetConsolationMatch.id}"][data-type="consolation"]`);
-                if (consMatchDiv) {
-                    const consPlayerRow = consMatchDiv.querySelector(
-                        consolationMatchInfo.loserConsolationPlayer === 1
-                            ? '.bracket-player:first-child'
-                            : '.bracket-player:last-child'
-                    );
-                    if (consPlayerRow) {
-                        consPlayerRow.querySelector('.player-name').textContent = match.loser;
-                        consPlayerRow.className = 'bracket-player ' + (currentPlayerColors[match.loser] || '');
-                    }
-                }
-                if (targetConsolationMatch.player1 && targetConsolationMatch.player2 && (targetConsolationMatch.player1 === "WOLNY LOS" || targetConsolationMatch.player2 === "WOLNY LOS")) {
-                    const isConsolationPlayer1Bye = targetConsolationMatch.player1 === "WOLNY LOS";
-                    const consWinner = isConsolationPlayer1Bye ? targetConsolationMatch.player2 : targetConsolationMatch.player1;
-                    targetConsolationMatch.score1 = isConsolationPlayer1Bye ? '0' : '3';
-                    targetConsolationMatch.score2 = isConsolationPlayer1Bye ? '3' : '0';
-                    targetConsolationMatch.winner = consWinner;
-                    targetConsolationMatch.loser = isConsolationPlayer1Bye ? targetConsolationMatch.player1 : targetConsolationMatch.player2;
-
-                    if (consMatchDiv) {
-                        const consInput1 = consMatchDiv.querySelector('.score-input[data-player="1"]');
-                        const consInput2 = consMatchDiv.querySelector('.score-input[data-player="2"]');
-                        if (consInput1) consInput1.value = targetConsolationMatch.score1;
-                        if (consInput2) consInput2.value = targetConsolationMatch.score2;
-                        if (consInput1) consInput1.disabled = true;
-                        if (consInput2) consInput2.disabled = true;
-                    }
-                    updateNextConsolationRounds(targetConsolationMatch);
-                }
-            }
-        }
-    }
-    saveState();
+      saveState();
 }
 
 function updateClassification() {
@@ -3416,29 +3666,9 @@ function updateClassification() {
     const final = currentKnockoutMatches.final;
     const third = currentKnockoutMatches.thirdPlace;
 
-    for (let i = 1; i <= 8; i++) {
-        setClassificationBox(i, null);
-    }
-
-    let firstPlace = null;
-    let secondPlace = null;
-    let thirdPlace = null;
-    let fourthPlace = null;
-
-    if (final && final.winner) {
-        firstPlace = final.winner;
-        secondPlace = final.loser;
-    }
-    if (third && third.winner) {
-        thirdPlace = third.winner;
-        fourthPlace = third.loser;
-    }
-
-    setClassificationBox(1, firstPlace);
-    setClassificationBox(2, secondPlace);
-    setClassificationBox(3, thirdPlace);
-    setClassificationBox(4, fourthPlace);
-
+    // NIE TWORZYMY boxów w drabince - tylko aktualizujemy dane dla modalu
+    // Klasyfikacja będzie wyświetlana tylko przez przycisk "Pokaż klasyfikację końcową"
+    
     const consolationMode = document.getElementById('consolationMode').value;
     updateConsolationClassification(consolationMode === 'yes');
 }
@@ -3447,17 +3677,8 @@ function setClassificationBox(place, player) {
     let box = document.getElementById(`classification-place-${place}`);
 
     if (!box) {
-        const mainFinalColumn = document.querySelector('#knockout-bracket .bracket-column:last-child');
-        if (mainFinalColumn) {
-            const newBox = document.createElement('div');
-            newBox.className = 'classification-box';
-            newBox.id = `classification-place-${place}`;
-            newBox.innerHTML = `<span class="classification-place">${place}.</span><span class="player-name">?</span>`;
-            mainFinalColumn.appendChild(newBox);
-            box = newBox;
-        } else {
-            return;
-        }
+        // NIE TWORZYMY nowych boxów - klasyfikacja tylko w modalu
+        return;
     }
 
     const span = box.querySelector('.player-name');
@@ -3558,48 +3779,84 @@ function generateConsolationBracket() {
     }
 
     const mode = document.getElementById('mode').value;
+    const knockoutSize = parseInt(document.getElementById('knockoutSize')?.value || 8);
     const currentKnockoutMatches = mode === 'manual' ? manualKnockoutMatches : autoKnockoutMatches;
     const currentConsolationMatches = mode === 'manual' ? manualConsolationMatches : autoConsolationMatches;
     const currentPlayerColors = mode === 'manual' ? manualPlayerColors : autoPlayerColors;
 
-    const qfLosers = [];
-    currentKnockoutMatches.quarterfinals.forEach(match => {
-        if (match.loser && match.loser !== "WOLNY LOS") {
-            qfLosers.push(match.loser);
-        }
-    });
+    // ===== WYCZYŚĆ ISTNIEJĄCE DANE TURNIEJU POCIESZENIA =====
+    currentConsolationMatches.quarterfinals = [];
+    currentConsolationMatches.semifinals = [];
+    currentConsolationMatches.final = null;
+    currentConsolationMatches.eleventh = null;
+    // ========================================================
 
-    if (qfLosers.length < 4) {
+    // Pobierz przegranych z głównego turnieju
+    let losers = [];
+    
+    if (knockoutSize === 16 && currentKnockoutMatches.round16 && currentKnockoutMatches.round16.length > 0) {
+        // Dla 16: bierzemy przegranych z 1/16 finału (8 zawodników)
+        losers = currentKnockoutMatches.round16
+            .filter(match => match.loser && match.loser !== "WOLNY LOS")
+            .map(match => match.loser);
+    } else if (currentKnockoutMatches.quarterfinals) {
+        // Dla 8: bierzemy przegranych z ćwierćfinałów (4 zawodników)
+        losers = currentKnockoutMatches.quarterfinals
+            .filter(match => match.loser && match.loser !== "WOLNY LOS")
+            .map(match => match.loser);
+    }
+
+    if (losers.length < 4) {
         alert(t('notEnoughLosers'));
         return;
     }
 
-    const consolationParticipants = qfLosers.slice(0, 4);
-    const allPlayers = Object.keys(currentPlayerColors);
-    
-    if (allPlayers.length < 8) {
-        const availableColors = [
-            'player-color-1', 'player-color-2', 'player-color-3', 'player-color-4',
-            'player-color-5', 'player-color-6', 'player-color-7', 'player-color-8'
-        ];
-        let colorIndex = 0;
-        consolationParticipants.forEach(player => {
-            if (!currentPlayerColors[player]) {
-                while (Object.values(currentPlayerColors).includes(availableColors[colorIndex])) {
-                    colorIndex = (colorIndex + 1) % availableColors.length;
-                }
-                currentPlayerColors[player] = availableColors[colorIndex];
-                colorIndex = (colorIndex + 1) % availableColors.length;
-            }
-        });
-    }
-
-    currentConsolationMatches.semifinals = [
-        { id: 'csf1', player1: consolationParticipants[0], player2: consolationParticipants[1], score1: '', score2: '', winner: null, loser: null },
-        { id: 'csf2', player1: consolationParticipants[2], player2: consolationParticipants[3], score1: '', score2: '', winner: null, loser: null }
+    // Kolory dla zawodników
+    const colorClasses = [
+        'player-color-1', 'player-color-2', 'player-color-3', 'player-color-4',
+        'player-color-5', 'player-color-6', 'player-color-7', 'player-color-8',
+        'player-color-9', 'player-color-10', 'player-color-11', 'player-color-12',
+        'player-color-13', 'player-color-14', 'player-color-15', 'player-color-16'
     ];
-    currentConsolationMatches.fifthPlace = { id: 'fifth', player1: null, player2: null, score1: '', score2: '', winner: null, loser: null };
-    currentConsolationMatches.seventhPlace = { id: 'seventh', player1: null, player2: null, score1: '', score2: '', winner: null, loser: null };
+    const allPlayersInConsolation = [...new Set(losers.filter(p => p !== "WOLNY LOS"))];
+    allPlayersInConsolation.forEach((player, index) => {
+        if (!currentPlayerColors[player]) {
+            currentPlayerColors[player] = colorClasses[index % colorClasses.length];
+        }
+    });
+
+    if (knockoutSize === 16 && losers.length >= 8) {
+        // ===== 16 ZAWODNIKÓW: Ćwierćfinały pocieszenia (8→4) =====
+        // Mecze ćwierćfinałów pocieszenia
+        currentConsolationMatches.quarterfinals = [
+            { id: 'cqf1', player1: losers[0], player2: losers[1], score1: '', score2: '', winner: null, loser: null },
+            { id: 'cqf2', player1: losers[2], player2: losers[3], score1: '', score2: '', winner: null, loser: null },
+            { id: 'cqf3', player1: losers[4], player2: losers[5], score1: '', score2: '', winner: null, loser: null },
+            { id: 'cqf4', player1: losers[6], player2: losers[7], score1: '', score2: '', winner: null, loser: null }
+        ];
+        
+        // Półfinały pocieszenia (puste)
+        currentConsolationMatches.semifinals = [
+            { id: 'csf1', player1: null, player2: null, score1: '', score2: '', winner: null, loser: null },
+            { id: 'csf2', player1: null, player2: null, score1: '', score2: '', winner: null, loser: null }
+        ];
+        
+        // Finał pocieszenia (mecz o 9. miejsce) + mecz o 11. miejsce
+        currentConsolationMatches.final = { id: 'final', player1: null, player2: null, score1: '', score2: '', winner: null, loser: null };
+        currentConsolationMatches.eleventh = { id: 'eleventh', player1: null, player2: null, score1: '', score2: '', winner: null, loser: null };
+        
+    } else {
+        // ===== 8 ZAWODNIKÓW: Półfinały pocieszenia (4→2) =====
+        const consolationParticipants = losers.slice(0, 4);
+        
+        currentConsolationMatches.quarterfinals = [];
+        currentConsolationMatches.semifinals = [
+            { id: 'csf1', player1: consolationParticipants[0], player2: consolationParticipants[1], score1: '', score2: '', winner: null, loser: null },
+            { id: 'csf2', player1: consolationParticipants[2], player2: consolationParticipants[3], score1: '', score2: '', winner: null, loser: null }
+        ];
+        currentConsolationMatches.final = { id: 'final', player1: null, player2: null, score1: '', score2: '', winner: null, loser: null };
+        currentConsolationMatches.eleventh = { id: 'eleventh', player1: null, player2: null, score1: '', score2: '', winner: null, loser: null };
+    }
 
     displayConsolationBracket();
     updateConsolationClassification(true);
@@ -3611,9 +3868,16 @@ function displayConsolationBracket() {
 
     const mode = document.getElementById('mode').value;
     const currentConsolationMatches = mode === 'manual' ? manualConsolationMatches : autoConsolationMatches;
+    const knockoutSize = parseInt(document.getElementById('knockoutSize')?.value || 8);
 
-    if (!currentConsolationMatches.semifinals || currentConsolationMatches.semifinals.length === 0 ||
-        !currentConsolationMatches.semifinals.some(m => m.player1)) {
+    const hasQuarterfinals = currentConsolationMatches.quarterfinals && 
+                             currentConsolationMatches.quarterfinals.length > 0 && 
+                             currentConsolationMatches.quarterfinals.some(m => m.player1);
+    const hasSemifinals = currentConsolationMatches.semifinals && 
+                          currentConsolationMatches.semifinals.length > 0 && 
+                          currentConsolationMatches.semifinals.some(m => m.player1);
+
+    if (!hasQuarterfinals && !hasSemifinals) {
         bracketContainer.innerHTML = '';
         return;
     }
@@ -3622,51 +3886,93 @@ function displayConsolationBracket() {
     const bracketWrapper = document.createElement('div');
     bracketWrapper.className = 'bracket';
 
-    const semisColumn = document.createElement('div');
-    semisColumn.className = 'bracket-column';
-    const semisTitle = document.createElement('h3');
-    semisTitle.className = 'round-title';
-    semisTitle.textContent = t('consolationSemifinals');
-    semisColumn.appendChild(semisTitle);
-    currentConsolationMatches.semifinals.forEach(match => {
-        semisColumn.appendChild(createMatchElement(match, 'consolation'));
-    });
-    bracketWrapper.appendChild(semisColumn);
-
-    const matchesColumn = document.createElement('div');
-    matchesColumn.className = 'bracket-column';
-    const fifthPlaceTitle = document.createElement('h3');
-    fifthPlaceTitle.className = 'round-title';
-    fifthPlaceTitle.textContent = t('fifthPlace');
-    matchesColumn.appendChild(fifthPlaceTitle);
-    if (currentConsolationMatches.fifthPlace) {
-        matchesColumn.appendChild(createMatchElement(currentConsolationMatches.fifthPlace, 'consolation'));
+    if (knockoutSize === 16 && hasQuarterfinals) {
+        // ===== 16 ZAWODNIKÓW: 4 kolumny =====
+        // Kolumna 1: Ćwierćfinały pocieszenia
+        const qfColumn = document.createElement('div');
+        qfColumn.className = 'bracket-column';
+        const qfTitle = document.createElement('h3');
+        qfTitle.className = 'round-title';
+        qfTitle.textContent = 'Ćwierćfinały pocieszenia';
+        qfColumn.appendChild(qfTitle);
+        currentConsolationMatches.quarterfinals.forEach(match => {
+            qfColumn.appendChild(createMatchElement(match, 'consolation'));
+        });
+        bracketWrapper.appendChild(qfColumn);
+        
+        // Kolumna 2: Półfinały pocieszenia
+        const semisColumn = document.createElement('div');
+        semisColumn.className = 'bracket-column';
+        const semisTitle = document.createElement('h3');
+        semisTitle.className = 'round-title';
+        semisTitle.textContent = 'Półfinały pocieszenia';
+        semisColumn.appendChild(semisTitle);
+        currentConsolationMatches.semifinals.forEach(match => {
+            semisColumn.appendChild(createMatchElement(match, 'consolation'));
+        });
+        bracketWrapper.appendChild(semisColumn);
+        
+        // Kolumna 3: Mecz o 11. miejsce (półfinał) + Mecz o 9. miejsce (finał)
+        const finalColumn = document.createElement('div');
+        finalColumn.className = 'bracket-column';
+        
+        const eleventhTitle = document.createElement('h3');
+        eleventhTitle.className = 'round-title';
+        eleventhTitle.textContent = 'Mecz o 11. miejsce';
+        finalColumn.appendChild(eleventhTitle);
+        if (currentConsolationMatches.eleventh) {
+            finalColumn.appendChild(createMatchElement(currentConsolationMatches.eleventh, 'consolation'));
+        }
+        
+        const finalTitle = document.createElement('h3');
+        finalTitle.className = 'round-title';
+        finalTitle.textContent = 'Mecz o 9. miejsce';
+        finalColumn.appendChild(finalTitle);
+        if (currentConsolationMatches.final) {
+            finalColumn.appendChild(createMatchElement(currentConsolationMatches.final, 'consolation'));
+        }
+        
+        bracketWrapper.appendChild(finalColumn);
+        
+    } else if (hasSemifinals) {
+        // ===== 8 ZAWODNIKÓW: 3 kolumny =====
+        // Kolumna 1: Półfinały pocieszenia
+        const semisColumn = document.createElement('div');
+        semisColumn.className = 'bracket-column';
+        const semisTitle = document.createElement('h3');
+        semisTitle.className = 'round-title';
+        semisTitle.textContent = t('consolationSemifinals');
+        semisColumn.appendChild(semisTitle);
+        currentConsolationMatches.semifinals.forEach(match => {
+            semisColumn.appendChild(createMatchElement(match, 'consolation'));
+        });
+        bracketWrapper.appendChild(semisColumn);
+        
+        // Kolumna 2: Mecz o 7. miejsce (ELEVENTH)
+        const seventhColumn = document.createElement('div');
+        seventhColumn.className = 'bracket-column';
+        const seventhTitle = document.createElement('h3');
+        seventhTitle.className = 'round-title';
+        seventhTitle.textContent = 'Mecz o 7. miejsce';
+        seventhColumn.appendChild(seventhTitle);
+        if (currentConsolationMatches.eleventh) {
+            seventhColumn.appendChild(createMatchElement(currentConsolationMatches.eleventh, 'consolation'));
+        }
+        bracketWrapper.appendChild(seventhColumn);
+        
+        // Kolumna 3: Mecz o 5. miejsce (FINAL)
+        const fifthColumn = document.createElement('div');
+        fifthColumn.className = 'bracket-column';
+        const fifthTitle = document.createElement('h3');
+        fifthTitle.className = 'round-title';
+        fifthTitle.textContent = 'Mecz o 5. miejsce';
+        fifthColumn.appendChild(fifthTitle);
+        if (currentConsolationMatches.final) {
+            fifthColumn.appendChild(createMatchElement(currentConsolationMatches.final, 'consolation'));
+        }
+        bracketWrapper.appendChild(fifthColumn);
     }
-    const seventhPlaceTitle = document.createElement('h3');
-    seventhPlaceTitle.className = 'round-title';
-    seventhPlaceTitle.textContent = t('seventhPlace');
-    matchesColumn.appendChild(seventhPlaceTitle);
-    if (currentConsolationMatches.seventhPlace) {
-        matchesColumn.appendChild(createMatchElement(currentConsolationMatches.seventhPlace, 'consolation'));
-    }
-    bracketWrapper.appendChild(matchesColumn);
 
-    const classificationColumn = document.createElement('div');
-    classificationColumn.className = 'bracket-column';
-    const classificationTitle = document.createElement('h3');
-    classificationTitle.className = 'round-title';
-    classificationTitle.textContent = t('consolationClassification');
-    classificationColumn.appendChild(classificationTitle);
-
-    for (let i = 5; i <= 8; i++) {
-        const box = document.createElement('div');
-        box.className = 'classification-box';
-        box.id = `consolation-classification-place-${i}`;
-        box.innerHTML = `<span class="classification-place">${i}.</span><span class="player-name">?</span>`;
-        classificationColumn.appendChild(box);
-    }
-
-    bracketWrapper.appendChild(classificationColumn);
     bracketContainer.appendChild(bracketWrapper);
 }
 
@@ -3690,61 +3996,81 @@ function updateConsolationMatchResult(match, inputElement) {
             match.winner = match.player2;
             match.loser = match.player1;
         }
+        console.log(`Consolation match ${match.id} winner: ${match.winner}, loser: ${match.loser}`);
         updateNextConsolationRounds(match);
+        
+        // ODŚWIEŻ UI dla wszystkich meczów pocieszenia
+        const mode = document.getElementById('mode').value;
+        const currentConsolationMatches = mode === 'manual' ? manualConsolationMatches : autoConsolationMatches;
+        
+        // Odśwież każdy mecz w drabince pocieszenia
+        if (currentConsolationMatches.quarterfinals) {
+            currentConsolationMatches.quarterfinals.forEach(m => updateMatchUI(m, 'consolation'));
+        }
+        if (currentConsolationMatches.semifinals) {
+            currentConsolationMatches.semifinals.forEach(m => updateMatchUI(m, 'consolation'));
+        }
+        if (currentConsolationMatches.fifthPlace) updateMatchUI(currentConsolationMatches.fifthPlace, 'consolation');
+        if (currentConsolationMatches.seventhPlace) updateMatchUI(currentConsolationMatches.seventhPlace, 'consolation');
+        if (currentConsolationMatches.ninthPlace) updateMatchUI(currentConsolationMatches.ninthPlace, 'consolation');
+        if (currentConsolationMatches.eleventhPlace) updateMatchUI(currentConsolationMatches.eleventhPlace, 'consolation');
+        
+        displayConsolationBracket();
     }
     updateConsolationClassification(true);
     saveState();
 }
 
 function updateNextConsolationRounds(match) {
-    const nextMatchInfo = nextConsolationMatchMap[match.id];
-    if (!nextMatchInfo) return;
-
     const mode = document.getElementById('mode').value;
     const currentConsolationMatches = mode === 'manual' ? manualConsolationMatches : autoConsolationMatches;
-    const currentPlayerColors = mode === 'manual' ? manualPlayerColors : autoPlayerColors;
 
-    let nextMatchForWinner = currentConsolationMatches.fifthPlace;
-    if (nextMatchForWinner) {
-        if (nextMatchInfo.winnerPlayerPos === 1) {
-            nextMatchForWinner.player1 = match.winner;
-        } else {
-            nextMatchForWinner.player2 = match.winner;
-        }
-        const nextMatchDiv = document.querySelector(`.bracket-match[data-id="${nextMatchForWinner.id}"][data-type="consolation"]`);
-        if (nextMatchDiv) {
-            const playerRow = nextMatchDiv.querySelector(
-                nextMatchInfo.winnerPlayerPos === 1
-                    ? '.bracket-player:first-child'
-                    : '.bracket-player:last-child'
-            );
-            if (playerRow) {
-                playerRow.querySelector('.player-name').textContent = match.winner;
-                playerRow.className = 'bracket-player ' + (currentPlayerColors[match.winner] || '');
+    // Obsługa ćwierćfinałów pocieszenia (cqf1-cqf4) -> półfinały
+    if (match.id.startsWith('cqf') && match.winner) {
+        const index = parseInt(match.id.slice(-1)) - 1; // cqf1 -> 0, cqf2 -> 1
+        const targetSemifinalIndex = Math.floor(index / 2); // 0,0,1,1
+        const playerPos = (index % 2) + 1; // 1,2,1,2
+        
+        const semifinalMatch = currentConsolationMatches.semifinals[targetSemifinalIndex];
+        if (semifinalMatch) {
+            if (playerPos === 1) {
+                semifinalMatch.player1 = match.winner;
+            } else {
+                semifinalMatch.player2 = match.winner;
             }
         }
+        displayConsolationBracket();
+        return;
     }
 
-    let nextMatchForLoser = currentConsolationMatches.seventhPlace;
-    if (nextMatchForLoser) {
-        if (nextMatchInfo.loserPlayerPos === 1) {
-            nextMatchForLoser.player1 = match.loser;
-        } else {
-            nextMatchForLoser.player2 = match.loser;
-        }
-        const nextMatchDiv = document.querySelector(`.bracket-match[data-id="${nextMatchForLoser.id}"][data-type="consolation"]`);
-        if (nextMatchDiv) {
-            const playerRow = nextMatchDiv.querySelector(
-                nextMatchInfo.loserPlayerPos === 1
-                    ? '.bracket-player:first-child'
-                    : '.bracket-player:last-child'
-            );
-            if (playerRow) {
-                playerRow.querySelector('.player-name').textContent = match.loser;
-                playerRow.className = 'bracket-player ' + (currentPlayerColors[match.loser] || '');
+    // Obsługa półfinałów pocieszenia (csf1, csf2) -> finał (9. miejsce) + mecz o 11.
+    if (match.id.startsWith('csf') && match.winner) {
+        // Zwycięzca do finału (mecz o 9. miejsce)
+        const finalMatch = currentConsolationMatches.final;
+        if (finalMatch) {
+            if (match.id === 'csf1') {
+                finalMatch.player1 = match.winner;
+            } else {
+                finalMatch.player2 = match.winner;
             }
         }
+        
+        // Przegrany do meczu o 11. miejsce
+        if (match.loser) {
+            const eleventhMatch = currentConsolationMatches.eleventh;
+            if (eleventhMatch) {
+                if (match.id === 'csf1') {
+                    eleventhMatch.player1 = match.loser;
+                } else {
+                    eleventhMatch.player2 = match.loser;
+                }
+            }
+        }
+        displayConsolationBracket();
+        return;
     }
+    
+    saveState();
 }
 
 function setConsolationClassificationBox(place, player) {
@@ -3770,34 +4096,28 @@ function setConsolationClassificationBox(place, player) {
 function updateConsolationClassification(isActive) {
     const mode = document.getElementById('mode').value;
     const currentConsolationMatches = mode === 'manual' ? manualConsolationMatches : autoConsolationMatches;
+    const knockoutSize = parseInt(document.getElementById('knockoutSize')?.value || 8);
 
-    const fifth = currentConsolationMatches.fifthPlace;
-    const seventh = currentConsolationMatches.seventhPlace;
+    if (!isActive) return;
 
-    let fifthPlace = null;
-    let sixthPlace = null;
-    let seventhPlace = null;
-    let eighthPlace = null;
-
-    if (fifth && fifth.winner) {
-        fifthPlace = fifth.winner;
-        sixthPlace = fifth.loser;
-    }
-    if (seventh && seventh.winner) {
-        seventhPlace = seventh.winner;
-        eighthPlace = seventh.loser;
-    }
-
-    setClassificationBox(5, fifthPlace);
-    setClassificationBox(6, sixthPlace);
-    setClassificationBox(7, seventhPlace);
-    setClassificationBox(8, eighthPlace);
-
-    if (isActive) {
-        setConsolationClassificationBox(5, fifthPlace);
-        setConsolationClassificationBox(6, sixthPlace);
-        setConsolationClassificationBox(7, seventhPlace);
-        setConsolationClassificationBox(8, eighthPlace);
+    if (knockoutSize === 16) {
+        const finalMatch = currentConsolationMatches.final;
+        const eleventhMatch = currentConsolationMatches.eleventh;
+        
+        setClassificationBox(9, finalMatch?.winner || null);
+        setClassificationBox(10, finalMatch?.loser || null);
+        setClassificationBox(11, eleventhMatch?.winner || null);
+        setClassificationBox(12, eleventhMatch?.loser || null);
+        
+    } else {
+        // Dla 8 zawodników
+        const finalMatch = currentConsolationMatches.final;      // mecz o 5. miejsce
+        const seventhMatch = currentConsolationMatches.eleventh; // mecz o 7. miejsce
+        
+        setClassificationBox(5, finalMatch?.winner || null);
+        setClassificationBox(6, finalMatch?.loser || null);
+        setClassificationBox(7, seventhMatch?.winner || null);
+        setClassificationBox(8, seventhMatch?.loser || null);
     }
 }
 
@@ -3836,7 +4156,9 @@ function getLocalStorageKey(categoryName) {
     const sanitizedName = categoryName.trim().toLowerCase().replace(/[^a-z0-9]+/g, '_');
     return `tournamentData_${sanitizedName || 'default'}`;
 }
-
+function saveManualGroupsInput() {
+    saveState();
+}
 function saveState() {
     if (!shouldSave) {
         return;
@@ -4101,6 +4423,12 @@ function updateMatchUI(match, type) {
 
     const mode = document.getElementById('mode').value;
     const currentPlayerColors = mode === 'manual' ? manualPlayerColors : autoPlayerColors;
+    const colorClasses = [
+        'player-color-1', 'player-color-2', 'player-color-3', 'player-color-4',
+        'player-color-5', 'player-color-6', 'player-color-7', 'player-color-8',
+        'player-color-9', 'player-color-10', 'player-color-11', 'player-color-12',
+        'player-color-13', 'player-color-14', 'player-color-15', 'player-color-16'
+    ];
 
     const input1 = matchDiv.querySelector('.score-input[data-player="1"]');
     const input2 = matchDiv.querySelector('.score-input[data-player="2"]');
@@ -4112,16 +4440,31 @@ function updateMatchUI(match, type) {
     if (player1NameSpan) player1NameSpan.textContent = match.player1 || '?';
     if (player2NameSpan) player2NameSpan.textContent = match.player2 || '?';
 
+    // ===== KOLORY DLA GRACZA 1 =====
     if (player1Row) {
         player1Row.className = 'bracket-player';
         if (match.player1 && currentPlayerColors[match.player1]) {
             player1Row.classList.add(currentPlayerColors[match.player1]);
+        } else if (match.player1 && match.player1 !== "WOLNY LOS") {
+            const usedColors = Object.values(currentPlayerColors);
+            let availableColor = colorClasses.find(c => !usedColors.includes(c));
+            if (!availableColor) availableColor = 'player-color-1';
+            currentPlayerColors[match.player1] = availableColor;
+            player1Row.classList.add(availableColor);
         }
     }
+    
+    // ===== KOLORY DLA GRACZA 2 =====
     if (player2Row) {
         player2Row.className = 'bracket-player';
         if (match.player2 && currentPlayerColors[match.player2]) {
             player2Row.classList.add(currentPlayerColors[match.player2]);
+        } else if (match.player2 && match.player2 !== "WOLNY LOS") {
+            const usedColors = Object.values(currentPlayerColors);
+            let availableColor = colorClasses.find(c => !usedColors.includes(c));
+            if (!availableColor) availableColor = 'player-color-1';
+            currentPlayerColors[match.player2] = availableColor;
+            player2Row.classList.add(availableColor);
         }
     }
 
@@ -4336,6 +4679,64 @@ function clearTournamentData(confirmClear = true) {
     }
 }
 
+function makeDraggable(element) {
+    let isDragging = false;
+    let startX, startY, scrollLeft, scrollTop;
+    
+    element.addEventListener('mousedown', (e) => {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON' || e.target.closest('button') || e.target.closest('.score-input')) {
+            return;
+        }
+        isDragging = true;
+        startX = e.pageX - element.offsetLeft;
+        startY = e.pageY - element.offsetTop;
+        scrollLeft = element.scrollLeft;
+        scrollTop = element.scrollTop;
+        e.preventDefault();
+    });
+    
+    document.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        const x = e.pageX - element.offsetLeft;
+        const y = e.pageY - element.offsetTop;
+        const walkX = (x - startX) * 1.5;
+        const walkY = (y - startY) * 1.5;
+        element.scrollLeft = scrollLeft - walkX;
+        element.scrollTop = scrollTop - walkY;
+    });
+    
+    document.addEventListener('mouseup', () => {
+        isDragging = false;
+    });
+    
+    // Dla dotyku - nie zmieniamy kursora
+    element.addEventListener('touchstart', (e) => {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON' || e.target.closest('button') || e.target.closest('.score-input')) {
+            return;
+        }
+        isDragging = true;
+        startX = e.touches[0].pageX - element.offsetLeft;
+        startY = e.touches[0].pageY - element.offsetTop;
+        scrollLeft = element.scrollLeft;
+        scrollTop = element.scrollTop;
+        e.preventDefault();
+    });
+    
+    element.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        const x = e.touches[0].pageX - element.offsetLeft;
+        const y = e.touches[0].pageY - element.offsetTop;
+        const walkX = (x - startX) * 1.5;
+        const walkY = (y - startY) * 1.5;
+        element.scrollLeft = scrollLeft - walkX;
+        element.scrollTop = scrollTop - walkY;
+    });
+    
+    element.addEventListener('touchend', () => {
+        isDragging = false;
+    });
+}
+
 function resetTournamentUI() {
     groupPlayers = [];
     groupResults = [];
@@ -4395,11 +4796,14 @@ function getTournamentHeader() {
     const groupMode = document.getElementById('mode').value === 'auto' ? 'Automatyczny' : 'Ręczny';
     const tournamentMode = document.getElementById('tournamentMode').value;
     const tournamentModeText = tournamentMode === 'league' ? 'Ligowy' : 'Pojedynczy';
+    const knockoutSize = parseInt(document.getElementById('knockoutSize')?.value || 8);
+    const knockoutSizeText = knockoutSize === 16 ? '1/16 finału (16)' : 'Ćwierćfinały (8)';
     
     let header = `--- ${t('tournamentResults')}: ${tournamentName} ---\n`;
     if (category) header += `Kategoria: ${category}\n`;
     header += `Tryb podziału na grupy: ${groupMode}\n`;
     header += `Tryb turnieju: ${tournamentModeText}\n`;
+    header += `Faza pucharowa: ${knockoutSizeText}\n`;
     
     if (tournamentMode === 'league') {
         const currentRound = document.getElementById('currentRound')?.value || '1';
@@ -4412,6 +4816,7 @@ function getTournamentHeader() {
     
     return header;
 }
+
 function exportResultsToText() {
     console.log("Exporting results to text...");
 
@@ -4506,7 +4911,12 @@ function performExport(exportMode) {
             const score1 = match.score1 || '?';
             const score2 = match.score2 || '?';
             const winner = match.winner ? ` [${t('winner')}: ${match.winner}]` : '';
-            return `${prefix}${match.player1} ${score1}:${score2} ${match.player2}${winner}`;
+            let setInfo = '';
+            if (score1 !== '?' && score2 !== '?') {
+                const total = parseInt(score1) + parseInt(score2);
+                setInfo = ` (${total} setów)`;
+            }
+            return `${prefix}${match.player1} ${score1}:${score2} ${match.player2}${winner}${setInfo}`;
         }
         return null;
     };
@@ -4545,15 +4955,33 @@ function performExport(exportMode) {
             });
             textOutput.push('');
             
-            if (autoData.currentKnockoutMatches && autoData.currentKnockoutMatches.quarterfinals.some(m => m.player1)) {
-                textOutput.push(`=== ${t('knockoutStage')} ===`);
-                textOutput.push(`\n${t('quarterfinals')}:`);
-                autoData.currentKnockoutMatches.quarterfinals.forEach(m => {
-                    const formatted = formatMatch(m, "  ");
-                    if (formatted) textOutput.push(formatted);
-                });
+            // === FAZA PUCHAROWA ===
+            if (autoData.currentKnockoutMatches) {
+                // 1/16 finału (jeśli istnieje)
+                if (autoData.currentKnockoutMatches.round16 && autoData.currentKnockoutMatches.round16.length > 0 && 
+                    autoData.currentKnockoutMatches.round16.some(m => m.player1)) {
+                    textOutput.push(`=== ${t('knockoutStage')} ===`);
+                    textOutput.push(`\n1/16 finału:`);
+                    autoData.currentKnockoutMatches.round16.forEach(m => {
+                        const formatted = formatMatch(m, "  ");
+                        if (formatted) textOutput.push(formatted);
+                    });
+                }
                 
-                if (autoData.currentKnockoutMatches.semifinals.some(m => m.player1)) {
+                // Ćwierćfinały
+                if (autoData.currentKnockoutMatches.quarterfinals && autoData.currentKnockoutMatches.quarterfinals.some(m => m.player1)) {
+                    if (!textOutput.includes(`=== ${t('knockoutStage')} ===`)) {
+                        textOutput.push(`=== ${t('knockoutStage')} ===`);
+                    }
+                    textOutput.push(`\n${t('quarterfinals')}:`);
+                    autoData.currentKnockoutMatches.quarterfinals.forEach(m => {
+                        const formatted = formatMatch(m, "  ");
+                        if (formatted) textOutput.push(formatted);
+                    });
+                }
+                
+                // Półfinały
+                if (autoData.currentKnockoutMatches.semifinals && autoData.currentKnockoutMatches.semifinals.some(m => m.player1)) {
                     textOutput.push(`\n${t('semifinals')}:`);
                     autoData.currentKnockoutMatches.semifinals.forEach(m => {
                         const formatted = formatMatch(m, "  ");
@@ -4561,50 +4989,72 @@ function performExport(exportMode) {
                     });
                 }
                 
+                // Mecz o 3. miejsce
                 const thirdPlaceMatch = formatMatch(autoData.currentKnockoutMatches.thirdPlace, `${t('thirdPlace')}: `);
-                if (thirdPlaceMatch) textOutput.push("\n" + thirdPlaceMatch);
+                if (thirdPlaceMatch) textOutput.push(`\n${thirdPlaceMatch}`);
                 
+                // Finał
                 const finalMatch = formatMatch(autoData.currentKnockoutMatches.final, `${t('final')}: `);
-                if (finalMatch) textOutput.push("\n" + finalMatch);
+                if (finalMatch) textOutput.push(`\n${finalMatch}`);
                 textOutput.push('');
             }
             
-            if (consolationMode === 'yes' && autoData.currentConsolationMatches && 
-                autoData.currentConsolationMatches.semifinals.some(m => m.player1)) {
-                textOutput.push(`=== ${t('consolationTournament')} (${t('places')} 5-8) ===`);
-                textOutput.push(`\n${t('consolationSemifinals')}:`);
-                autoData.currentConsolationMatches.semifinals.forEach(m => {
-                    const formatted = formatMatch(m, "  ");
-                    if (formatted) textOutput.push(formatted);
-                });
+            // === TURNIEJ POCIESZENIA ===
+            if (consolationMode === 'yes' && autoData.currentConsolationMatches) {
+                textOutput.push(`=== ${t('consolationTournament')} ===`);
                 
-                const seventhPlaceMatch = formatMatch(autoData.currentConsolationMatches.seventhPlace, `${t('seventhPlace')}: `);
-                if (seventhPlaceMatch) textOutput.push("\n" + seventhPlaceMatch);
+                // Ćwierćfinały pocieszenia (dla 16)
+                if (autoData.currentConsolationMatches.quarterfinals && autoData.currentConsolationMatches.quarterfinals.length > 0 &&
+                    autoData.currentConsolationMatches.quarterfinals.some(m => m.player1)) {
+                    textOutput.push(`\nĆwierćfinały pocieszenia:`);
+                    autoData.currentConsolationMatches.quarterfinals.forEach(m => {
+                        const formatted = formatMatch(m, "  ");
+                        if (formatted) textOutput.push(formatted);
+                    });
+                }
                 
-                const fifthPlaceMatch = formatMatch(autoData.currentConsolationMatches.fifthPlace, `${t('fifthPlace')}: `);
-                if (fifthPlaceMatch) textOutput.push("\n" + fifthPlaceMatch);
+                // Półfinały pocieszenia
+                if (autoData.currentConsolationMatches.semifinals && autoData.currentConsolationMatches.semifinals.length > 0 &&
+                    autoData.currentConsolationMatches.semifinals.some(m => m.player1)) {
+                    textOutput.push(`\nPółfinały pocieszenia:`);
+                    autoData.currentConsolationMatches.semifinals.forEach(m => {
+                        const formatted = formatMatch(m, "  ");
+                        if (formatted) textOutput.push(formatted);
+                    });
+                }
+                
+                // Mecz o 11. miejsce
+                if (autoData.currentConsolationMatches.eleventh && autoData.currentConsolationMatches.eleventh.player1) {
+                    const formatted = formatMatch(autoData.currentConsolationMatches.eleventh, `Mecz o 11. miejsce: `);
+                    if (formatted) textOutput.push(`\n${formatted}`);
+                }
+                
+                // Mecz o 9. miejsce
+                if (autoData.currentConsolationMatches.final && autoData.currentConsolationMatches.final.player1) {
+                    const formatted = formatMatch(autoData.currentConsolationMatches.final, `Mecz o 9. miejsce: `);
+                    if (formatted) textOutput.push(`\n${formatted}`);
+                }
                 textOutput.push('');
             }
             
+            // === KLASYFIKACJA KOŃCOWA ===
             textOutput.push(`=== ${t('finalClassification')} (${t('autoMode')}) ===`);
             const autoClassification = getFinalClassification(autoData.currentKnockoutMatches, 
                                                              autoData.currentConsolationMatches, 
                                                              consolationMode === 'yes');
-            const autoClassifiedPlaces = Object.keys(autoClassification).map(Number).sort((a,b) => a-b);
-            if (autoClassifiedPlaces.length > 0) {
-                for (const place of autoClassifiedPlaces) {
-                    const player = autoClassification[place];
-                    if (player && player !== "WOLNY LOS") {
-                        textOutput.push(`${place}. ${player}`);
-                    }
+            const maxPlacesAuto = (autoData.currentKnockoutMatches.round16 && autoData.currentKnockoutMatches.round16.length > 0) ? 16 : 8;
+            for (let i = 1; i <= maxPlacesAuto; i++) {
+                const player = autoClassification[i];
+                if (player && player !== "WOLNY LOS") {
+                    textOutput.push(`${i}. ${player}`);
+                } else if (i <= 8 || maxPlacesAuto === 16) {
+                    textOutput.push(`${i}. ?`);
                 }
-            } else {
-                textOutput.push(t('noClassificationData'));
             }
             textOutput.push('\n' + '='.repeat(40) + '\n');
         }
         
-        // MANUAL MODE
+        // MANUAL MODE (taka sama logika jak AUTO)
         const manualData = getExportData('manual');
         const hasManualData = manualData.currentGroupPlayers && 
                              manualData.currentGroupPlayers.length > 0 && 
@@ -4633,15 +5083,30 @@ function performExport(exportMode) {
             });
             textOutput.push('');
             
-            if (manualData.currentKnockoutMatches && manualData.currentKnockoutMatches.quarterfinals.some(m => m.player1)) {
-                textOutput.push(`=== ${t('knockoutStage')} ===`);
-                textOutput.push(`\n${t('quarterfinals')}:`);
-                manualData.currentKnockoutMatches.quarterfinals.forEach(m => {
-                    const formatted = formatMatch(m, "  ");
-                    if (formatted) textOutput.push(formatted);
-                });
+            // FAZA PUCHAROWA (MANUAL)
+            if (manualData.currentKnockoutMatches) {
+                if (manualData.currentKnockoutMatches.round16 && manualData.currentKnockoutMatches.round16.length > 0 && 
+                    manualData.currentKnockoutMatches.round16.some(m => m.player1)) {
+                    textOutput.push(`=== ${t('knockoutStage')} ===`);
+                    textOutput.push(`\n1/16 finału:`);
+                    manualData.currentKnockoutMatches.round16.forEach(m => {
+                        const formatted = formatMatch(m, "  ");
+                        if (formatted) textOutput.push(formatted);
+                    });
+                }
                 
-                if (manualData.currentKnockoutMatches.semifinals.some(m => m.player1)) {
+                if (manualData.currentKnockoutMatches.quarterfinals && manualData.currentKnockoutMatches.quarterfinals.some(m => m.player1)) {
+                    if (!textOutput.includes(`=== ${t('knockoutStage')} ===`)) {
+                        textOutput.push(`=== ${t('knockoutStage')} ===`);
+                    }
+                    textOutput.push(`\n${t('quarterfinals')}:`);
+                    manualData.currentKnockoutMatches.quarterfinals.forEach(m => {
+                        const formatted = formatMatch(m, "  ");
+                        if (formatted) textOutput.push(formatted);
+                    });
+                }
+                
+                if (manualData.currentKnockoutMatches.semifinals && manualData.currentKnockoutMatches.semifinals.some(m => m.player1)) {
                     textOutput.push(`\n${t('semifinals')}:`);
                     manualData.currentKnockoutMatches.semifinals.forEach(m => {
                         const formatted = formatMatch(m, "  ");
@@ -4649,28 +5114,45 @@ function performExport(exportMode) {
                     });
                 }
                 
-                const thirdPlaceMatch = formatMatch(manualData.currentKnockoutMatches.thirdPlace, `${t('thirdPlace')}: `);
-                if (thirdPlaceMatch) textOutput.push("\n" + thirdPlaceMatch);
+                const thirdPlaceMatchManual = formatMatch(manualData.currentKnockoutMatches.thirdPlace, `${t('thirdPlace')}: `);
+                if (thirdPlaceMatchManual) textOutput.push(`\n${thirdPlaceMatchManual}`);
                 
-                const finalMatch = formatMatch(manualData.currentKnockoutMatches.final, `${t('final')}: `);
-                if (finalMatch) textOutput.push("\n" + finalMatch);
+                const finalMatchManual = formatMatch(manualData.currentKnockoutMatches.final, `${t('final')}: `);
+                if (finalMatchManual) textOutput.push(`\n${finalMatchManual}`);
                 textOutput.push('');
             }
             
-            if (consolationMode === 'yes' && manualData.currentConsolationMatches && 
-                manualData.currentConsolationMatches.semifinals.some(m => m.player1)) {
-                textOutput.push(`=== ${t('consolationTournament')} (${t('places')} 5-8) ===`);
-                textOutput.push(`\n${t('consolationSemifinals')}:`);
-                manualData.currentConsolationMatches.semifinals.forEach(m => {
-                    const formatted = formatMatch(m, "  ");
-                    if (formatted) textOutput.push(formatted);
-                });
+            // TURNIEJ POCIESZENIA (MANUAL)
+            if (consolationMode === 'yes' && manualData.currentConsolationMatches) {
+                textOutput.push(`=== ${t('consolationTournament')} ===`);
                 
-                const seventhPlaceMatch = formatMatch(manualData.currentConsolationMatches.seventhPlace, `${t('seventhPlace')}: `);
-                if (seventhPlaceMatch) textOutput.push("\n" + seventhPlaceMatch);
+                if (manualData.currentConsolationMatches.quarterfinals && manualData.currentConsolationMatches.quarterfinals.length > 0 &&
+                    manualData.currentConsolationMatches.quarterfinals.some(m => m.player1)) {
+                    textOutput.push(`\nĆwierćfinały pocieszenia:`);
+                    manualData.currentConsolationMatches.quarterfinals.forEach(m => {
+                        const formatted = formatMatch(m, "  ");
+                        if (formatted) textOutput.push(formatted);
+                    });
+                }
                 
-                const fifthPlaceMatch = formatMatch(manualData.currentConsolationMatches.fifthPlace, `${t('fifthPlace')}: `);
-                if (fifthPlaceMatch) textOutput.push("\n" + fifthPlaceMatch);
+                if (manualData.currentConsolationMatches.semifinals && manualData.currentConsolationMatches.semifinals.length > 0 &&
+                    manualData.currentConsolationMatches.semifinals.some(m => m.player1)) {
+                    textOutput.push(`\nPółfinały pocieszenia:`);
+                    manualData.currentConsolationMatches.semifinals.forEach(m => {
+                        const formatted = formatMatch(m, "  ");
+                        if (formatted) textOutput.push(formatted);
+                    });
+                }
+                
+                if (manualData.currentConsolationMatches.eleventh && manualData.currentConsolationMatches.eleventh.player1) {
+                    const formatted = formatMatch(manualData.currentConsolationMatches.eleventh, `Mecz o 11. miejsce: `);
+                    if (formatted) textOutput.push(`\n${formatted}`);
+                }
+                
+                if (manualData.currentConsolationMatches.final && manualData.currentConsolationMatches.final.player1) {
+                    const formatted = formatMatch(manualData.currentConsolationMatches.final, `Mecz o 9. miejsce: `);
+                    if (formatted) textOutput.push(`\n${formatted}`);
+                }
                 textOutput.push('');
             }
             
@@ -4678,23 +5160,22 @@ function performExport(exportMode) {
             const manualClassification = getFinalClassification(manualData.currentKnockoutMatches, 
                                                                manualData.currentConsolationMatches, 
                                                                consolationMode === 'yes');
-            const manualClassifiedPlaces = Object.keys(manualClassification).map(Number).sort((a,b) => a-b);
-            if (manualClassifiedPlaces.length > 0) {
-                for (const place of manualClassifiedPlaces) {
-                    const player = manualClassification[place];
-                    if (player && player !== "WOLNY LOS") {
-                        textOutput.push(`${place}. ${player}`);
-                    }
+            const maxPlacesManual = (manualData.currentKnockoutMatches.round16 && manualData.currentKnockoutMatches.round16.length > 0) ? 16 : 8;
+            for (let i = 1; i <= maxPlacesManual; i++) {
+                const player = manualClassification[i];
+                if (player && player !== "WOLNY LOS") {
+                    textOutput.push(`${i}. ${player}`);
+                } else if (i <= 8 || maxPlacesManual === 16) {
+                    textOutput.push(`${i}. ?`);
                 }
-            } else {
-                textOutput.push(t('noClassificationData'));
             }
         }
         
     } else {
-        // POJEDYNCZY TRYB
+        // ===== POJEDYNCZY TRYB =====
         const targetMode = exportMode === 'current' ? document.getElementById('mode').value : exportMode;
         const data = getExportData(targetMode);
+        const maxPlaces = (data.currentKnockoutMatches.round16 && data.currentKnockoutMatches.round16.length > 0) ? 16 : 8;
 
         if (data.currentGroupPlayers && data.currentGroupPlayers.length > 0 && data.currentGroupPlayers.some(g => g && g.length > 0)) {
             textOutput.push(`=== ${t('groupStage')} ===`);
@@ -4714,15 +5195,30 @@ function performExport(exportMode) {
             textOutput.push('');
         }
 
-        if (data.currentKnockoutMatches && data.currentKnockoutMatches.quarterfinals.some(m => m.player1)) {
+        if (data.currentKnockoutMatches) {
             textOutput.push(`=== ${t('knockoutStage')} ===`);
-            textOutput.push(`\n${t('quarterfinals')}:`);
-            data.currentKnockoutMatches.quarterfinals.forEach(m => {
-                const formatted = formatMatch(m, "  ");
-                if (formatted) textOutput.push(formatted);
-            });
+            
+            // 1/16 finału
+            if (data.currentKnockoutMatches.round16 && data.currentKnockoutMatches.round16.length > 0 && 
+                data.currentKnockoutMatches.round16.some(m => m.player1)) {
+                textOutput.push(`\n1/16 finału:`);
+                data.currentKnockoutMatches.round16.forEach(m => {
+                    const formatted = formatMatch(m, "  ");
+                    if (formatted) textOutput.push(formatted);
+                });
+            }
+            
+            // Ćwierćfinały
+            if (data.currentKnockoutMatches.quarterfinals && data.currentKnockoutMatches.quarterfinals.some(m => m.player1)) {
+                textOutput.push(`\n${t('quarterfinals')}:`);
+                data.currentKnockoutMatches.quarterfinals.forEach(m => {
+                    const formatted = formatMatch(m, "  ");
+                    if (formatted) textOutput.push(formatted);
+                });
+            }
 
-            if (data.currentKnockoutMatches.semifinals.some(m => m.player1)) {
+            // Półfinały
+            if (data.currentKnockoutMatches.semifinals && data.currentKnockoutMatches.semifinals.some(m => m.player1)) {
                 textOutput.push(`\n${t('semifinals')}:`);
                 data.currentKnockoutMatches.semifinals.forEach(m => {
                     const formatted = formatMatch(m, "  ");
@@ -4731,41 +5227,56 @@ function performExport(exportMode) {
             }
 
             const thirdPlaceMatch = formatMatch(data.currentKnockoutMatches.thirdPlace, `${t('thirdPlace')}: `);
-            if (thirdPlaceMatch) textOutput.push("\n" + thirdPlaceMatch);
+            if (thirdPlaceMatch) textOutput.push(`\n${thirdPlaceMatch}`);
 
             const finalMatch = formatMatch(data.currentKnockoutMatches.final, `${t('final')}: `);
-            if (finalMatch) textOutput.push("\n" + finalMatch);
+            if (finalMatch) textOutput.push(`\n${finalMatch}`);
             textOutput.push('');
         }
 
-        if (consolationMode === 'yes' && data.currentConsolationMatches && data.currentConsolationMatches.semifinals.some(m => m.player1)) {
-            textOutput.push(`=== ${t('consolationTournament')} (${t('places')} 5-8) ===`);
-            textOutput.push(`\n${t('consolationSemifinals')}:`);
-            data.currentConsolationMatches.semifinals.forEach(m => {
-                const formatted = formatMatch(m, "  ");
-                if (formatted) textOutput.push(formatted);
-            });
-
-            const seventhPlaceMatch = formatMatch(data.currentConsolationMatches.seventhPlace, `${t('seventhPlace')}: `);
-            if (seventhPlaceMatch) textOutput.push("\n" + seventhPlaceMatch);
-
-            const fifthPlaceMatch = formatMatch(data.currentConsolationMatches.fifthPlace, `${t('fifthPlace')}: `);
-            if (fifthPlaceMatch) textOutput.push("\n" + fifthPlaceMatch);
+        // Turniej pocieszenia
+        if (consolationMode === 'yes' && data.currentConsolationMatches) {
+            textOutput.push(`=== ${t('consolationTournament')} ===`);
+            
+            if (data.currentConsolationMatches.quarterfinals && data.currentConsolationMatches.quarterfinals.length > 0 &&
+                data.currentConsolationMatches.quarterfinals.some(m => m.player1)) {
+                textOutput.push(`\nĆwierćfinały pocieszenia:`);
+                data.currentConsolationMatches.quarterfinals.forEach(m => {
+                    const formatted = formatMatch(m, "  ");
+                    if (formatted) textOutput.push(formatted);
+                });
+            }
+            
+            if (data.currentConsolationMatches.semifinals && data.currentConsolationMatches.semifinals.length > 0 &&
+                data.currentConsolationMatches.semifinals.some(m => m.player1)) {
+                textOutput.push(`\nPółfinały pocieszenia:`);
+                data.currentConsolationMatches.semifinals.forEach(m => {
+                    const formatted = formatMatch(m, "  ");
+                    if (formatted) textOutput.push(formatted);
+                });
+            }
+            
+            if (data.currentConsolationMatches.eleventh && data.currentConsolationMatches.eleventh.player1) {
+                const formatted = formatMatch(data.currentConsolationMatches.eleventh, `Mecz o 11. miejsce: `);
+                if (formatted) textOutput.push(`\n${formatted}`);
+            }
+            
+            if (data.currentConsolationMatches.final && data.currentConsolationMatches.final.player1) {
+                const formatted = formatMatch(data.currentConsolationMatches.final, `Mecz o 9. miejsce: `);
+                if (formatted) textOutput.push(`\n${formatted}`);
+            }
             textOutput.push('');
         }
 
         textOutput.push(`=== ${t('finalClassification')} ===`);
         const classification = getFinalClassification(data.currentKnockoutMatches, data.currentConsolationMatches, consolationMode === 'yes');
-        const classifiedPlaces = Object.keys(classification).map(Number).sort((a,b) => a-b);
-        if (classifiedPlaces.length > 0) {
-            for (const place of classifiedPlaces) {
-                const player = classification[place];
-                if (player && player !== "WOLNY LOS") {
-                    textOutput.push(`${place}. ${player}`);
-                }
+        for (let i = 1; i <= maxPlaces; i++) {
+            const player = classification[i];
+            if (player && player !== "WOLNY LOS") {
+                textOutput.push(`${i}. ${player}`);
+            } else if (i <= 8 || maxPlaces === 16) {
+                textOutput.push(`${i}. ?`);
             }
-        } else {
-            textOutput.push(t('noClassificationData'));
         }
     }
 
@@ -4791,7 +5302,9 @@ function performExport(exportMode) {
 
 function getFinalClassification(knockoutMatches, consolationMatches, isConsolationActive) {
     const classification = {};
+    const knockoutSize = parseInt(document.getElementById('knockoutSize')?.value || 8);
 
+    // Miejsca 1-4 z głównego turnieju
     if (knockoutMatches.final && knockoutMatches.final.winner) {
         classification[1] = knockoutMatches.final.winner;
         classification[2] = knockoutMatches.final.loser;
@@ -4800,18 +5313,211 @@ function getFinalClassification(knockoutMatches, consolationMatches, isConsolati
         classification[3] = knockoutMatches.thirdPlace.winner;
         classification[4] = knockoutMatches.thirdPlace.loser;
     }
-    if (isConsolationActive) {
-        if (consolationMatches.fifthPlace && consolationMatches.fifthPlace.winner) {
-            classification[5] = consolationMatches.fifthPlace.winner;
-            classification[6] = consolationMatches.fifthPlace.loser;
+
+    if (knockoutSize === 16) {
+        // Miejsca 5-8: przegrani z ćwierćfinałów
+        if (knockoutMatches.quarterfinals) {
+            const qfLosers = knockoutMatches.quarterfinals
+                .filter(m => m.loser && m.loser !== "WOLNY LOS")
+                .map(m => m.loser);
+            for (let i = 0; i < qfLosers.length && i < 4; i++) {
+                classification[5 + i] = qfLosers[i];
+            }
         }
-        if (consolationMatches.seventhPlace && consolationMatches.seventhPlace.winner) {
-            classification[7] = consolationMatches.seventhPlace.winner;
-            classification[8] = consolationMatches.seventhPlace.loser;
+        
+        if (isConsolationActive) {
+            // Miejsca 9-12 z turnieju pocieszenia
+            if (consolationMatches.final && consolationMatches.final.winner) {
+                classification[9] = consolationMatches.final.winner;
+                classification[10] = consolationMatches.final.loser;
+            }
+            if (consolationMatches.eleventh && consolationMatches.eleventh.winner) {
+                classification[11] = consolationMatches.eleventh.winner;
+                classification[12] = consolationMatches.eleventh.loser;
+            }
+            // Miejsca 13-16: przegrani z ćwierćfinałów pocieszenia
+            if (consolationMatches.quarterfinals) {
+                const cqfLosers = consolationMatches.quarterfinals
+                    .filter(m => m.loser && m.loser !== "WOLNY LOS")
+                    .map(m => m.loser);
+                for (let i = 0; i < cqfLosers.length && i < 4; i++) {
+                    classification[13 + i] = cqfLosers[i];
+                }
+            }
+        } else if (knockoutMatches.round16) {
+            // Gdy turniej pocieszenia WYŁĄCZONY: miejsca 9-16 to przegrani z 1/16
+            const round16Losers = knockoutMatches.round16
+                .filter(m => m.loser && m.loser !== "WOLNY LOS")
+                .map(m => m.loser);
+            for (let i = 0; i < round16Losers.length && i < 8; i++) {
+                classification[9 + i] = round16Losers[i];
+            }
+        }
+    } else {
+        // Dla 8 zawodników: miejsca 5-8 z turnieju pocieszenia
+        if (isConsolationActive) {
+            if (consolationMatches.final && consolationMatches.final.winner) {
+                classification[5] = consolationMatches.final.winner;
+                classification[6] = consolationMatches.final.loser;
+            }
+            if (consolationMatches.eleventh && consolationMatches.eleventh.winner) {
+                classification[7] = consolationMatches.eleventh.winner;
+                classification[8] = consolationMatches.eleventh.loser;
+            }
         }
     }
 
     return classification;
+}
+
+
+function showFinalClassificationModal() {
+    const mode = document.getElementById('mode').value;
+    const knockoutSize = parseInt(document.getElementById('knockoutSize')?.value || 8);
+    const currentKnockoutMatches = mode === 'manual' ? manualKnockoutMatches : autoKnockoutMatches;
+    const currentConsolationMatches = mode === 'manual' ? manualConsolationMatches : autoConsolationMatches;
+    const consolationMode = document.getElementById('consolationMode').value;
+    const isConsolationActive = consolationMode === 'yes';
+    
+    const existingModal = document.getElementById('classificationModal');
+    if (existingModal) existingModal.remove();
+    
+    const classification = getFinalClassification(
+        currentKnockoutMatches, 
+        currentConsolationMatches, 
+        isConsolationActive
+    );
+    
+    let extendedClassification = { ...classification };
+    
+    if (knockoutSize === 16) {
+        if (currentKnockoutMatches.quarterfinals) {
+            const qfLosers = currentKnockoutMatches.quarterfinals
+                .filter(m => m.loser && m.loser !== "WOLNY LOS")
+                .map(m => m.loser);
+            for (let i = 0; i < qfLosers.length && i < 4; i++) {
+                extendedClassification[5 + i] = qfLosers[i];
+            }
+        }
+        
+        if (isConsolationActive) {
+            if (currentConsolationMatches.final && currentConsolationMatches.final.winner) {
+                extendedClassification[9] = currentConsolationMatches.final.winner;
+                extendedClassification[10] = currentConsolationMatches.final.loser;
+            }
+            if (currentConsolationMatches.eleventh && currentConsolationMatches.eleventh.winner) {
+                extendedClassification[11] = currentConsolationMatches.eleventh.winner;
+                extendedClassification[12] = currentConsolationMatches.eleventh.loser;
+            }
+            
+            if (currentConsolationMatches.quarterfinals) {
+                const cqfLosers = currentConsolationMatches.quarterfinals
+                    .filter(m => m.loser && m.loser !== "WOLNY LOS")
+                    .map(m => m.loser);
+                for (let i = 0; i < cqfLosers.length && i < 8; i++) {
+                    extendedClassification[13 + i] = cqfLosers[i];
+                }
+            }
+        } else {
+            if (currentKnockoutMatches.round16) {
+                const round16Losers = currentKnockoutMatches.round16
+                    .filter(m => m.loser && m.loser !== "WOLNY LOS")
+                    .map(m => m.loser);
+                for (let i = 0; i < round16Losers.length && i < 8; i++) {
+                    extendedClassification[9 + i] = round16Losers[i];
+                }
+            }
+        }
+    }
+    
+    const tournamentName = document.getElementById('tournamentNameInput').value.trim() || t('tournamentName');
+    const category = document.getElementById('subTitleInput').value.trim() || '';
+    const maxPlaces = knockoutSize === 16 ? 16 : 8;
+    
+    // Czcionka taka sama dla całego opisu
+    const baseFontSize = '0.85rem';
+    
+    let html = `
+        <div id="classificationModal" style="position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:white; border-radius:10px; max-width:380px; width:90%; max-height:90vh; overflow:auto; z-index:10000; box-shadow:0 10px 30px rgba(0,0,0,0.3);">
+            <div id="classificationModalHeader" style="background:#3498db; color:white; padding:10px 12px; display:flex; justify-content:space-between; align-items:center; border-radius:10px 10px 0 0; cursor:move;">
+                <div style="text-align:center; flex:1;">
+                    <div style="font-weight:bold; font-size:0.95rem;">${t('finalClassification')} (miejsca 1-${maxPlaces})</div>
+                    <div style="font-size:0.95rem; color:#e0e0e0; margin-top:3px;">${tournamentName}${category ? ' - ' + category : ''}</div>
+                </div>
+                <button id="closeModalBtn" style="background:transparent; color:white; border:none; font-size:22px; cursor:pointer; line-height:1; margin-left:10px;">×</button>
+            </div>
+            <div style="padding:8px;">
+                <table style="width:100%; border-collapse:collapse;">
+                    <tr style="background:#f0f0f0;">
+                        <th style="padding:6px 5px; text-align:center; width:35px; font-size:${baseFontSize};">#</th>
+                        <th style="padding:6px 5px; text-align:center; font-size:${baseFontSize};">${t('players')}</th>
+                    </tr>
+    `;
+    
+    for (let i = 1; i <= maxPlaces; i++) {
+        const player = extendedClassification[i] || '?';
+        let styleAttr = '';
+        
+        if (i === 1) {
+            styleAttr = 'background: linear-gradient(135deg, #FFD700, #FFEC8B) !important; border: 2px solid #D4AF37 !important; font-weight: bold;';
+        } else if (i === 2) {
+            styleAttr = 'background: linear-gradient(135deg, #C0C0C0, #E8E8E8) !important; border: 2px solid #A8A8A8 !important; font-weight: bold;';
+        } else if (i === 3) {
+            styleAttr = 'background: linear-gradient(135deg, #CD7F32, #E9B384) !important; border: 2px solid #8B4513 !important; font-weight: bold;';
+        }
+        
+        html += `
+            <tr style="border-bottom:1px solid #eee; ${styleAttr}">
+                <td style="padding:5px 3px; text-align:center; font-size:${baseFontSize};">${i}.</td>
+                <td style="padding:5px 3px; font-size:${baseFontSize};">${player}</td>
+            </tr>
+        `;
+    }
+    
+    html += `
+                </table>
+            </div>
+        </div>
+    `;
+    
+    document.body.insertAdjacentHTML('beforeend', html);
+    
+    const modal = document.getElementById('classificationModal');
+    const header = document.getElementById('classificationModalHeader');
+    const closeBtn = document.getElementById('closeModalBtn');
+    
+    closeBtn.onclick = function(e) {
+        e.stopPropagation();
+        modal.remove();
+    };
+    
+    let isDragging = false;
+    let startX, startY, initialLeft, initialTop;
+    
+    header.addEventListener('mousedown', (e) => {
+        if (e.target === closeBtn || e.target.closest('#closeModalBtn')) return;
+        isDragging = true;
+        const rect = modal.getBoundingClientRect();
+        initialLeft = rect.left;
+        initialTop = rect.top;
+        startX = e.clientX - initialLeft;
+        startY = e.clientY - initialTop;
+        modal.style.transform = 'none';
+        modal.style.left = initialLeft + 'px';
+        modal.style.top = initialTop + 'px';
+        modal.style.cursor = 'grabbing';
+    });
+    
+    document.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        modal.style.left = (e.clientX - startX) + 'px';
+        modal.style.top = (e.clientY - startY) + 'px';
+    });
+    
+    document.addEventListener('mouseup', () => {
+        isDragging = false;
+        modal.style.cursor = 'move';
+    });
 }
 
 function saveTournamentToFile() {
@@ -5163,11 +5869,24 @@ function initMobileFeatures() {
         table.addEventListener('touchstart', function(e) {
             this.style.cursor = 'grabbing';
         });
-
         table.addEventListener('touchend', function(e) {
             this.style.cursor = 'grab';
         });
     });
+    
+    // Dodaj możliwość przeciągania dla drabinek
+    const knockoutBracket = document.getElementById('knockout-bracket');
+    const consolationBracket = document.getElementById('consolation-bracket');
+
+    if (knockoutBracket) {
+        knockoutBracket.style.overflowX = 'auto';
+        makeDraggable(knockoutBracket);
+    }
+
+    if (consolationBracket) {
+        consolationBracket.style.overflowX = 'auto';
+        makeDraggable(consolationBracket);
+    }
 }
 
 window.addEventListener('load', function() {
@@ -5278,6 +5997,12 @@ translations.pl.loadRanking = "Wczytaj ranking";
 translations.pl.clearRanking = "Wyczyść ranking";
 translations.pl.footerText = "© 2026 Turniej Tenisa Stołowego - aplikacja stworzona przez ZIUTY. Wesprzyj rozwój na";
 translations.pl.contact = "Kontakt";
+translations.pl.qualified = "Awans";
+translations.pl.exportSuccess = "Wyniki zostały wyeksportowane";
+translations.pl.loadSuccess = "Turniej został pomyślnie wczytany!";
+translations.pl.saveSuccess = "Plik został zapisany: ";
+translations.pl.tooManyPlayers = "Wykryto więcej niż 16 zakwalifikowanych zawodników. Do drabinki zostanie wybranych pierwszych 16.";
+translations.pl.showClassification = "🏆 Pokaż klasyfikację końcową";
 
 translations.en.enterPlayersFirst = "Enter players before generating groups!";
 translations.en.invalidScore = "Score must be a number!";
@@ -5382,6 +6107,13 @@ translations.en.loadRanking = "Load ranking";
 translations.en.clearRanking = "Clear ranking";
 translations.en.footerText = "© 2026 Table Tennis Tournament - app created by ZIUTY. Support development on";
 translations.en.contact = "Contact";
+translations.en.qualified = "Qualified";
+translations.en.exportSuccess = "Results exported";
+translations.en.loadSuccess = "Tournament loaded successfully!";
+translations.en.saveSuccess = "File saved: ";
+translations.en.tooManyPlayers = "Too many qualified players detected. Only the top 16 players will be selected.";
+translations.en.tooManyPlayers = "Too many qualified players detected. Only the top 16 players will be selected.";
+translations.en.showClassification = "🏆 Show final classification";
 // ================= PWA - SERVICE WORKER =================
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('service-worker.js').then(reg => {
@@ -5570,7 +6302,11 @@ function showAddPlayerDialog(groupIndex) {
 }
 
 function addPlayerToGroup(groupIndex, playerName) {
-    // 1. Dodaj zawodnika do grupy
+   if (groupPlayers[groupIndex].includes(playerName)) {
+    alert('Zawodnik już istnieje w tej grupie!');
+    return;
+}
+   // 1. Dodaj zawodnika do grupy
     groupPlayers[groupIndex].push(playerName);
 
     // 2. Rozszerz macierz wyników
@@ -5633,7 +6369,11 @@ function showAddPlayerManualDialog(groupIndex) {
 }
 
 function addPlayerToManualGroup(groupIndex, playerName) {
-    // 1. Dodaj zawodnika do grupy
+    if (manualGroupPlayers[groupIndex].includes(playerName)) {
+    alert('Zawodnik już istnieje w tej grupie!');
+    return;
+}
+		// 1. Dodaj zawodnika do grupy
     manualGroupPlayers[groupIndex].push(playerName);
 
     // 2. Rozszerz macierz wyników
@@ -5726,8 +6466,21 @@ function setTournamentMode(mode) {
     
     saveState();
 }
+function togglePhasePoints() {
+    const scope = document.querySelector('input[name="pointScope"]:checked')?.value;
+    const phaseDiv = document.getElementById('phasePointsDiv');
+    if (phaseDiv) {
+        if (scope === 'top') {
+            phaseDiv.style.opacity = '0.4';
+            phaseDiv.style.pointerEvents = 'none';
+        } else {
+            phaseDiv.style.opacity = '1';
+            phaseDiv.style.pointerEvents = 'auto';
+        }
+    }
+}
+
 function addTournamentResultsToRanking() {
-    // Sprawdź duplikaty
     if (checkForDuplicatePlayers()) {
         alert('Nie można dodać punktów – popraw duplikaty zawodników.');
         return;
@@ -5737,8 +6490,8 @@ function addTournamentResultsToRanking() {
     const currentKnockoutMatches = mode === 'manual' ? manualKnockoutMatches : autoKnockoutMatches;
     const currentConsolationMatches = mode === 'manual' ? manualConsolationMatches : autoConsolationMatches;
     const consolationMode = document.getElementById('consolationMode').value;
+    const knockoutSize = parseInt(document.getElementById('knockoutSize')?.value || 8);
     
-    // Pobierz dane identyfikujące turniej
     const tournamentName = document.getElementById('tournamentNameInput').value.trim() || 'Turniej';
     const category = document.getElementById('subTitleInput').value.trim() || '';
     const currentRound = document.getElementById('currentRound')?.value || '1';
@@ -5746,7 +6499,6 @@ function addTournamentResultsToRanking() {
     const rankingKey = getCurrentRankingKey();
     const roundKey = `${rankingKey}_runda${currentRound}`;
     
-    // Inicjalizuj jeśli potrzeba
     if (!leagueRankings[rankingKey]) {
         leagueRankings[rankingKey] = {
             ranking: {},
@@ -5760,69 +6512,129 @@ function addTournamentResultsToRanking() {
     const currentRanking = leagueRankings[rankingKey].ranking;
     const processedRounds = leagueRankings[rankingKey].processedRounds;
     
-    // Sprawdź czy ta runda była już dodana
     if (processedRounds[roundKey]) {
         alert(`Runda ${currentRound} dla turnieju "${tournamentName}" została już dodana do rankingu!`);
         return;
     }
     
-    // Pobierz końcową klasyfikację (miejsca 1-8)
+    // Pobierz klasyfikację miejsc 1-8
     const classification = getFinalClassification(
         currentKnockoutMatches, 
         currentConsolationMatches, 
         consolationMode === 'yes'
     );
     
-    // Pobierz ustawienia punktacji
+    // ===== TWORZYMY PEŁNĄ KLASYFIKACJĘ 1-16 =====
+    let fullClassification = { ...classification };
+    
+    if (knockoutSize === 16) {
+        // Miejsca 5-8: przegrani z ćwierćfinałów
+        if (currentKnockoutMatches.quarterfinals) {
+            const qfLosers = currentKnockoutMatches.quarterfinals
+                .filter(m => m.loser && m.loser !== "WOLNY LOS")
+                .map(m => m.loser);
+            for (let i = 0; i < qfLosers.length && i < 4; i++) {
+                fullClassification[5 + i] = qfLosers[i];
+            }
+        }
+        
+        if (consolationMode === 'yes') {
+            // Miejsca 9-12 z turnieju pocieszenia
+            if (currentConsolationMatches.final && currentConsolationMatches.final.winner) {
+                fullClassification[9] = currentConsolationMatches.final.winner;
+                fullClassification[10] = currentConsolationMatches.final.loser;
+            }
+            if (currentConsolationMatches.eleventh && currentConsolationMatches.eleventh.winner) {
+                fullClassification[11] = currentConsolationMatches.eleventh.winner;
+                fullClassification[12] = currentConsolationMatches.eleventh.loser;
+            }
+            // Miejsca 13-16: przegrani z ćwierćfinałów pocieszenia
+            if (currentConsolationMatches.quarterfinals) {
+                const cqfLosers = currentConsolationMatches.quarterfinals
+                    .filter(m => m.loser && m.loser !== "WOLNY LOS")
+                    .map(m => m.loser);
+                for (let i = 0; i < cqfLosers.length && i < 4; i++) {
+                    fullClassification[13 + i] = cqfLosers[i];
+                }
+            }
+        } else if (currentKnockoutMatches.round16) {
+            // Gdy turniej pocieszenia WYŁĄCZONY: miejsca 9-16 to przegrani z 1/16
+            const round16Losers = currentKnockoutMatches.round16
+                .filter(m => m.loser && m.loser !== "WOLNY LOS")
+                .map(m => m.loser);
+            for (let i = 0; i < round16Losers.length && i < 8; i++) {
+                fullClassification[9 + i] = round16Losers[i];
+            }
+        }
+    } else {
+        // Dla 8: miejsca 5-8 z turnieju pocieszenia
+        if (consolationMode === 'yes') {
+            if (currentConsolationMatches.final && currentConsolationMatches.final.winner) {
+                fullClassification[5] = currentConsolationMatches.final.winner;
+                fullClassification[6] = currentConsolationMatches.final.loser;
+            }
+            if (currentConsolationMatches.eleventh && currentConsolationMatches.eleventh.winner) {
+                fullClassification[7] = currentConsolationMatches.eleventh.winner;
+                fullClassification[8] = currentConsolationMatches.eleventh.loser;
+            }
+        }
+    }
+    
     const pointsScope = document.querySelector('input[name="pointScope"]:checked')?.value || 'all';
     const topPlaces = parseInt(document.getElementById('topPlaces')?.value) || 8;
     const participationPoints = parseInt(document.getElementById('points-participation')?.value) || 0;
+    const r16Points = parseInt(document.getElementById('points-r16')?.value) || 0;
     
-    // Pobierz wszystkich zawodników (bez duplikatów)
     const currentGroupPlayers = mode === 'manual' ? manualGroupPlayers : groupPlayers;
     const allPlayers = [...new Set(currentGroupPlayers.flat().filter(p => p && p !== "WOLNY LOS"))];
+    
+    // Kto grał w 1/16 finału?
+    const r16Players = new Set();
+    if (knockoutSize === 16 && currentKnockoutMatches.round16) {
+        currentKnockoutMatches.round16.forEach(match => {
+            if (match.player1 && match.player1 !== "WOLNY LOS") r16Players.add(match.player1);
+            if (match.player2 && match.player2 !== "WOLNY LOS") r16Players.add(match.player2);
+        });
+    }
     
     let addedCount = 0;
     
     allPlayers.forEach(player => {
         let playerPlace = null;
-        let isQFPlayer = false;
         
-        // Szukamy miejsca w klasyfikacji (1-8)
-        for (let place = 1; place <= 8; place++) {
-            if (classification[place] === player) {
+        // Szukamy miejsca w PEŁNEJ klasyfikacji (1-16)
+        for (let place = 1; place <= knockoutSize; place++) {
+            if (fullClassification[place] === player) {
                 playerPlace = place;
                 break;
             }
         }
         
-        // Sprawdź czy grał w ćwierćfinale (tylko gdy NIE ma turnieju pocieszenia)
-        if (!playerPlace && consolationMode === 'no') {
-            isQFPlayer = currentKnockoutMatches.quarterfinals?.some(qf => 
-                qf.player1 === player || qf.player2 === player
-            ) || false;
-        }
-        
         let points = 0;
         
-        if (playerPlace) {
+        if (playerPlace && playerPlace <= 8) {
             // Miejsca 1-8 – punkty z pól
             const pointsInput = document.getElementById(`points-${playerPlace}`);
             points = parseInt(pointsInput?.value) || 0;
-            
-            // Jeśli tryb "Tylko TOP" i miejsce > topPlaces - zerujemy punkty
             if (pointsScope === 'top' && playerPlace > topPlaces) {
                 points = 0;
             }
-        } else if (isQFPlayer) {
-            // Zawodnik grał w ćwierćfinale (tylko gdy NIE ma turnieju pocieszenia)
-            points = parseInt(document.getElementById('points-qf')?.value) || 0;
-        } else {
+        } 
+        else if (r16Players.has(player)) {
+            // Grał w 1/16 finału (ale nie wszedł do top 8)
+            points = r16Points;
+            if (pointsScope === 'top') {
+                points = 0;
+            }
+        }
+        else {
             // Udział (reszta)
             points = participationPoints;
+            if (pointsScope === 'top') {
+                points = 0;
+            }
         }
         
-        // DODAJEMY ZAWSZE do rankingu
         if (!currentRanking[player]) {
             currentRanking[player] = {
                 punkty: 0,
@@ -5834,6 +6646,7 @@ function addTournamentResultsToRanking() {
         currentRanking[player].turnieje++;
         currentRanking[player].punkty += points;
         
+        // Zapamiętujemy NAJLEPSZE miejsce (1-16, nie tylko 1-8)
         if (playerPlace && playerPlace < currentRanking[player].najlepsze_miejsce) {
             currentRanking[player].najlepsze_miejsce = playerPlace;
         }
@@ -5841,12 +6654,12 @@ function addTournamentResultsToRanking() {
         addedCount++;
     });
     
-    // Oznacz rundę jako przetworzoną
     processedRounds[roundKey] = true;
     
     alert(`Dodano punkty do rankingu ligowego dla ${addedCount} zawodników!`);
     saveState();
 }
+
 function checkForDuplicatePlayers() {
     const mode = document.getElementById('mode').value;
     const currentGroupPlayers = mode === 'manual' ? manualGroupPlayers : groupPlayers;
@@ -5882,44 +6695,62 @@ function showLeagueRanking() {
     const currentRound = document.getElementById('currentRound')?.value || '1';
     const totalRounds = data.totalRounds || '?';
     
-    // Posortuj ranking
+    // Sortowanie: po punktach (malejąco), przy równych punktach po najlepszym miejscu
     const sorted = Object.entries(data.ranking)
-        .sort((a, b) => b[1].punkty - a[1].punkty);
+        .sort((a, b) => {
+            if (b[1].punkty !== a[1].punkty) {
+                return b[1].punkty - a[1].punkty;
+            }
+            return (a[1].najlepsze_miejsce || 999) - (b[1].najlepsze_miejsce || 999);
+        });
     
-    // Zbuduj tytuł
+    // Tytuł
     let title = `🏆 ${tournamentName}`;
     if (category) title += ` - ${category}`;
     title += ` (runda ${currentRound} z ${totalRounds})`;
     
-    // Zbuduj tabelę HTML
+    // Liczba zawodników w rankingu
+    const playersCount = sorted.length;
+    
     let html = `
-        <div id="leagueRankingModal" style="position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:white; padding:0; border-radius:15px; max-width:800px; width:95%; max-height:80vh; overflow:hidden; z-index:10000; box-shadow:0 10px 30px rgba(0,0,0,0.3);">
-           <div id="rankingModalHeader" style="padding:5px 10px; background:#3498db; color:white; cursor:move; border-radius:15px 15px 0 0; display:flex; justify-content:space-between; align-items:center; user-select:none;">
-    <h2 style="margin:0; font-size:1rem; display:flex; align-items:center; gap:10px;">${title}</h2>
-    <button onclick="document.getElementById('leagueRankingModal').remove()" style="background:transparent; color:white; border:none; font-size:1.5rem; cursor:pointer; padding:0 8px;">×</button>
-</div>
-            <div style="padding:20px; overflow-y:auto; max-height:calc(80vh - 70px);">
+        <div id="leagueRankingModal" style="position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:white; padding:0; border-radius:15px; max-width:800px; width:95%; max-height:80vh; overflow:auto; z-index:10000; box-shadow:0 10px 30px rgba(0,0,0,0.3);">
+           <div id="rankingModalHeader" style="padding:10px 15px; background:#3498db; color:white; cursor:move; border-radius:15px 15px 0 0; display:flex; justify-content:space-between; align-items:center; user-select:none;">
+                <div>
+                    <h2 style="margin:0; font-size:1rem;">${title}</h2>
+                    <div style="font-size:0.7rem; opacity:0.8;">Liczba zawodników: ${playersCount}</div>
+                </div>
+                <button onclick="document.getElementById('leagueRankingModal').remove()" style="background:transparent; color:white; border:none; font-size:1.5rem; cursor:pointer; padding:0 8px;">×</button>
+            </div>
+            <div style="padding:15px; overflow-y:auto; max-height:calc(80vh - 60px);">
                 <table style="width:100%; border-collapse:collapse;">
                     <thead>
-                        <tr style="background:#f0f0f0;">
-                            <th style="padding:12px; text-align:center;">#</th>
-                            <th style="padding:12px; text-align:left;">Zawodnik</th>
-                            <th style="padding:12px; text-align:center;">Punkty</th>
-                            <th style="padding:12px; text-align:center;">Turnieje</th>
-                            <th style="padding:12px; text-align:center;">Najlepsze miejsce</th>
+                        <tr style="background:#f0f0f0; position:sticky; top:0;">
+                            <th style="padding:8px 10px; text-align:center; width:50px;">#</th>
+                            <th style="padding:8px 10px; text-align:left;">Zawodnik</th>
+                            <th style="padding:8px 10px; text-align:center;">Punkty</th>
+                            <th style="padding:8px 10px; text-align:center;">Turnieje</th>
+                            <th style="padding:8px 10px; text-align:center;">Najlepsze miejsce</th>
                         </tr>
                     </thead>
                     <tbody>
     `;
     
+    // Wyświetlamy TYLKO zawodników z danymi (bez pustych wierszy)
     sorted.forEach(([player, stats], index) => {
+        let bgColor = '';
+        if (index === 0) bgColor = '#FFF8E1';      // złoty odcień dla lidera
+        else if (index === 1) bgColor = '#F5F5F5'; // srebrny
+        else if (index === 2) bgColor = '#FFF3E0'; // brązowy
+        else if (index % 2 === 0) bgColor = '#fafafa';
+        else bgColor = '#ffffff';
+        
         html += `
-            <tr style="border-bottom:1px solid #eee;">
-                <td style="padding:10px; text-align:center; font-weight:bold;">${index+1}</td>
-                <td style="padding:10px; text-align:left;">${player}</td>
-                <td style="padding:10px; text-align:center; font-weight:bold; color:#27ae60;">${stats.punkty}</td>
-                <td style="padding:10px; text-align:center;">${stats.turnieje}</td>
-                <td style="padding:10px; text-align:center;">${stats.najlepsze_miejsce === 999 ? '—' : stats.najlepsze_miejsce}</td>
+            <tr style="border-bottom:1px solid #eee; background:${bgColor};">
+                <td style="padding:8px 10px; text-align:center; font-weight:bold;">${index+1}</td>
+                <td style="padding:8px 10px; text-align:left;">${player}</td>
+                <td style="padding:8px 10px; text-align:center; font-weight:bold; color:#27ae60;">${stats.punkty}</td>
+                <td style="padding:8px 10px; text-align:center;">${stats.turnieje}</td>
+                <td style="padding:8px 10px; text-align:center;">${stats.najlepsze_miejsce === 999 ? '—' : stats.najlepsze_miejsce}</td>
             </tr>
         `;
     });
@@ -5927,6 +6758,7 @@ function showLeagueRanking() {
     html += `
                     </tbody>
                 </table>
+                ${playersCount === 0 ? '<p style="text-align:center; padding:20px;">Brak danych rankingu.</p>' : ''}
             </div>
         </div>
     `;
@@ -5938,46 +6770,36 @@ function showLeagueRanking() {
     const header = document.getElementById('rankingModalHeader');
     
     let isDragging = false;
-    let offsetX, offsetY;
-    let startX, startY;
-    let initialLeft, initialTop;
+    let offsetX, offsetY, startX, startY, initialLeft, initialTop;
     
     header.addEventListener('mousedown', (e) => {
-        e.preventDefault(); // Zapobiega zaznaczaniu tekstu
-        
-        // Pobierz aktualną pozycję okna
+        if (e.target.tagName === 'BUTTON') return;
+        isDragging = true;
         const rect = modal.getBoundingClientRect();
         initialLeft = rect.left;
         initialTop = rect.top;
-        
-        // Oblicz offset względem aktualnej pozycji
         offsetX = e.clientX - initialLeft;
         offsetY = e.clientY - initialTop;
-        
-        // Usuń transformację i ustaw pozycję bezwzględną
         modal.style.transform = 'none';
         modal.style.left = initialLeft + 'px';
         modal.style.top = initialTop + 'px';
-        
-        isDragging = true;
         modal.style.cursor = 'grabbing';
+        e.preventDefault();
     });
     
     document.addEventListener('mousemove', (e) => {
-        if (isDragging) {
-            e.preventDefault();
-            modal.style.left = (e.clientX - offsetX) + 'px';
-            modal.style.top = (e.clientY - offsetY) + 'px';
-        }
+        if (!isDragging) return;
+        modal.style.left = (e.clientX - offsetX) + 'px';
+        modal.style.top = (e.clientY - offsetY) + 'px';
     });
     
     document.addEventListener('mouseup', () => {
-        if (isDragging) {
-            isDragging = false;
-            modal.style.cursor = 'default';
-        }
+        isDragging = false;
+        modal.style.cursor = 'default';
     });
 }
+
+
 function clearCurrentRanking() {
     const rankingKey = getCurrentRankingKey();
     
@@ -6114,7 +6936,7 @@ function loadLeagueRankingFromFile() {
 </script>
 <!-- Stopka na dole strony -->
 <div style="margin-top: 40px; text-align: center; padding: 15px; background: rgba(255,255,255,0.9); border-radius: 8px; font-size: 0.85rem; color: #2c3e50; border: 1px solid rgba(0,0,0,0.1);">
-    <span data-i18n="footerText">© 2026 Turniej Tenisa Stołowego - aplikacja stworzona przez: ZIUTY. Wesprzyj rozwój na</span>
+    <span data-i18n="footerText">© 2026 Turniej Tenisa Stołowego - aplikacje stworzył: ZIUTY. Wesprzyj rozwój na</span>
     <a href="https://buycoffee.to/ziuty_tt_tournament" target="_blank" style="color: #FFDD00; font-weight: bold; text-decoration: none; text-shadow: 1px 1px 0 #000; margin-left: 5px;">☕ BuyCoffee.to</a>
     <span> | </span>
     <a href="https://ko-fi.com/ziuty" target="_blank" style="color: #29ABE0; font-weight: bold; text-decoration: none;">☕ Ko-fi</a>
