@@ -1,4 +1,4 @@
-const CACHE_NAME = 'turniej-v1.1.1'; // <--- ZMIENIAJ TO ZAWSZE (v3, v4 itd.) po zmianach w kodzie
+const CACHE_NAME = 'turniej-v1.1.2'; // <--- ZMIENIAJ TO ZAWSZE (v3, v4 itd.) po zmianach w kodzie
 const urlsToCache = [
   './', // ważne, aby dodać ścieżkę główną
   './index.html',
