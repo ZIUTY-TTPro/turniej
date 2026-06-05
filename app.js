@@ -1883,7 +1883,7 @@ function createMatchElement(match, type = 'main') {
 
     const player1Name = document.createElement('span');
     player1Name.className = 'player-name';
-    player1Name.textContent = match.player1 || "?";
+    player1Name.textContent = match.player1 ? (match.player1 === "WOLNY LOS" ? t('bye') : match.player1) : "?";
 
     const scoreInput1 = document.createElement('input');
     scoreInput1.type = 'text';
@@ -1923,7 +1923,7 @@ function createMatchElement(match, type = 'main') {
 
     const player2Name = document.createElement('span');
     player2Name.className = 'player-name';
-    player2Name.textContent = match.player2 || "?";
+    player2Name.textContent = match.player2 ? (match.player2 === "WOLNY LOS" ? t('bye') : match.player2) : "?";
 
     const scoreInput2 = document.createElement('input');
     scoreInput2.type = 'text';
@@ -2049,7 +2049,7 @@ function updateNextRounds(match) {
                     : '.bracket-player:last-child'
             );
             if (playerRow) {
-                playerRow.querySelector('.player-name').textContent = match.winner;
+                playerRow.querySelector('.player-name').textContent = match.winner === "WOLNY LOS" ? t('bye') : match.winner;
                 playerRow.className = 'bracket-player ' + (currentPlayerColors[match.winner] || '');
             }
         }
@@ -2069,7 +2069,7 @@ function updateNextRounds(match) {
                     : '.bracket-player:last-child'
             );
             if (playerRow) {
-                playerRow.querySelector('.player-name').textContent = match.loser;
+                playerRow.querySelector('.player-name').textContent = match.loser === "WOLNY LOS" ? t('bye') : match.loser;
                 playerRow.className = 'bracket-player ' + (currentPlayerColors[match.loser] || '');
             }
         }
@@ -2100,7 +2100,7 @@ function setClassificationBox(place, player) {
     const span = box.querySelector('.player-name');
     if (!span) return;
     
-    span.textContent = (player && player !== "WOLNY LOS") ? player : '?';
+    span.textContent = (player && player !== "WOLNY LOS") ? (player === "WOLNY LOS" ? t('bye') : player) : '?';
     box.className = 'classification-box';
 
     const mode = document.getElementById('mode').value;
@@ -2214,13 +2214,15 @@ function toggleConsolationVisibility() {
     saveState();
 }
 
+
+
 function generateConsolationBracket() {
     const bracketContainer = document.getElementById('consolation-bracket');
     if (!bracketContainer) return;
-    
+
     bracketContainer.innerHTML = '';
     const consolationMode = document.getElementById('consolationMode').value;
-    
+
     if (consolationMode !== 'yes') {
         alert(t('enableConsolationFirst'));
         return;
@@ -2237,25 +2239,55 @@ function generateConsolationBracket() {
     currentConsolationMatches.semifinals = [];
     currentConsolationMatches.final = null;
     currentConsolationMatches.eleventh = null;
-    // ========================================================
 
-    // Pobierz przegranych z głównego turnieju
-    let losers = [];
-    
-    if (knockoutSize === 16 && currentKnockoutMatches.round16 && currentKnockoutMatches.round16.length > 0) {
-        // Dla 16: bierzemy przegranych z 1/16 finału (8 zawodników)
-        losers = currentKnockoutMatches.round16
-            .filter(match => match.loser && match.loser !== "WOLNY LOS")
-            .map(match => match.loser);
-    } else if (currentKnockoutMatches.quarterfinals) {
-        // Dla 8: bierzemy przegranych z ćwierćfinałów (4 zawodników)
-        losers = currentKnockoutMatches.quarterfinals
-            .filter(match => match.loser && match.loser !== "WOLNY LOS")
-            .map(match => match.loser);
+    // Pobierz uczestników/przegranych z głównego turnieju
+    let participants = [];
+
+    if (knockoutSize === 16) {
+        // Dla 1/16: bierzemy WSZYSTKICH zawodników z meczów 1/16 (łącznie z WOLNY LOS!)
+        if (currentKnockoutMatches.round16 && currentKnockoutMatches.round16.length > 0) {
+            currentKnockoutMatches.round16.forEach(match => {
+                if (match.player1) participants.push(match.player1);
+                if (match.player2) participants.push(match.player2);
+            });
+            // Usuń duplikaty (na wszelki wypadek)
+            participants = [...new Set(participants)];
+        }
+    } else {
+        // Dla 1/8: bierzemy przegranych z ćwierćfinałów
+        if (currentKnockoutMatches.quarterfinals && currentKnockoutMatches.quarterfinals.length > 0) {
+            participants = currentKnockoutMatches.quarterfinals
+                .filter(match => match.loser && match.loser !== "WOLNY LOS")
+                .map(match => match.loser);
+        }
     }
 
-    if (losers.length < 4) {
-        alert(t('notEnoughLosers'));
+    // ===== SPRAWDZENIE I UZUPEŁNIENIE LICZBY UCZESTNIKÓW =====
+    const requiredCount = knockoutSize === 16 ? 8 : 4;
+
+    // Uzupełnij braki WOLNY LOS
+    while (participants.length < requiredCount) {
+        participants.push("WOLNY LOS");
+    }
+
+    // Jeśli za dużo, weź pierwszych requiredCount
+    if (participants.length > requiredCount) {
+        participants = participants.slice(0, requiredCount);
+    }
+
+    // Sprawdź czy mamy wystarczająco
+    if (participants.length < requiredCount) {
+        let msg;
+        if (knockoutSize === 16) {
+            msg = 'Brak wystarczającej liczby zawodników w 1/16 finału.\n' +
+                  'Upewnij się, że drabinka 1/16 jest wygenerowana (przycisk "Generuj drabinkę").\n' +
+                  `Potrzeba: ${requiredCount}, obecnie: ${participants.length}`;
+        } else {
+            msg = 'Brak wystarczającej liczby przegranych z ćwierćfinałów.\n' +
+                  'Rozegraj najpierw mecze ćwierćfinałowe, aby wygenerować Turniej Pocieszenia.\n' +
+                  `Potrzeba: ${requiredCount}, obecnie: ${participants.length}`;
+        }
+        alert(msg);
         return;
     }
 
@@ -2266,37 +2298,36 @@ function generateConsolationBracket() {
         'player-color-9', 'player-color-10', 'player-color-11', 'player-color-12',
         'player-color-13', 'player-color-14', 'player-color-15', 'player-color-16'
     ];
-    const allPlayersInConsolation = [...new Set(losers.filter(p => p !== "WOLNY LOS"))];
+    const allPlayersInConsolation = [...new Set(participants.filter(p => p !== "WOLNY LOS"))];
     allPlayersInConsolation.forEach((player, index) => {
         if (!currentPlayerColors[player]) {
             currentPlayerColors[player] = colorClasses[index % colorClasses.length];
         }
     });
 
-    if (knockoutSize === 16 && losers.length >= 8) {
+    if (knockoutSize === 16 && participants.length >= 8) {
         // ===== 16 ZAWODNIKÓW: Ćwierćfinały pocieszenia (8›4) =====
-        // Mecze ćwierćfinałów pocieszenia
         currentConsolationMatches.quarterfinals = [
-            { id: 'cqf1', player1: losers[0], player2: losers[1], score1: '', score2: '', winner: null, loser: null },
-            { id: 'cqf2', player1: losers[2], player2: losers[3], score1: '', score2: '', winner: null, loser: null },
-            { id: 'cqf3', player1: losers[4], player2: losers[5], score1: '', score2: '', winner: null, loser: null },
-            { id: 'cqf4', player1: losers[6], player2: losers[7], score1: '', score2: '', winner: null, loser: null }
+            { id: 'cqf1', player1: participants[0], player2: participants[1], score1: '', score2: '', winner: null, loser: null },
+            { id: 'cqf2', player1: participants[2], player2: participants[3], score1: '', score2: '', winner: null, loser: null },
+            { id: 'cqf3', player1: participants[4], player2: participants[5], score1: '', score2: '', winner: null, loser: null },
+            { id: 'cqf4', player1: participants[6], player2: participants[7], score1: '', score2: '', winner: null, loser: null }
         ];
-        
+
         // Półfinały pocieszenia (puste)
         currentConsolationMatches.semifinals = [
             { id: 'csf1', player1: null, player2: null, score1: '', score2: '', winner: null, loser: null },
             { id: 'csf2', player1: null, player2: null, score1: '', score2: '', winner: null, loser: null }
         ];
-        
+
         // Finał pocieszenia (mecz o 9. miejsce) + mecz o 11. miejsce
         currentConsolationMatches.final = { id: 'final', player1: null, player2: null, score1: '', score2: '', winner: null, loser: null };
         currentConsolationMatches.eleventh = { id: 'eleventh', player1: null, player2: null, score1: '', score2: '', winner: null, loser: null };
-        
+
     } else {
         // ===== 8 ZAWODNIKÓW: Półfinały pocieszenia (4›2) =====
-        const consolationParticipants = losers.slice(0, 4);
-        
+        const consolationParticipants = participants.slice(0, 4);
+
         currentConsolationMatches.quarterfinals = [];
         currentConsolationMatches.semifinals = [
             { id: 'csf1', player1: consolationParticipants[0], player2: consolationParticipants[1], score1: '', score2: '', winner: null, loser: null },
@@ -2309,6 +2340,8 @@ function generateConsolationBracket() {
     displayConsolationBracket();
     updateConsolationClassification(true);
 }
+
+
 
 function displayConsolationBracket() {
     const bracketContainer = document.getElementById('consolation-bracket');
@@ -2528,7 +2561,7 @@ function setConsolationClassificationBox(place, player) {
 
     const span = box.querySelector('.player-name');
     if (span) {
-        span.textContent = (player && player !== "WOLNY LOS") ? player : '?';
+        span.textContent = (player && player !== "WOLNY LOS") ? (player === "WOLNY LOS" ? t('bye') : player) : '?';
     }
 
     box.className = 'classification-box';
@@ -2922,8 +2955,8 @@ function updateMatchUI(match, type) {
     const player1Row = matchDiv.querySelector('.bracket-player:first-child');
     const player2Row = matchDiv.querySelector('.bracket-player:last-child');
 
-    if (player1NameSpan) player1NameSpan.textContent = match.player1 || '?';
-    if (player2NameSpan) player2NameSpan.textContent = match.player2 || '?';
+    if (player1NameSpan) player1NameSpan.textContent = match.player1 ? (match.player1 === "WOLNY LOS" ? t('bye') : match.player1) : '?';
+    if (player2NameSpan) player2NameSpan.textContent = match.player2 ? (match.player2 === "WOLNY LOS" ? t('bye') : match.player2) : '?';
 
     // ===== KOLORY DLA GRACZA 1 =====
     if (player1Row) {
@@ -3747,12 +3780,13 @@ function performExport(exportMode) {
                 }
             }
             
+            // Kompresja BYE - usuń luki w numeracji
+            let displayRankAuto = 1;
             for (let i = 1; i <= maxPlacesAuto; i++) {
                 const player = autoClassification[i];
-                if (player && player !== "WOLNY LOS") {
-                    textOutput.push(`${i}. ${player}`);
-                } else if (i <= 16 || maxPlacesAuto === 32) {
-                    textOutput.push(`${i}. ?`);
+                if (player && player !== "WOLNY LOS" && player !== '?' && player !== '—' && player !== null) {
+                    textOutput.push(`${displayRankAuto}. ${player}`);
+                    displayRankAuto++;
                 }
             }
             textOutput.push('\n' + '='.repeat(40) + '\n');
@@ -3934,12 +3968,13 @@ function performExport(exportMode) {
                 }
             }
             
+            // Kompresja BYE - usuń luki w numeracji
+            let displayRankManual = 1;
             for (let i = 1; i <= maxPlacesManual; i++) {
                 const player = manualClassification[i];
-                if (player && player !== "WOLNY LOS") {
-                    textOutput.push(`${i}. ${player}`);
-                } else if (i <= 16 || maxPlacesManual === 32) {
-                    textOutput.push(`${i}. ?`);
+                if (player && player !== "WOLNY LOS" && player !== '?' && player !== '—' && player !== null) {
+                    textOutput.push(`${displayRankManual}. ${player}`);
+                    displayRankManual++;
                 }
             }
         }
@@ -4108,12 +4143,13 @@ function performExport(exportMode) {
             }
         }
         
+        // Kompresja BYE - usuń luki w numeracji
+        let displayRank = 1;
         for (let i = 1; i <= maxPlaces; i++) {
             const player = classification[i];
-            if (player && player !== "WOLNY LOS") {
-                textOutput.push(`${i}. ${player}`);
-            } else if (i <= 16 || maxPlaces === 32) {
-                textOutput.push(`${i}. ?`);
+            if (player && player !== "WOLNY LOS" && player !== '?' && player !== '—' && player !== null) {
+                textOutput.push(`${displayRank}. ${player}`);
+                displayRank++;
             }
         }
     }
@@ -4165,7 +4201,7 @@ function isMatchActuallyPlayed(match) {
 function getFinalClassification(knockoutMatches, consolationMatches, isConsolationActive) {
     const classification = {};
     const knockoutSize = parseInt(document.getElementById('knockoutSize')?.value || 8);
-    
+
     // ===== MIEJSCA 1-4: GŁÓWNY TURNIEJ =====
     if (knockoutMatches.final && isMatchActuallyPlayed(knockoutMatches.final)) {
         classification[1] = knockoutMatches.final.winner;
@@ -4175,48 +4211,72 @@ function getFinalClassification(knockoutMatches, consolationMatches, isConsolati
         classification[3] = knockoutMatches.thirdPlace.winner;
         classification[4] = knockoutMatches.thirdPlace.loser;
     }
-    
+
     if (knockoutSize === 16) {
-        // ===== MIEJSCA 5-8: PRZEGRANI Z ĆWIERĆFINAŁÓW =====
-        if (knockoutMatches.quarterfinals && knockoutMatches.quarterfinals.length > 0) {
-            const qfLosers = knockoutMatches.quarterfinals
-                .filter(m => isMatchActuallyPlayed(m))
-                .map(m => m.loser)
-                .filter(loser => loser && loser !== "WOLNY LOS" && loser !== null);
-            for (let i = 0; i < qfLosers.length && i < 4; i++) {
-                classification[5 + i] = qfLosers[i];
+        // ===== MIEJSCA 5-8: PRZEGRANI Z PÓŁFINAŁÓW (tylko realni) =====
+        if (knockoutMatches.semifinals && knockoutMatches.semifinals.length > 0) {
+            const sfLosers = knockoutMatches.semifinals
+                .filter(m => isMatchActuallyPlayed(m) && m.loser && m.loser !== "WOLNY LOS")
+                .map(m => m.loser);
+            for (let i = 0; i < sfLosers.length && i < 4; i++) {
+                classification[5 + i] = sfLosers[i];
             }
         }
-        
-        // ===== MIEJSCA 9-16 =====
+
+        // ===== MIEJSCA 9-12: PRZEGRANI Z ĆWIERĆFINAŁÓW (tylko realni) =====
+        if (knockoutMatches.quarterfinals && knockoutMatches.quarterfinals.length > 0) {
+            const qfLosers = knockoutMatches.quarterfinals
+                .filter(m => isMatchActuallyPlayed(m) && m.loser && m.loser !== "WOLNY LOS")
+                .map(m => m.loser);
+            for (let i = 0; i < qfLosers.length && i < 4; i++) {
+                // Znajdź pierwsze wolne miejsce od 9
+                let place = 9 + i;
+                while (classification[place] && place < 13) place++;
+                if (place < 13) classification[place] = qfLosers[i];
+            }
+        }
+
+        // ===== MIEJSCA 13-16: PRZEGRANI Z 1/16 (tylko realni!) =====
+        if (knockoutMatches.round16 && knockoutMatches.round16.length > 0) {
+            const r16Losers = knockoutMatches.round16
+                .filter(m => isMatchActuallyPlayed(m) && m.loser && m.loser !== "WOLNY LOS")
+                .map(m => m.loser);
+            for (let i = 0; i < r16Losers.length && i < 8; i++) {
+                // Znajdź pierwsze wolne miejsce od 13
+                let place = 13 + i;
+                while (classification[place] && place < 17) place++;
+                if (place < 17) classification[place] = r16Losers[i];
+            }
+        }
+
+        // ===== MIEJSCA 9-16 z turnieju pocieszenia (jeśli aktywny) =====
         if (isConsolationActive && consolationMatches) {
-            // Turniej pocieszenia (miejsca 9-12 z finałów, 13-16 z ćwierćfinałów pocieszenia)
             if (consolationMatches.final && isMatchActuallyPlayed(consolationMatches.final)) {
-                classification[9] = consolationMatches.final.winner;
-                classification[10] = consolationMatches.final.loser;
+                let place = 9;
+                while (classification[place] && place < 17) place++;
+                if (place < 17) classification[place] = consolationMatches.final.winner;
+
+                place = 9;
+                while (classification[place] && place < 17) place++;
+                if (place < 17) classification[place] = consolationMatches.final.loser;
             }
             if (consolationMatches.eleventh && isMatchActuallyPlayed(consolationMatches.eleventh)) {
-                classification[11] = consolationMatches.eleventh.winner;
-                classification[12] = consolationMatches.eleventh.loser;
+                let place = 9;
+                while (classification[place] && place < 17) place++;
+                if (place < 17) classification[place] = consolationMatches.eleventh.winner;
+
+                place = 9;
+                while (classification[place] && place < 17) place++;
+                if (place < 17) classification[place] = consolationMatches.eleventh.loser;
             }
             if (consolationMatches.quarterfinals && consolationMatches.quarterfinals.length > 0) {
                 const cqfLosers = consolationMatches.quarterfinals
-                    .filter(m => isMatchActuallyPlayed(m))
-                    .map(m => m.loser)
-                    .filter(l => l && l !== "WOLNY LOS");
+                    .filter(m => isMatchActuallyPlayed(m) && m.loser && m.loser !== "WOLNY LOS")
+                    .map(m => m.loser);
                 for (let i = 0; i < cqfLosers.length && i < 4; i++) {
-                    classification[13 + i] = cqfLosers[i];
-                }
-            }
-        } else {
-            // Bez turnieju pocieszenia - przegrani z 1/16 finału
-            if (knockoutMatches.round16 && knockoutMatches.round16.length > 0) {
-                const r16Losers = knockoutMatches.round16
-                    .filter(m => isMatchActuallyPlayed(m))
-                    .map(m => m.loser)
-                    .filter(loser => loser && loser !== "WOLNY LOS" && loser !== null);
-                for (let i = 0; i < r16Losers.length && i < 8; i++) {
-                    classification[9 + i] = r16Losers[i];
+                    let place = 9;
+                    while (classification[place] && place < 17) place++;
+                    if (place < 17) classification[place] = cqfLosers[i];
                 }
             }
         }
@@ -4224,31 +4284,47 @@ function getFinalClassification(knockoutMatches, consolationMatches, isConsolati
         // ===== DLA 8 ZAWODNIKÓW: MIEJSCA 5-8 =====
         if (knockoutMatches.quarterfinals && knockoutMatches.quarterfinals.length > 0) {
             const qfLosers = knockoutMatches.quarterfinals
-                .filter(m => isMatchActuallyPlayed(m))
-                .map(m => m.loser)
-                .filter(loser => loser && loser !== "WOLNY LOS" && loser !== null);
+                .filter(m => isMatchActuallyPlayed(m) && m.loser && m.loser !== "WOLNY LOS")
+                .map(m => m.loser);
             for (let i = 0; i < qfLosers.length && i < 4; i++) {
                 classification[5 + i] = qfLosers[i];
             }
         }
-        
+
         // MIEJSCA 5-8 z turnieju pocieszenia (dla 8 zawodników)
         if (isConsolationActive && consolationMatches) {
             if (consolationMatches.final && isMatchActuallyPlayed(consolationMatches.final)) {
-                classification[5] = consolationMatches.final.winner;
-                classification[6] = consolationMatches.final.loser;
+                let place = 5;
+                while (classification[place] && place < 9) place++;
+                if (place < 9) classification[place] = consolationMatches.final.winner;
+
+                place = 5;
+                while (classification[place] && place < 9) place++;
+                if (place < 9) classification[place] = consolationMatches.final.loser;
             }
             if (consolationMatches.eleventh && isMatchActuallyPlayed(consolationMatches.eleventh)) {
-                classification[7] = consolationMatches.eleventh.winner;
-                classification[8] = consolationMatches.eleventh.loser;
+                let place = 5;
+                while (classification[place] && place < 9) place++;
+                if (place < 9) classification[place] = consolationMatches.eleventh.winner;
+
+                place = 5;
+                while (classification[place] && place < 9) place++;
+                if (place < 9) classification[place] = consolationMatches.eleventh.loser;
             }
         }
     }
-    
-    return classification;
+
+    // ===== POLICZ MAKSYMALNE ZAJĘTE MIEJSCE W TURNIEJU GŁÓWNYM =====
+    let maxMainPlace = 0;
+    Object.keys(classification).forEach(key => {
+        const place = parseInt(key);
+        if (classification[place] && classification[place] !== "WOLNY LOS" && place > maxMainPlace) {
+            maxMainPlace = place;
+        }
+    });
+
+    return { classification, maxMainPlace };
 }
-
-
 
 
 function showFinalClassificationModal() {
@@ -4258,41 +4334,50 @@ function showFinalClassificationModal() {
     const currentConsolationMatches = mode === 'manual' ? manualConsolationMatches : autoConsolationMatches;
     const consolationMode = document.getElementById('consolationMode').value;
     const isConsolationActive = consolationMode === 'yes';
-    
+
     const existingModal = document.getElementById('classificationModal');
     if (existingModal) existingModal.remove();
-    
-    // Pobierz klasyfikację główną (miejsca 1-16)
-    const mainClassification = getFinalClassification(
+
+    // Pobierz klasyfikację główną (miejsca 1-16) z kompresją BYE
+    const { classification: mainClassification, maxMainPlace } = getFinalClassification(
         currentKnockoutMatches, 
         currentConsolationMatches, 
         isConsolationActive
     );
-    
+
     // Połącz wszystkie klasyfikacje
     let fullClassification = { ...mainClassification };
-    let maxPlaces = knockoutSize === 16 ? 16 : 8;
-    
-    // Dodaj turniej dla przegranych z grup (miejsca 17-32)
+    let nextAvailablePlace = maxMainPlace + 1;
+
+    // Dodaj turniej dla przegranych z grup (zaczynając od pierwszego wolnego miejsca)
     if (groupLosersTournamentMode === 'yes') {
-        maxPlaces = 32;
         const glClassification = getGroupLosersFinalClassification();
-        // Przesuń miejsca z turnieju przegranych o +16 (1→17, 2→18, itd.)
-        for (let place = 1; place <= 16; place++) {
-            if (glClassification[place]) {
-                fullClassification[16 + place] = glClassification[place];
-            }
+        // Przesuń miejsca z turnieju przegranych - zacznij od nextAvailablePlace
+        let glPlace = 1;
+        while (glClassification[glPlace]) {
+            while (fullClassification[nextAvailablePlace]) nextAvailablePlace++;
+            fullClassification[nextAvailablePlace] = glClassification[glPlace];
+            nextAvailablePlace++;
+            glPlace++;
         }
     }
-    
+
     const tournamentName = document.getElementById('tournamentNameInput').value.trim() || t('tournamentName');
     const category = document.getElementById('subTitleInput').value.trim() || '';
-    
+
+    // Policz ile realnych miejsc jest zajętych
+    const occupiedPlaces = Object.keys(fullClassification)
+        .map(Number)
+        .filter(k => fullClassification[k] && fullClassification[k] !== "WOLNY LOS" && fullClassification[k] !== '?' && fullClassification[k] !== '—')
+        .sort((a, b) => a - b);
+
+    const maxPlace = occupiedPlaces.length > 0 ? Math.max(...occupiedPlaces) : 0;
+
     let html = `
         <div id="classificationModal" class="classification-modal">
             <div id="classificationModalHeader" class="classification-modal-header">
                 <div class="classification-modal-header-center">
-                    <div class="classification-modal-title">${t('finalClassification')} (miejsca 1-${maxPlaces})</div>
+                    <div class="classification-modal-title">${t('finalClassification')} (miejsca 1-${maxPlace})</div>
                     <div class="classification-modal-subtitle">${tournamentName}${category ? ' - ' + category : ''}</div>
                 </div>
                 <button id="closeModalBtn" class="classification-modal-close">×</button>
@@ -4307,37 +4392,38 @@ function showFinalClassificationModal() {
                     </thead>
                     <tbody>
     `;
-    
-    // Wyświetl wszystkie miejsca od 1 do maxPlaces
+
+    // Wyświetl wszystkie zajęte miejsca po kolei (bez luk!)
     let hasAnyPlayer = false;
-    for (let i = 1; i <= maxPlaces; i++) {
+    let displayRank = 1; // Rzeczywiste miejsce wyświetlane (bez luk)
+
+    for (let i = 1; i <= maxPlace; i++) {
         const player = fullClassification[i];
-        let styleAttr = '';
-        
-        if (player && player !== '?' && player !== '—' && player !== "WOLNY LOS") {
+
+        if (player && player !== '?' && player !== '—' && player !== "WOLNY LOS" && player !== null) {
             hasAnyPlayer = true;
+
+            let styleAttr = '';
+            if (displayRank === 1) {
+                styleAttr = 'background: linear-gradient(135deg, #FFD700, #FFEC8B) !important; border: 2px solid #D4AF37 !important; font-weight: bold;';
+            } else if (displayRank === 2) {
+                styleAttr = 'background: linear-gradient(135deg, #C0C0C0, #E8E8E8) !important; border: 2px solid #A8A8A8 !important; font-weight: bold;';
+            } else if (displayRank === 3) {
+                styleAttr = 'background: linear-gradient(135deg, #CD7F32, #E9B384) !important; border: 2px solid #8B4513 !important; font-weight: bold;';
+            } else if (displayRank >= 4 && displayRank <= 8) {
+                styleAttr = 'background: #f5f5f5;';
+            }
+
+            html += `
+                <tr style="${styleAttr}">
+                    <td>${displayRank}.</td>
+                    <td>${escapeHtml(player)}</td>
+                 </tr>
+            `;
+            displayRank++;
         }
-        
-        if (i === 1 && player) {
-            styleAttr = 'background: linear-gradient(135deg, #FFD700, #FFEC8B) !important; border: 2px solid #D4AF37 !important; font-weight: bold;';
-        } else if (i === 2 && player) {
-            styleAttr = 'background: linear-gradient(135deg, #C0C0C0, #E8E8E8) !important; border: 2px solid #A8A8A8 !important; font-weight: bold;';
-        } else if (i === 3 && player) {
-            styleAttr = 'background: linear-gradient(135deg, #CD7F32, #E9B384) !important; border: 2px solid #8B4513 !important; font-weight: bold;';
-        } else if (i >= 4 && i <= 8 && player) {
-            styleAttr = 'background: #f5f5f5;';
-        }
-        
-        const displayName = (player && player !== '?' && player !== null && player !== "WOLNY LOS") ? player : '—';
-        
-        html += `
-            <tr style="${styleAttr}">
-                <td>${i}.</td>
-                <td>${escapeHtml(displayName)}</td>
-             </tr>
-        `;
     }
-    
+
     if (!hasAnyPlayer) {
         html += `
             <tr>
@@ -4347,28 +4433,28 @@ function showFinalClassificationModal() {
              </tr>
         `;
     }
-    
+
     html += `
                     </tbody>
                 </table>
             </div>
         </div>
     `;
-    
+
     document.body.insertAdjacentHTML('beforeend', html);
-    
+
     const modal = document.getElementById('classificationModal');
     const header = document.getElementById('classificationModalHeader');
     const closeBtn = document.getElementById('closeModalBtn');
-    
+
     closeBtn.onclick = function(e) {
         e.stopPropagation();
         modal.remove();
     };
-    
+
     let isDragging = false;
     let startX, startY, initialLeft, initialTop;
-    
+
     header.addEventListener('mousedown', (e) => {
         if (e.target === closeBtn || e.target.closest('#closeModalBtn')) return;
         isDragging = true;
@@ -4383,13 +4469,13 @@ function showFinalClassificationModal() {
         modal.style.cursor = 'grabbing';
         e.preventDefault();
     });
-    
+
     document.addEventListener('mousemove', (e) => {
         if (!isDragging) return;
         modal.style.left = (e.clientX - startX) + 'px';
         modal.style.top = (e.clientY - startY) + 'px';
     });
-    
+
     document.addEventListener('mouseup', () => {
         isDragging = false;
         modal.style.cursor = 'default';
@@ -4980,6 +5066,24 @@ translations.pl.generateGroupLosersConsolation = "Generuj drabinkę pocieszenia 
 translations.pl.qualifiedToGroupLosers = "Awans do turnieju dla przegranych z grupy";
 translations.pl.groupLosersKnockoutStage = "Faza pucharowa (przegrani z grup)";
 translations.pl.groupLosersConsolationToggle = "Turniej pocieszenia (przegrani z grup)";
+translations.pl.bye = "WOLNY LOS";
+translations.pl.currentRound = "Aktualna runda";
+translations.pl.totalRounds = "Liczba rund";
+translations.pl.round16Label = "1/16 finału:";
+translations.pl.mainTournamentTab = "Główny Turniej";
+translations.pl.consolationTournamentTab = "Turniej Pocieszenia";
+translations.pl.losersFromGroupsTab = "Główny - Przegrani z Grup";
+translations.pl.losersConsolationTab = "Pocieszenie - Przegrani z Grup";
+translations.pl.bracketView = "Drabinka";
+translations.pl.scheduleViewKnockout = "Harmonogram";
+translations.pl.locked = "Zablokowany";
+translations.pl.matchFor17 = "Mecz o 17. miejsce";
+translations.pl.matchFor19 = "Mecz o 19. miejsce";
+translations.pl.matchFor25 = "Mecz o 25. miejsce";
+translations.pl.matchFor27 = "Mecz o 27. miejsce";
+translations.pl.qualifiedToGroupLosersLabel = "Awans do turnieju dla przegranych z grupy";
+translations.pl.noGroupLosersPlayers = "Brak zawodników do turnieju dla przegranych z grup.";
+translations.pl.enableGroupLosersFirst = 'Włącz najpierw opcję "Turniej dla przegranych z grup".';
 
 translations.en.enterPlayersFirst = "Enter players before generating groups!";
 translations.en.invalidScore = "Score must be a number!";
@@ -5102,6 +5206,24 @@ translations.en.generateGroupLosersConsolation = "Generate consolation bracket �
 translations.en.qualifiedToGroupLosers = "Qualified to group losers tournament";
 translations.en.groupLosersKnockoutStage = "Knockout stage (group losers)";
 translations.en.groupLosersConsolationToggle = "Consolation tournament (group losers)";
+translations.en.bye = "BYE";
+translations.en.currentRound = "Current round";
+translations.en.totalRounds = "Total rounds";
+translations.en.round16Label = "Round of 16:";
+translations.en.mainTournamentTab = "Main Tournament";
+translations.en.consolationTournamentTab = "Consolation Tournament";
+translations.en.losersFromGroupsTab = "Main - Group Losers";
+translations.en.losersConsolationTab = "Consolation - Group Losers";
+translations.en.bracketView = "Bracket";
+translations.en.scheduleViewKnockout = "Schedule";
+translations.en.locked = "Locked";
+translations.en.matchFor17 = "Match for 17th place";
+translations.en.matchFor19 = "Match for 19th place";
+translations.en.matchFor25 = "Match for 25th place";
+translations.en.matchFor27 = "Match for 27th place";
+translations.en.qualifiedToGroupLosersLabel = "Qualified to group losers tournament";
+translations.en.noGroupLosersPlayers = "No players for group losers tournament.";
+translations.en.enableGroupLosersFirst = 'First enable "Tournament for group losers" option.';
 
 // ================= PWA - SERVICE WORKER =================
 if ('serviceWorker' in navigator && (location.protocol === 'http:' || location.protocol === 'https:')) {
@@ -5618,57 +5740,68 @@ function getGroupLosersFinalClassification() {
     const consolationMatches = groupLosersConsolationMatches;
     const isConsolationActive = groupLosersConsolationMode === 'yes';
     const knockoutSize = groupLosersKnockoutSize || 8;
-    
+
     // ===== MIEJSCA 17-20: GŁÓWNY TURNIEJ DLA PRZEGRANYCH Z GRUP =====
     if (matches.final && isMatchActuallyPlayed(matches.final)) {
-        classification[1] = matches.final.winner;   // 17 miejsce
-        classification[2] = matches.final.loser;    // 18 miejsce
+        classification[1] = matches.final.winner;
+        classification[2] = matches.final.loser;
     }
     if (matches.thirdPlace && isMatchActuallyPlayed(matches.thirdPlace)) {
-        classification[3] = matches.thirdPlace.winner;  // 19 miejsce
-        classification[4] = matches.thirdPlace.loser;   // 20 miejsce
+        classification[3] = matches.thirdPlace.winner;
+        classification[4] = matches.thirdPlace.loser;
     }
-    
+
     if (knockoutSize === 16) {
         // ===== MIEJSCA 21-24: PRZEGRANI Z ĆWIERĆFINAŁÓW =====
         if (matches.quarterfinals && matches.quarterfinals.length > 0) {
             const qfLosers = matches.quarterfinals
-                .filter(m => isMatchActuallyPlayed(m))
-                .map(m => m.loser)
-                .filter(loser => loser && loser !== "WOLNY LOS" && loser !== null);
+                .filter(m => isMatchActuallyPlayed(m) && m.loser && m.loser !== "WOLNY LOS")
+                .map(m => m.loser);
             for (let i = 0; i < qfLosers.length && i < 4; i++) {
-                classification[5 + i] = qfLosers[i];  // 21-24 miejsce
+                classification[5 + i] = qfLosers[i];
             }
         }
-        
+
         // ===== MIEJSCA 25-32 =====
         if (isConsolationActive && consolationMatches) {
             if (consolationMatches.final && isMatchActuallyPlayed(consolationMatches.final)) {
-                classification[9] = consolationMatches.final.winner;   // 25 miejsce
-                classification[10] = consolationMatches.final.loser;   // 26 miejsce
+                let place = 9;
+                while (classification[place] && place < 17) place++;
+                if (place < 17) classification[place] = consolationMatches.final.winner;
+
+                place = 9;
+                while (classification[place] && place < 17) place++;
+                if (place < 17) classification[place] = consolationMatches.final.loser;
             }
             if (consolationMatches.eleventh && isMatchActuallyPlayed(consolationMatches.eleventh)) {
-                classification[11] = consolationMatches.eleventh.winner;  // 27 miejsce
-                classification[12] = consolationMatches.eleventh.loser;   // 28 miejsce
+                let place = 9;
+                while (classification[place] && place < 17) place++;
+                if (place < 17) classification[place] = consolationMatches.eleventh.winner;
+
+                place = 9;
+                while (classification[place] && place < 17) place++;
+                if (place < 17) classification[place] = consolationMatches.eleventh.loser;
             }
             if (consolationMatches.quarterfinals && consolationMatches.quarterfinals.length > 0) {
                 const cqfLosers = consolationMatches.quarterfinals
-                    .filter(m => isMatchActuallyPlayed(m))
-                    .map(m => m.loser)
-                    .filter(l => l && l !== "WOLNY LOS");
+                    .filter(m => isMatchActuallyPlayed(m) && m.loser && m.loser !== "WOLNY LOS")
+                    .map(m => m.loser);
                 for (let i = 0; i < cqfLosers.length && i < 4; i++) {
-                    classification[13 + i] = cqfLosers[i];  // 29-32 miejsce
+                    let place = 9;
+                    while (classification[place] && place < 17) place++;
+                    if (place < 17) classification[place] = cqfLosers[i];
                 }
             }
         } else {
             // Bez turnieju pocieszenia - przegrani z 1/16 finału
             if (matches.round16 && matches.round16.length > 0) {
                 const r16Losers = matches.round16
-                    .filter(m => isMatchActuallyPlayed(m))
-                    .map(m => m.loser)
-                    .filter(loser => loser && loser !== "WOLNY LOS" && loser !== null);
+                    .filter(m => isMatchActuallyPlayed(m) && m.loser && m.loser !== "WOLNY LOS")
+                    .map(m => m.loser);
                 for (let i = 0; i < r16Losers.length && i < 8; i++) {
-                    classification[9 + i] = r16Losers[i];  // 25-32 miejsce
+                    let place = 9;
+                    while (classification[place] && place < 17) place++;
+                    if (place < 17) classification[place] = r16Losers[i];
                 }
             }
         }
@@ -5677,27 +5810,36 @@ function getGroupLosersFinalClassification() {
         if (isConsolationActive && consolationMatches) {
             // Przegrani ćwierćfinałów grają w pocieszeniu o miejsca 25-28
             if (consolationMatches.final && isMatchActuallyPlayed(consolationMatches.final)) {
-                classification[5] = consolationMatches.final.winner;   // 25 miejsce
-                classification[6] = consolationMatches.final.loser;    // 26 miejsce
+                let place = 5;
+                while (classification[place] && place < 9) place++;
+                if (place < 9) classification[place] = consolationMatches.final.winner;
+
+                place = 5;
+                while (classification[place] && place < 9) place++;
+                if (place < 9) classification[place] = consolationMatches.final.loser;
             }
             if (consolationMatches.eleventh && isMatchActuallyPlayed(consolationMatches.eleventh)) {
-                classification[7] = consolationMatches.eleventh.winner;  // 27 miejsce
-                classification[8] = consolationMatches.eleventh.loser;   // 28 miejsce
+                let place = 5;
+                while (classification[place] && place < 9) place++;
+                if (place < 9) classification[place] = consolationMatches.eleventh.winner;
+
+                place = 5;
+                while (classification[place] && place < 9) place++;
+                if (place < 9) classification[place] = consolationMatches.eleventh.loser;
             }
         } else {
             // Bez turnieju pocieszenia - przegrani ćwierćfinałów = miejsca 21-24
             if (matches.quarterfinals && matches.quarterfinals.length > 0) {
                 const qfLosers = matches.quarterfinals
-                    .filter(m => isMatchActuallyPlayed(m))
-                    .map(m => m.loser)
-                    .filter(loser => loser && loser !== "WOLNY LOS" && loser !== null);
+                    .filter(m => isMatchActuallyPlayed(m) && m.loser && m.loser !== "WOLNY LOS")
+                    .map(m => m.loser);
                 for (let i = 0; i < qfLosers.length && i < 4; i++) {
-                    classification[5 + i] = qfLosers[i];  // 21-24 miejsce
+                    classification[5 + i] = qfLosers[i];
                 }
             }
         }
     }
-    
+
     return classification;
 }
 
@@ -6003,16 +6145,16 @@ function generateGroupLosersBracket() {
     
     bracketContainer.innerHTML = '';
     
-    if (groupLosersTournamentMode !== 'yes') {
-        alert('Włącz najpierw opcję "Turniej dla przegranych z grup" w ustawieniach.');
+     if (groupLosersTournamentMode !== 'yes') {
+        alert(t('enableGroupLosersFirst'));
         return;
     }
     
     const players = collectGroupLosersPlayers();
     const knockoutSize = groupLosersKnockoutSize;
     
-    if (players.length === 0) {
-        alert('Brak zawodników do turnieju dla przegranych z grup. Sprawdź czy ktoś nie awansował do głównego turnieju.');
+     if (players.length === 0) {
+        alert(t('noGroupLosersPlayers'));
         return;
     }
     
@@ -6235,7 +6377,7 @@ function createGroupLosersMatchElement(match) {
     
     const player1Name = document.createElement('span');
     player1Name.className = 'player-name';
-    player1Name.textContent = match.player1 || '?';
+    player1Name.textContent = match.player1 ? (match.player1 === "WOLNY LOS" ? t('bye') : match.player1) : '?';
     
     const scoreInput1 = document.createElement('input');
     scoreInput1.type = 'text';
@@ -6260,7 +6402,7 @@ function createGroupLosersMatchElement(match) {
     
     const player2Name = document.createElement('span');
     player2Name.className = 'player-name';
-    player2Name.textContent = match.player2 || '?';
+    player2Name.textContent = match.player2 ? (match.player2 === "WOLNY LOS" ? t('bye') : match.player2) : '?';
     
     const scoreInput2 = document.createElement('input');
     scoreInput2.type = 'text';
@@ -6382,8 +6524,8 @@ function generateGroupLosersConsolationBracket() {
     const bracketContainer = document.getElementById('groupLosers-consolation-bracket');
     if (!bracketContainer) return;
     
-    if (groupLosersTournamentMode !== 'yes') {
-        alert('Włącz najpierw opcję "Turniej dla przegranych z grup" w ustawieniach.');
+   if (groupLosersTournamentMode !== 'yes') {
+        alert(t('enableGroupLosersFirst'));
         return;
     }
     
@@ -6492,7 +6634,7 @@ function createGroupLosersConsolationMatchElement(match) {
     
     const player1Name = document.createElement('span');
     player1Name.className = 'player-name';
-    player1Name.textContent = match.player1 || '?';
+    player1Name.textContent = match.player1 ? (match.player1 === "WOLNY LOS" ? t('bye') : match.player1) : '?';
     
     const scoreInput1 = document.createElement('input');
     scoreInput1.type = 'text';
@@ -6517,7 +6659,7 @@ function createGroupLosersConsolationMatchElement(match) {
     
     const player2Name = document.createElement('span');
     player2Name.className = 'player-name';
-    player2Name.textContent = match.player2 || '?';
+    player2Name.textContent = match.player2 ? (match.player2 === "WOLNY LOS" ? t('bye') : match.player2) : '?';
     
     const scoreInput2 = document.createElement('input');
     scoreInput2.type = 'text';
@@ -6662,8 +6804,7 @@ function setGroupLosersConsolationMode(value) {
         btnNo.classList.add('active');
         _safeSetDisplay('groupLosersConsolationSection', 'none');
     }
-    
-    // ODŚWIEŻ WIDOCZNOŚĆ ZAKŁADEK NATYCHMIAST
+
     refreshKnockoutTabsVisibility();
     _syncAllToggleSwitchAria();
     saveState();
@@ -6743,21 +6884,6 @@ function updateGroupLosersConsolationNextRounds(match) {
 let activeKnockoutTab = 'main';
 let activeKnockoutView = 'bracket';
 
-// Tłumaczenia
-if (!translations.pl) translations.pl = {};
-if (!translations.en) translations.en = {};
-translations.pl.bracketView = 'Drabinka';
-translations.pl.scheduleViewKnockout = 'Harmonogram';
-translations.pl.locked = 'Zablokowany';
-translations.pl.mainTournament = 'Główny Turniej';
-translations.pl.losersFromGroups = 'Przegrani z grup';
-translations.pl.mainConsolation = 'Główny';
-translations.en.bracketView = 'Bracket';
-translations.en.scheduleViewKnockout = 'Schedule';
-translations.en.locked = 'Locked';
-translations.en.mainTournament = 'Main Tournament';
-translations.en.losersFromGroups = 'Losers from Groups';
-translations.en.mainConsolation = 'Main';
 
 // ========== PRZEŁĄCZANIE ZAKŁADEK ==========
 function switchKnockoutTab(section, tab) {
@@ -7043,9 +7169,9 @@ function renderKnockoutSchedule() {
             <div class="knockout-schedule-match ${isByeResolved ? 'match-played' : ''} ${wasInProgress ? 'match-in-progress' : ''} ${isLocked ? 'locked' : ''}" id="${matchId}" data-match-id="${match.id}" data-match-type="${type}">
                 <div class="match-round-label">${match.roundName}</div>
                 <div class="match-players">
-                    <div class="match-player ${player1Class}">${escapeHtml(match.player1 || '?')}</div>
+                    <div class="match-player ${player1Class}">${escapeHtml(match.player1 ? (match.player1 === "WOLNY LOS" ? t('bye') : match.player1) : '?')}</div>
                     <div class="match-player vs">vs</div>
-                    <div class="match-player ${player2Class}">${escapeHtml(match.player2 || '?')}</div>
+                    <div class="match-player ${player2Class}">${escapeHtml(match.player2 ? (match.player2 === "WOLNY LOS" ? t('bye') : match.player2) : '?')}</div>
                 </div>
                 <div class="match-result">
                     <input type="text" class="match-result-input" 
