@@ -3764,7 +3764,7 @@ function performExport(exportMode) {
             
             // === KLASYFIKACJA KOŃCOWA ===
             textOutput.push(`=== ${t('finalClassification')} (${t('autoMode')}) ===`);
-            const autoClassification = getFinalClassification(autoData.currentKnockoutMatches, 
+            const { classification: autoClassification } = getFinalClassification(autoData.currentKnockoutMatches, 
                                                              autoData.currentConsolationMatches, 
                                                              consolationMode === 'yes');
             let maxPlacesAuto = (autoData.currentKnockoutMatches.round16 && autoData.currentKnockoutMatches.round16.length > 0) ? 16 : 8;
@@ -3953,7 +3953,7 @@ function performExport(exportMode) {
             }
             
             textOutput.push(`=== ${t('finalClassification')} (${t('manualMode')}) ===`);
-            const manualClassification = getFinalClassification(manualData.currentKnockoutMatches, 
+            const { classification: manualClassification } = getFinalClassification(manualData.currentKnockoutMatches, 
                                                                manualData.currentConsolationMatches, 
                                                                consolationMode === 'yes');
             let maxPlacesManual = (manualData.currentKnockoutMatches.round16 && manualData.currentKnockoutMatches.round16.length > 0) ? 16 : 8;
@@ -4131,7 +4131,7 @@ function performExport(exportMode) {
         }
 
         textOutput.push(`=== ${t('finalClassification')} ===`);
-        const classification = getFinalClassification(data.currentKnockoutMatches, data.currentConsolationMatches, consolationMode === 'yes');
+        const { classification } = getFinalClassification(data.currentKnockoutMatches, data.currentConsolationMatches, consolationMode === 'yes');
         
         if (groupLosersMode === 'yes') {
             maxPlaces = 32;
