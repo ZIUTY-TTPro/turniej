@@ -107,13 +107,13 @@
 <div class="toggle-switch-container">
     <div class="toggle-switch-label" data-i18n="groupLosersConsolationToggle">Turniej pocieszenia (przegrani z grup)</div>
     <div class="toggle-switch">
-        <button class="toggle-switch-btn active" id="btn-gl-consolation-no" onclick="setGroupLosersConsolationMode('no')">Nie</button>
-        <button class="toggle-switch-btn" id="btn-gl-consolation-yes" onclick="setGroupLosersConsolationMode('yes')">Tak</button>
+        <button class="toggle-switch-btn active" id="btn-gl-consolation-no" onclick="setGroupLosersConsolationMode('no')" data-i18n="no">Nie</button>
+        <button class="toggle-switch-btn" id="btn-gl-consolation-yes" onclick="setGroupLosersConsolationMode('yes')" data-i18n="yes">Tak</button>
     </div>
 </div>
 <div class="form-row u-hidden" id="groupLosersQualifiedRow">
     <div class="form-col-shrink">
-        <label class="styled-label" for="numQualifiedToGroupLosers">Awans do turnieju dla przegranych z grupy</label>
+        <label class="styled-label" for="numQualifiedToGroupLosers" data-i18n="qualifiedToGroupLosersLabel">Awans do turnieju dla przegranych z grupy</label>
         <input type="number" id="numQualifiedToGroupLosers" class="styled-input input-num-narrow" min="1" max="10" value="2" oninput="renderGroups(); saveState();">
         
     </div>
@@ -127,11 +127,11 @@
 <!-- NOWE POLA DLA LIGI (widoczne tylko w trybie ligowym) -->
         <div class="form-row u-hidden" id="leagueRoundsFields">
             <div class="form-col-shrink">
-                <label class="styled-label" for="currentRound">Aktualna runda</label>
+                <label class="styled-label" for="currentRound" data-i18n="currentRound">Aktualna runda</label>
                 <input type="number" id="currentRound" class="styled-input input-num-narrow" min="1" max="99" value="1" oninput="saveState()">
             </div>
             <div class="form-col-shrink">
-                <label class="styled-label" for="totalRounds">Liczba rund</label>
+                <label class="styled-label" for="totalRounds" data-i18n="totalRounds">Liczba rund</label>
                 <input type="number" id="totalRounds" class="styled-input input-num-narrow" min="1" max="99" value="4" oninput="saveState()">
             </div>
         </div>
@@ -163,7 +163,7 @@
                 <input type="number" id="points-participation" class="input-num-sm" value="5" min="0">
             </div>
             <div class="league-phase-field">
-                <label class="label-wide">1/16 finału:</label> 
+                <label class="label-wide" data-i18n="round16Label">1/16 finału:</label>
                 <input type="number" id="points-r16" class="input-num-sm" value="10" min="0">
             </div>
         </div>
@@ -265,10 +265,10 @@
         <h2 class="knockout-header" id="knockoutHeader" data-i18n="knockoutStage">Faza Pucharowa</h2>
         <button type="button" class="collapse-button" onclick="toggleCollapse('knockoutSection')" data-i18n="collapse" aria-expanded="true" aria-controls="knockoutSection-content">Zwiń</button>
         <div class="knockout-tabs" id="knockoutSection-content" role="tablist" aria-label="Faza pucharowa">
-    <button type="button" role="tab" class="knockout-tab-btn active" id="knockout-tab-btn-main" data-tab="main" data-target="knockout" onclick="switchKnockoutTab('knockout', 'main')" aria-selected="true" aria-controls="knockout-tab-main">Główny Turniej</button>
-    <button type="button" role="tab" class="knockout-tab-btn" id="knockout-tab-btn-consolation" data-tab="consolation" data-target="knockout" onclick="switchKnockoutTab('knockout', 'consolation')" aria-selected="false" aria-controls="knockout-tab-consolation" tabindex="-1">Turniej Pocieszenia</button>
-    <button type="button" role="tab" class="knockout-tab-btn" id="knockout-tab-btn-losers" data-tab="losers" data-target="knockout" onclick="switchKnockoutTab('knockout', 'losers')" aria-selected="false" aria-controls="knockout-tab-losers" tabindex="-1">Główny - Przegrani z Grup</button>
-    <button type="button" role="tab" class="knockout-tab-btn" id="knockout-tab-btn-losersConsolation" data-tab="losersConsolation" data-target="knockout" onclick="switchKnockoutTab('knockout', 'losersConsolation')" aria-selected="false" aria-controls="knockout-tab-losersConsolation" tabindex="-1">Pocieszenie - Przegrani z Grup</button>
+    <button type="button" role="tab" class="knockout-tab-btn active" id="knockout-tab-btn-main" data-tab="main" data-target="knockout" onclick="switchKnockoutTab('knockout', 'main')" aria-selected="true" aria-controls="knockout-tab-main" data-i18n="mainTournamentTab">Główny Turniej</button>
+    <button type="button" role="tab" class="knockout-tab-btn" id="knockout-tab-btn-consolation" data-tab="consolation" data-target="knockout" onclick="switchKnockoutTab('knockout', 'consolation')" aria-selected="false" aria-controls="knockout-tab-consolation" tabindex="-1" data-i18n="consolationTournamentTab">Turniej Pocieszenia</button>
+    <button type="button" role="tab" class="knockout-tab-btn" id="knockout-tab-btn-losers" data-tab="losers" data-target="knockout" onclick="switchKnockoutTab('knockout', 'losers')" aria-selected="false" aria-controls="knockout-tab-losers" tabindex="-1" data-i18n="losersFromGroupsTab">Główny - Przegrani z Grup</button>
+    <button type="button" role="tab" class="knockout-tab-btn" id="knockout-tab-btn-losersConsolation" data-tab="losersConsolation" data-target="knockout" onclick="switchKnockoutTab('knockout', 'losersConsolation')" aria-selected="false" aria-controls="knockout-tab-losersConsolation" tabindex="-1" data-i18n="losersConsolationTab">Pocieszenie - Przegrani z Grup</button>
     <button type="button" onclick="showFinalClassificationModal()" class="btn-show-classification" data-i18n="showClassification">Pokaż klasyfikację końcową</button>
 </div>
 
@@ -276,8 +276,8 @@
 <div id="knockout-tab-main" class="knockout-tab-content" role="tabpanel" aria-labelledby="knockout-tab-btn-main" tabindex="0">
     <div class="tab-buttons-row" role="tablist" aria-label="Widok turnieju głównego">
         <button type="button" onclick="generateBracket(); saveState()" data-i18n="generateBracket">Generuj drabinkę</button>
-        <button type="button" onclick="switchKnockoutSubView('main', 'bracket')" class="view-btn active" data-view="bracket" role="tab" aria-selected="true" aria-controls="knockout-main-panel" id="knockout-main-view-bracket">Drabinka</button>
-        <button type="button" onclick="switchKnockoutSubView('main', 'schedule')" class="view-btn" data-view="schedule" role="tab" aria-selected="false" aria-controls="knockout-main-panel" id="knockout-main-view-schedule" tabindex="-1">Harmonogram</button>
+        <button type="button" onclick="switchKnockoutSubView('main', 'bracket')" class="view-btn active" data-view="bracket" role="tab" aria-selected="true" aria-controls="knockout-main-panel" id="knockout-main-view-bracket" data-i18n="bracketView">Drabinka</button>
+        <button type="button" onclick="switchKnockoutSubView('main', 'schedule')" class="view-btn" data-view="schedule" role="tab" aria-selected="false" aria-controls="knockout-main-panel" id="knockout-main-view-schedule" tabindex="-1" data-i18n="scheduleViewKnockout">Harmonogram</button>
     </div>
     <div id="knockout-main-panel">
     <div class="bracket" id="knockout-bracket"></div>
@@ -289,8 +289,8 @@
 <div id="knockout-tab-consolation" class="knockout-tab-content u-hidden" role="tabpanel" aria-labelledby="knockout-tab-btn-consolation" aria-hidden="true" tabindex="0">
     <div class="tab-buttons-row" role="tablist" aria-label="Widok turnieju pocieszenia">
         <button type="button" onclick="generateConsolationBracket(); saveState()" data-i18n="generateConsolation">Generuj drabinkę</button>
-        <button type="button" onclick="switchKnockoutSubView('consolation', 'bracket')" class="view-btn active" data-view="bracket" role="tab" aria-selected="true" aria-controls="knockout-consolation-panel" tabindex="0">Drabinka</button>
-        <button type="button" onclick="switchKnockoutSubView('consolation', 'schedule')" class="view-btn" data-view="schedule" role="tab" aria-selected="false" aria-controls="knockout-consolation-panel" tabindex="-1">Harmonogram</button>
+        <button type="button" onclick="switchKnockoutSubView('consolation', 'bracket')" class="view-btn active" data-view="bracket" role="tab" aria-selected="true" aria-controls="knockout-consolation-panel" tabindex="0" data-i18n="bracketView">Drabinka</button>
+        <button type="button" onclick="switchKnockoutSubView('consolation', 'schedule')" class="view-btn" data-view="schedule" role="tab" aria-selected="false" aria-controls="knockout-consolation-panel" tabindex="-1" data-i18n="scheduleViewKnockout">Harmonogram</button>
     </div>
     <div id="knockout-consolation-panel">
     <div class="bracket" id="consolation-bracket"></div>
@@ -302,8 +302,8 @@
 <div id="knockout-tab-losers" class="knockout-tab-content u-hidden" role="tabpanel" aria-labelledby="knockout-tab-btn-losers" aria-hidden="true" tabindex="0">
     <div class="tab-buttons-row" role="tablist" aria-label="Widok turnieju przegranych z grup">
         <button type="button" onclick="generateGroupLosersBracket(); saveState()" data-i18n="generateGroupLosersBracket">Generuj drabinkę</button>
-        <button type="button" onclick="switchKnockoutSubView('losers', 'bracket')" class="view-btn active" data-view="bracket" role="tab" aria-selected="true" aria-controls="knockout-losers-panel" tabindex="0">Drabinka</button>
-        <button type="button" onclick="switchKnockoutSubView('losers', 'schedule')" class="view-btn" data-view="schedule" role="tab" aria-selected="false" aria-controls="knockout-losers-panel" tabindex="-1">Harmonogram</button>
+        <button type="button" onclick="switchKnockoutSubView('losers', 'bracket')" class="view-btn active" data-view="bracket" role="tab" aria-selected="true" aria-controls="knockout-losers-panel" tabindex="0" data-i18n="bracketView">Drabinka</button>
+        <button type="button" onclick="switchKnockoutSubView('losers', 'schedule')" class="view-btn" data-view="schedule" role="tab" aria-selected="false" aria-controls="knockout-losers-panel" tabindex="-1" data-i18n="scheduleViewKnockout">Harmonogram</button>
     </div>
     <div id="knockout-losers-panel">
     <div class="bracket" id="groupLosers-bracket"></div>
@@ -315,8 +315,8 @@
 <div id="knockout-tab-losersConsolation" class="knockout-tab-content u-hidden" role="tabpanel" aria-labelledby="knockout-tab-btn-losersConsolation" aria-hidden="true" tabindex="0">
     <div class="tab-buttons-row" role="tablist" aria-label="Widok pocieszenia przegranych z grup">
         <button type="button" onclick="generateGroupLosersConsolationBracket(); saveState()" data-i18n="generateGroupLosersConsolation">Generuj drabinkę</button>
-        <button type="button" onclick="switchKnockoutSubView('losersConsolation', 'bracket')" class="view-btn active" data-view="bracket" role="tab" aria-selected="true" aria-controls="knockout-losers-consolation-panel" tabindex="0">Drabinka</button>
-        <button type="button" onclick="switchKnockoutSubView('losersConsolation', 'schedule')" class="view-btn" data-view="schedule" role="tab" aria-selected="false" aria-controls="knockout-losers-consolation-panel" tabindex="-1">Harmonogram</button>
+        <button type="button" onclick="switchKnockoutSubView('losersConsolation', 'bracket')" class="view-btn active" data-view="bracket" role="tab" aria-selected="true" aria-controls="knockout-losers-consolation-panel" tabindex="0" data-i18n="bracketView">Drabinka</button>
+        <button type="button" onclick="switchKnockoutSubView('losersConsolation', 'schedule')" class="view-btn" data-view="schedule" role="tab" aria-selected="false" aria-controls="knockout-losers-consolation-panel" tabindex="-1" data-i18n="scheduleViewKnockout">Harmonogram</button>
     </div>
     <div id="knockout-losers-consolation-panel">
     <div class="bracket" id="groupLosers-consolation-bracket"></div>
